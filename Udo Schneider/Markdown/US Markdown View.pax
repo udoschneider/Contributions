@@ -1,0 +1,108 @@
+| package |
+package := Package name: 'US Markdown View'.
+package paxVersion: 1;
+	basicComment: '# $id: US Markdown View 0.005$
+$for: Dolphin Smalltalk 7$ by $developer: udos@udos-laptop$ <Udo.Schneider@homeaddress.de>
+
+## Description
+This package provides Markdown Views and Presenters based on `US Markdown`. All Views/Presenters plug seamlessly into the Dolphin MVP framework.
+
+## Usage
+
+### MarkdownPresenter
+
+`MarkdownPresenter` is the MVP Presenter Frontend which displays it''s (value) model using `MarkdownToHtmlConverter` to convert Markdown to HTML and displays it using an `IWebBrowser`.
+
+#### Examples
+
+**Command:**
+
+    markdownValue := ''This is *italic*, this is **bold** and this is _underlined_.'' asValue.
+    MarkdownPresenter showOn: markdownValue. "Evaluate it"
+
+**Result:**
+
+This will open an (read-only) view of the rendered HTML.
+
+### MarkdownPreviewPresenter
+
+`MarkdownPreviewPresenter` is a composite presenter allowing editing (with preview) of Markdown content.
+
+#### Examples
+
+**Command:**
+
+    markdownValue := ''This is *italic*, this is **bold** and this is _underlined_.'' asValue.
+    MarkdownPreviewPresenter showOn: markdownValue. "Evaluate it"
+
+**Result:**
+
+This will open a composite presenter which uses a (customized) editable Scintalla view with markdown highlighting on the left side and either the HTML rendered result preview (using `MarkdownPresenter`) or the result as simple string.
+
+## The MIT License (MIT)
+
+Copyright © `2016` `Udo Schneider`
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+'.
+
+package basicPackageVersion: '0.005'.
+
+
+package classNames
+	add: #MarkdownPresenter;
+	add: #MarkdownPreviewPresenter;
+	yourself.
+
+package binaryGlobalNames: (Set new
+	yourself).
+
+package globalAliases: (Set new
+	yourself).
+
+package setPrerequisites: (IdentitySet new
+	add: '..\..\..\Projects\Core\Object Arts\Dolphin\ActiveX\Automation\ActiveX Automation';
+	add: '..\..\..\Projects\Core\Object Arts\Dolphin\ActiveX\Connection Points\ActiveX Connection Points';
+	add: '..\..\..\Projects\Core\Object Arts\Dolphin\ActiveX\OCX\ActiveX Control Hosting';
+	add: '..\..\..\Projects\Core\Object Arts\Dolphin\Base\Dolphin';
+	add: '..\..\..\Projects\Core\Object Arts\Dolphin\MVP\Views\Cards\Dolphin Card Containers';
+	add: '..\..\..\Projects\Core\Object Arts\Dolphin\MVP\Views\Common Controls\Dolphin Common Controls';
+	add: '..\..\..\Projects\Core\Object Arts\Dolphin\MVP\Models\List\Dolphin List Models';
+	add: '..\..\..\Projects\Core\Object Arts\Dolphin\MVP\Presenters\List\Dolphin List Presenter';
+	add: '..\..\..\Projects\Core\Object Arts\Dolphin\MVP\Base\Dolphin MVP Base';
+	add: '..\..\..\Projects\Core\Object Arts\Dolphin\MVP\Views\Scintilla\Dolphin Scintilla View';
+	add: '..\..\..\Projects\Core\Object Arts\Dolphin\MVP\Views\Sliding Tray\Dolphin Slidey-Inney-Outey Thing';
+	add: '..\..\..\Projects\Core\Object Arts\Dolphin\MVP\Presenters\Text\Dolphin Text Presenter';
+	add: '..\..\..\Projects\Core\Object Arts\Dolphin\MVP\Type Converters\Dolphin Type Converters';
+	add: '..\..\..\Projects\Core\Object Arts\Dolphin\MVP\Models\Value\Dolphin Value Models';
+	add: '..\..\..\Projects\Core\Object Arts\Dolphin\ActiveX\Components\SHDocVw\Internet Explorer';
+	add: '..\..\..\Projects\Core\Object Arts\Dolphin\ActiveX\COM\OLE COM';
+	add: 'US Markdown';
+	yourself).
+
+package!
+
+"Class Definitions"!
+
+ValuePresenter subclass: #MarkdownPresenter
+	instanceVariableNames: 'converter'
+	classVariableNames: ''
+	poolDictionaries: 'SHDocVwConstants'
+	classInstanceVariableNames: ''!
+ValuePresenter subclass: #MarkdownPreviewPresenter
+	instanceVariableNames: 'sourcePresenter previewPresenter markdownPresenter'
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+
+"Global Aliases"!
+
+
+"Loose Methods"!
+
+"End of package definition"!
+
