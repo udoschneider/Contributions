@@ -1,0 +1,144 @@
+﻿| package |
+package := Package name: 'US BigEndian'.
+package paxVersion: 1;
+	basicComment: 'Convert from little endian byte order (Intel style) to Big Endian/Network Byte Order.'.
+
+package basicPackageVersion: '1.004'.
+
+
+package classNames
+	add: #BigEndianDWORD;
+	add: #BigEndianDWORDField;
+	add: #BigEndianQWORD;
+	add: #BigEndianQWORDField;
+	add: #BigEndianWORD;
+	add: #BigEndianWORDField;
+	yourself.
+
+package methodNames
+	add: #ByteArray -> #bigEndianDoubleAtOffset:;
+	add: #ByteArray -> #bigEndianDoubleAtOffset:put:;
+	add: #ByteArray -> #bigEndianDwordAtOffset:;
+	add: #ByteArray -> #bigEndianDwordAtOffset:put:;
+	add: #ByteArray -> #bigEndianFloatAtOffset:;
+	add: #ByteArray -> #bigEndianFloatAtOffset:put:;
+	add: #ByteArray -> #bigEndianQwordAtOffset:;
+	add: #ByteArray -> #bigEndianQwordAtOffset:put:;
+	add: #ByteArray -> #bigEndianWordAtOffset:;
+	add: #ByteArray -> #bigEndianWordAtOffset:put:;
+	yourself.
+
+package binaryGlobalNames: (Set new
+	yourself).
+
+package globalAliases: (Set new
+	yourself).
+
+package setPrerequisites: (IdentitySet new
+	add: '..\..\..\Core\Object Arts\Dolphin\Base\Dolphin';
+	yourself).
+
+package!
+
+"Class Definitions"!
+
+DWORDField subclass: #BigEndianDWORDField
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+QWORDField subclass: #BigEndianQWORDField
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+WORDField subclass: #BigEndianWORDField
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+DWORD subclass: #BigEndianDWORD
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+QWORD subclass: #BigEndianQWORD
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+WORD subclass: #BigEndianWORD
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+
+"Global Aliases"!
+
+
+"Loose Methods"!
+
+!ByteArray methodsFor!
+
+bigEndianDoubleAtOffset: anInteger 
+	^(self copyFrom: anInteger + 1 to: anInteger + 8) reverse doubleAtOffset: 0!
+
+bigEndianDoubleAtOffset: anInteger put: anObject 
+	| bytearray |
+	bytearray := (ByteArray new: 8)
+				doubleAtOffset: 0 put: anObject;
+				reverse.
+	self 
+		replaceFrom: anInteger + 1
+		to: anInteger + 8
+		with: bytearray!
+
+bigEndianDwordAtOffset: anInteger 
+	^(self bigEndianWordAtOffset: anInteger) * 16r10000 
+		+ (self bigEndianWordAtOffset: anInteger + 2)!
+
+bigEndianDwordAtOffset: anInteger put: anObject 
+
+	self bigEndianWordAtOffset: anInteger  put: anObject >> 16.
+	self bigEndianWordAtOffset: anInteger +2 put: (anObject bitAnd: 16rFFFF)!
+
+bigEndianFloatAtOffset: anInteger 
+^((self copyFrom: anInteger +1 to: anInteger +4) reverse ) floatAtOffset: 0!
+
+bigEndianFloatAtOffset: anInteger put: anObject 
+	| bytearray |
+	bytearray := (ByteArray new: 4)
+				floatAtOffset: 0 put: anObject;
+				reverse.
+	self 
+		replaceFrom: anInteger + 1
+		to: anInteger + 4
+		with: bytearray!
+
+bigEndianQwordAtOffset: anInteger 
+	^(self bigEndianDwordAtOffset: anInteger) * 16r100000000 
+		+ (self bigEndianDwordAtOffset: anInteger + 4)!
+
+bigEndianQwordAtOffset: anInteger put: anObject 
+	self bigEndianDwordAtOffset: anInteger put: anObject >> 32.
+	self bigEndianDwordAtOffset: anInteger + 4 put: (anObject bitAnd: 16rFFFFFFFF)!
+
+bigEndianWordAtOffset: anInteger 
+	^(self byteAtOffset: anInteger) *16r100 + (self byteAtOffset: anInteger +1)!
+
+bigEndianWordAtOffset: anInteger put: anObject 
+	self byteAtOffset: anInteger  put: anObject >> 8.
+	self byteAtOffset: anInteger + 1 put: (anObject bitAnd: 16rFF)! !
+!ByteArray categoriesFor: #bigEndianDoubleAtOffset:!accessing!primitives!public! !
+!ByteArray categoriesFor: #bigEndianDoubleAtOffset:put:!accessing!primitives!public! !
+!ByteArray categoriesFor: #bigEndianDwordAtOffset:!accessing!primitives!public! !
+!ByteArray categoriesFor: #bigEndianDwordAtOffset:put:!accessing!primitives!public! !
+!ByteArray categoriesFor: #bigEndianFloatAtOffset:!accessing!primitives!public! !
+!ByteArray categoriesFor: #bigEndianFloatAtOffset:put:!accessing!primitives!public! !
+!ByteArray categoriesFor: #bigEndianQwordAtOffset:!accessing!primitives!public! !
+!ByteArray categoriesFor: #bigEndianQwordAtOffset:put:!accessing!primitives!public! !
+!ByteArray categoriesFor: #bigEndianWordAtOffset:!accessing!primitives!public! !
+!ByteArray categoriesFor: #bigEndianWordAtOffset:put:!accessing!primitives!public! !
+
+"End of package definition"!
+

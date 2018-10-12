@@ -1,0 +1,44 @@
+﻿| package |
+package := Package name: 'US BigEndian Tests'.
+package paxVersion: 1;
+	basicComment: 'Testcases to convert from little endian byte order (Intel style) to Big Endian/Network Byte Order.'.
+
+package basicPackageVersion: '1.005'.
+
+
+package classNames
+	add: #BigEndianTest;
+	yourself.
+
+package binaryGlobalNames: (Set new
+	yourself).
+
+package globalAliases: (Set new
+	yourself).
+
+package setPrerequisites: (IdentitySet new
+	add: '..\..\..\Core\Object Arts\Dolphin\Base\Dolphin';
+	add: '..\..\..\Core\Contributions\Camp Smalltalk\SUnit\SUnit';
+	add: 'US BigEndian';
+	yourself).
+
+package setManualPrerequisites: #(
+	'US BigEndian').
+
+package!
+
+"Class Definitions"!
+
+TestCase subclass: #BigEndianTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+
+"Global Aliases"!
+
+
+"Loose Methods"!
+
+"End of package definition"!
+
