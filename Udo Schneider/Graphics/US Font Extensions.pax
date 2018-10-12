@@ -1,0 +1,126 @@
+﻿| package |
+package := Package name: 'US Font Extensions'.
+package paxVersion: 1;
+	basicComment: ''.
+
+package basicPackageVersion: '0.004'.
+
+
+package classNames
+	add: #TT_NAME_RECORD;
+	add: #TT_NAME_TABLE_HEADER;
+	add: #TT_OFFSET_TABLE;
+	add: #TT_TABLE_DIRECTORY;
+	yourself.
+
+package methodNames
+	add: 'Font class' -> #fromFile:;
+	add: 'Font class' -> #fromFile:pixelSize:;
+	add: 'Font class' -> #fromFile:pointSize:;
+	add: 'Font class' -> #loadFont:;
+	add: 'Font class' -> #nameFromFile:;
+	yourself.
+
+package binaryGlobalNames: (Set new
+	yourself).
+
+package globalAliases: (Set new
+	yourself).
+
+package setPrerequisites: (IdentitySet new
+	add: '..\..\..\Core\Object Arts\Dolphin\Base\Dolphin';
+	add: '..\..\..\Core\Object Arts\Dolphin\MVP\Base\Dolphin MVP Base';
+	add: '..\Big Endian Conversion\US BigEndian';
+	add: '..\External\US External Interfacing Extensions';
+	yourself).
+
+package setManualPrerequisites: #(
+	'US External Interfacing Extensions').
+
+package!
+
+"Class Definitions"!
+
+ExternalStructure subclass: #TT_NAME_RECORD
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+ExternalStructure subclass: #TT_NAME_TABLE_HEADER
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+ExternalStructure subclass: #TT_OFFSET_TABLE
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+ExternalStructure subclass: #TT_TABLE_DIRECTORY
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+
+"Global Aliases"!
+
+
+"Loose Methods"!
+
+!Font class methodsFor!
+
+fromFile: aFilename 
+	^self name: (self loadFont: aFilename)!
+
+fromFile: aFilename pixelSize: anInteger
+	^self name: (self loadFont: aFilename) pixelSize: anInteger!
+
+fromFile: aFilename pointSize: anInteger 
+	^self name: (self loadFont: aFilename) pointSize: anInteger!
+
+loadFont: aFilename 
+	"Loads font from a file if not already installed.
+
+	Returns the font name"
+
+	| fontName |
+	fontName := self nameFromFile: aFilename.
+	(View desktop canvas fontNames includes: fontName) 
+		ifFalse: 
+			[(GDILibrary default addFontResource: aFilename) = 0 
+				ifTrue: [self error: 'Font ' , aFilename , ' could not be loaded']].
+	^fontName!
+
+nameFromFile: aFilename 
+	"Returns the name of a given (True Type) font.
+
+	See http://www.codeproject.com/KB/GDI/fontnamefromfile.aspx"
+
+	| stream offsetTable tableDirectory nameTable nameTableHeader records nameRecord ttfName |
+	stream := FileStream read: aFilename text: false.
+	
+	[offsetTable := stream nextStructure: TT_OFFSET_TABLE.
+	(offsetTable uMajorVersion = 1 and: [offsetTable uMinorVersion = 0]) 
+		ifFalse: [self error: 'Only TT 1.0 supported'].
+	tableDirectory := (1 to: offsetTable uNumOfTables) 
+				collect: [:index | stream nextStructure: TT_TABLE_DIRECTORY].
+	nameTable := tableDirectory detect: [:each | each szTag = 'name']
+				ifNone: [self error: 'Name Directory entry not found'].
+	stream position: nameTable uOffset.
+	nameTableHeader := stream nextStructure: TT_NAME_TABLE_HEADER.
+	records := (1 to: nameTableHeader uNRCount) 
+				collect: [:index | stream nextStructure: TT_NAME_RECORD].
+	nameRecord := records detect: [:each | each uNameID = 1]
+				ifNone: [self error: 'Name record not found'].
+	stream position: nameTable uOffset + nameTableHeader uStorageOffset + nameRecord uStringOffset.
+	ttfName := stream next: nameRecord uStringLength] 
+			ensure: [stream close].
+	^ttfName asString! !
+!Font class categoriesFor: #fromFile:!instance creation!public! !
+!Font class categoriesFor: #fromFile:pixelSize:!instance creation!public! !
+!Font class categoriesFor: #fromFile:pointSize:!instance creation!public! !
+!Font class categoriesFor: #loadFont:!helpers!instance creation!private! !
+!Font class categoriesFor: #nameFromFile:!public! !
+
+"End of package definition"!
+
