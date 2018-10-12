@@ -1,0 +1,75 @@
+﻿| package |
+package := Package name: 'US Metafile'.
+package paxVersion: 1;
+	basicComment: 'Provides a Dolphin canvase which writes out contents to a Windows Metafile
+
+Usage
+	Create a metafile canvase using MetafileCanvas>>onFile:
+	Use regular canvas methods on the newly created canvas
+	canvas := MetafileCanvas onFile: ''test.wmf''.
+	canvas lineFrom: 10@10 to: 100@100.
+	canvas := nil.'.
+
+package basicPackageVersion: '1.004'.
+
+
+package classNames
+	add: #MetafileCanvas;
+	yourself.
+
+package methodNames
+	add: #GDILibrary -> #closeMetaFile:;
+	add: #GDILibrary -> #createMetaFile:;
+	yourself.
+
+package binaryGlobalNames: (Set new
+	yourself).
+
+package globalAliases: (Set new
+	yourself).
+
+package setPrerequisites: (IdentitySet new
+	add: '..\..\..\Core\Object Arts\Dolphin\MVP\Base\Dolphin MVP Base';
+	yourself).
+
+package!
+
+"Class Definitions"!
+
+Canvas subclass: #MetafileCanvas
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+
+"Global Aliases"!
+
+
+"Loose Methods"!
+
+!GDILibrary methodsFor!
+
+closeMetaFile: hdc 
+	"Closes a metafile device context and returns a handle that identifies a Windows-format metafile
+		HMETAFILE CloseMetaFile(
+			HDC hdc   // handle to Windows-metafile DC
+		);"
+
+	<stdcall: handle CloseMetaFile handle>
+	^self invalidCall!
+
+createMetaFile: lpszFile
+	"Creates a device context for a Windows-format metafile.
+		HDC CreateMetaFile(
+			LPCTSTR lpszFile   // file name
+		);"
+<stdcall: handle CreateMetaFileA lpstr>
+^self invalidCall
+
+
+! !
+!GDILibrary categoriesFor: #closeMetaFile:!public!win32 functions-device context! !
+!GDILibrary categoriesFor: #createMetaFile:!public!win32 functions-device context! !
+
+"End of package definition"!
+
