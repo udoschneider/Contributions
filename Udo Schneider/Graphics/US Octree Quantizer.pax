@@ -1,0 +1,114 @@
+﻿| package |
+package := Package name: 'US Octree Quantizer'.
+package paxVersion: 1;
+	basicComment: 'This package provides a possibility to quantize pictures (color reduction). Please note that currently the resulting picture uses the "nearest" color from the quantization and is not dithered.
+
+Example:
+
+icon := Icon fromId: ''PANIC.ico''.		"Inspect it: This is the original image"
+icon quantizeTo256Colors.			"Inspect it: Reduced to 256 colors"
+icon quantizeTo64Colors.			"Inspect it: Reduced to 64 colors"
+icon quantizeTo16Colors.			"Inspect it: Reduced to 16 colors"'.
+
+package basicPackageVersion: '0.016'.
+
+
+package classNames
+	add: #Octree;
+	add: #OctreeNode;
+	add: #OctreeQuantizer;
+	yourself.
+
+package methodNames
+	add: #Image -> #quantizeTo:depth:bits:colors:;
+	add: #Image -> #quantizeTo16Colors;
+	add: #Image -> #quantizeTo256Colors;
+	add: #Image -> #quantizeTo64Colors;
+	yourself.
+
+package binaryGlobalNames: (Set new
+	yourself).
+
+package globalAliases: (Set new
+	yourself).
+
+package setPrerequisites: (IdentitySet new
+	add: '..\..\..\Core\Object Arts\Dolphin\Base\Dolphin';
+	add: '..\..\..\Core\Object Arts\Dolphin\MVP\Base\Dolphin Basic Geometry';
+	add: '..\..\..\Core\Object Arts\Dolphin\MVP\Base\Dolphin MVP Base';
+	add: 'US Graphics Extensions';
+	yourself).
+
+package setManualPrerequisites: #(
+	'US Graphics Extensions').
+
+package!
+
+"Class Definitions"!
+
+Object subclass: #Octree
+	instanceVariableNames: 'leafCount reducibleNodes previousColor previousNode maxColorBits root palette paletteTable'
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+Object subclass: #OctreeNode
+	instanceVariableNames: 'leaf red green blue pixelCount nextReducible children paletteIndex'
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+Object subclass: #OctreeQuantizer
+	instanceVariableNames: 'octree maxColors'
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+
+"Global Aliases"!
+
+
+"Loose Methods"!
+
+!Image methodsFor!
+
+quantizeTo: maxColors depth: depth bits: bits colors: colors 
+	"Return an quantized DIBSection of self
+	
+	maxColors: # of colors the OctreeQuantizer should return
+	depth: bitdepth of final dib
+	bits: How many bits of each color component (RGB) should be taken into considration. Maximum is 8. However 6 leads to good and fast results
+	colors: A collection of colors to be appended to the colors from the quantizer"
+
+	| palette dib quantizedPalette canvas |
+	maxColors < 8 ifTrue: [self error: 'Number of colors must be 8 or higher!!'].
+	quantizedPalette := (OctreeQuantizer maxColors: maxColors maxBits: bits) quantizeImage: self.
+	palette := quantizedPalette , colors , (Array new: 2 ** depth withAll: quantizedPalette last) 
+				copyFrom: 1
+				to: 2 ** depth.
+	dib := DIBSection 
+				width: self extent x
+				height: self extent y
+				depth: depth.
+				canvas := dib canvas.
+	dib
+		
+		setColors: palette.
+	self 
+		drawOn:  canvas
+		at: Point zero
+		extent: self extent.
+	^dib!
+
+quantizeTo16Colors
+	^self quantizeTo: 16 depth: 4 bits: 6 colors: #()!
+
+quantizeTo256Colors
+	^self quantizeTo: 256 depth: 8 bits: 6 colors: #()!
+
+quantizeTo64Colors
+	^self quantizeTo: 64 depth: 8 bits: 6 colors: #()! !
+!Image categoriesFor: #quantizeTo:depth:bits:colors:!public! !
+!Image categoriesFor: #quantizeTo16Colors!public! !
+!Image categoriesFor: #quantizeTo256Colors!public! !
+!Image categoriesFor: #quantizeTo64Colors!public! !
+
+"End of package definition"!
+
