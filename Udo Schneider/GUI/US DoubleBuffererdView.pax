@@ -1,0 +1,41 @@
+﻿| package |
+package := Package name: 'US DoubleBuffererdView'.
+package paxVersion: 1;
+	basicComment: ''.
+
+package basicPackageVersion: '0.008'.
+
+
+package classNames
+	add: #USDoubleBufferedView;
+	yourself.
+
+package binaryGlobalNames: (Set new
+	yourself).
+
+package globalAliases: (Set new
+	yourself).
+
+package setPrerequisites: (IdentitySet new
+	add: '..\..\..\Core\Object Arts\Dolphin\MVP\Base\Dolphin Basic Geometry';
+	add: '..\..\..\Core\Object Arts\Dolphin\MVP\Base\Dolphin MVP Base';
+	add: '..\..\..\Core\Object Arts\Dolphin\MVP\Gdiplus\Gdiplus';
+	yourself).
+
+package!
+
+"Class Definitions"!
+
+View subclass: #USDoubleBufferedView
+	instanceVariableNames: 'backSurface requiresRender'
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+
+"Global Aliases"!
+
+
+"Loose Methods"!
+
+"End of package definition"!
+
