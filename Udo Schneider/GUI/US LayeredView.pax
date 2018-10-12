@@ -1,13 +1,7 @@
-| package |
+﻿| package |
 package := Package name: 'US LayeredView'.
 package paxVersion: 1;
-	basicComment: '$id: US LayeredView 0.008$
-$for: Dolphin Smalltalk X6.1 Beta 2$
-
-(c) $date: 24.07.2009$, $developer: udos@udos-laptop$ <Udo.Schneider@homeaddress.de>
-Public Domain, Freeware
-
-This package contains additions to the standard Dolphin Smalltalk Shell class which allows you to use alpha blending and color keying functions available in Windows 2000.
+	basicComment: 'This package contains additions to the standard Dolphin Smalltalk Shell class which allows you to use alpha blending and color keying functions available in Windows 2000.
 
 Unfortunately it is not possible to define alpha blending and color keying properties in the VC yet. If I''ll find a way to "emulate" GetLayeredWindowAttributes with Windows 2000 (it''s just available in Windows XP) without having to a rewrite of several STB methods in most of the View classes it''s just a matter of adding the Aspects.
 
@@ -20,14 +14,7 @@ view alphaBlend: 128. 	"Values between 0 (invisible) and 255 (fully visible) are
 view colorKey: Color face3d.	"You can use any possible Color here"
 
 "You can even combine both using #alphaBlend:colorKey: or #colorKey:alphaBlend:"
-view alphaBlend: 128 colorKey: Color face3d.
-
-
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
- * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.'.
+view alphaBlend: 128 colorKey: Color face3d.'.
 
 package basicPackageVersion: '0.008'.
 
@@ -58,8 +45,8 @@ package globalAliases: (Set new
 	yourself).
 
 package setPrerequisites: (IdentitySet new
-	add: '..\..\..\Object Arts\Dolphin\Base\Dolphin';
-	add: '..\..\..\Object Arts\Dolphin\MVP\Base\Dolphin MVP Base';
+	add: '..\..\..\Core\Object Arts\Dolphin\Base\Dolphin';
+	add: '..\..\..\Core\Object Arts\Dolphin\MVP\Base\Dolphin MVP Base';
 	yourself).
 
 package!
@@ -102,15 +89,15 @@ setLayeredWindowAttributes: hwnd crKey: crKey bAlpha: bAlpha dwFlags: dwFlags
 !View methodsFor!
 
 alphaBlend
-	| alpha flags |
-	alpha := BYTE new.
-	flags := DWORD new.
-	(UserLibrary default 
+	| pbAlpha pdwFlags |
+	pbAlpha := BYTE new.
+	pdwFlags := DWORD new.
+	(UserLibrary default
 		getLayeredWindowAttributes: self asParameter
-		pcrKey: alpha
-		pbAlpha: 0
-		pdwFlags: flags) ifFalse: [UserLibrary default systemError].
-	^alpha value!
+		pcrKey: 0
+		pbAlpha: pbAlpha
+		pdwFlags: pdwFlags) ifFalse: [UserLibrary default systemError].
+	^pbAlpha value!
 
 alphaBlend: anInteger
 	^UserLibrary default setLayeredWindowAttributes: self asParameter crKey: 0 bAlpha: anInteger dwFlags: LWA_ALPHA!
@@ -120,15 +107,17 @@ alphaBlend: anInteger colorKey: aColor
 !
 
 colorKey
-	| color flags |
-	color := DWORD new.
-	flags := DWORD new.
-	(UserLibrary default 
+	| pcrKey pdwFlags |
+	pcrKey := DWORD new.
+	pdwFlags := DWORD new.
+	(UserLibrary default
 		getLayeredWindowAttributes: self asParameter
-		pcrKey: color
+		pcrKey: pcrKey
 		pbAlpha: 0
-		pdwFlags: flags) ifFalse: [UserLibrary default systemError].
-	^Color fromInteger: color value!
+		pdwFlags: pdwFlags) ifFalse: [UserLibrary default systemError].
+	^Color fromInteger: pcrKey value
+
+!
 
 colorKey: aColor
 	^UserLibrary default setLayeredWindowAttributes: self asParameter crKey: aColor asParameter bAlpha: 0 dwFlags: LWA_COLORKEY
@@ -154,10 +143,4 @@ isLayered: aBoolean
 !View categoriesFor: #isLayered:!public! !
 
 "End of package definition"!
-
-"Source Globals"!
-
-"Classes"!
-
-"Binary Globals"!
 
