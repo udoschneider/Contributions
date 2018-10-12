@@ -1,0 +1,146 @@
+﻿| package |
+package := Package name: 'US GDI+ Extensions'.
+package paxVersion: 1;
+	basicComment: ''.
+
+package basicPackageVersion: '0.011'.
+
+
+package classNames
+	add: #GdiplusBitmapFromRawInitializer;
+	add: #GdiplusRegionFromRegionInitializer;
+	yourself.
+
+package methodNames
+	add: #GdiplusBitmap -> #setResolution:;
+	add: #GdiplusImage -> #pixelFormatSize;
+	add: 'GdiplusBitmap class' -> #fromIconEx:;
+	add: 'GdiplusBitmap class' -> #fromRegionView:;
+	add: 'GdiplusBitmap class' -> #width:height:stride:format:scan:;
+	add: 'GdiplusRegion class' -> #fromRegion:;
+	yourself.
+
+package binaryGlobalNames: (Set new
+	yourself).
+
+package globalAliases: (Set new
+	yourself).
+
+package setPrerequisites: (IdentitySet new
+	add: '..\..\..\Core\Object Arts\Dolphin\Base\Dolphin';
+	add: '..\..\..\Core\Object Arts\Dolphin\MVP\Base\Dolphin MVP Base';
+	add: '..\..\..\Core\Object Arts\Dolphin\MVP\Gdiplus\Gdiplus';
+	yourself).
+
+package!
+
+"Class Definitions"!
+
+GdiplusInitializer subclass: #GdiplusBitmapFromRawInitializer
+	instanceVariableNames: 'width height stride format scan'
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+GdiplusInitializer subclass: #GdiplusRegionFromRegionInitializer
+	instanceVariableNames: 'region'
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+
+"Global Aliases"!
+
+
+"Loose Methods"!
+
+!GdiplusBitmap methodsFor!
+
+setResolution: aDPIPoint 
+	"Answer an ARGB that is the color of the receiver at aPoint."
+
+	| status  |
+	status := GdiplusLibrary default 
+				gdipBitmapSetResolution: self asParameter
+				xdpi: aDPIPoint x
+				ydpi: aDPIPoint y.
+	status = Ok ifFalse: [GdiplusError signal: 'GdipBitmapSetResolution:  failed' with: status]! !
+!GdiplusBitmap categoriesFor: #setResolution:!accessing!public! !
+
+!GdiplusBitmap class methodsFor!
+
+fromIconEx: anIcon 
+	"Creates a Bitmap object based on an icon.
+	This method has special handling for icons with alpha transparency."
+
+	| hbmColor hbmColorCopy bitmap bitmapHeader |
+	hbmColor := DIBSection fromHandle: anIcon getIconInfo hbmColor.
+	"Note: Checking the depth of hbmColor doesn't work as this is a Bitmap and thus always equal to screen depth"
+	(GdiplusBitmap fromBitmap: hbmColor) pixelFormatSize = 32 
+		ifFalse: 
+			["We only know how to handle 32bit images"
+			^self fromIcon: anIcon].
+		"Create new dib with size of icon"
+	hbmColorCopy := DIBSection 
+				width: anIcon extent x
+				height: anIcon extent y
+				depth: 32.
+	bitmap := hbmColorCopy getDIBSECTION dsBm.
+	bitmapHeader := hbmColorCopy getDIBSECTION dsBmih.
+	bitmapHeader biHeight: bitmapHeader biHeight negated.
+	"Copy bits from icon to new dib as the icon does not allow bits access"
+	GDILibrary default 
+		getDIBits: UserLibrary default getDC
+		hbm: hbmColor asParameter
+		uStartScan: 0
+		cScanLines: hbmColorCopy extent y
+		lpvBits: bitmap bmBits asParameter
+		lpbi: bitmapHeader
+		uUsage: DIB_RGB_COLORS.
+	^GdiplusBitmap 
+		width: bitmap bmWidth
+		height: bitmap bmHeight
+		stride: bitmap bmWidthBytes
+		format: PixelFormat32bppARGB
+		scan: bitmap bmBits asParameter!
+
+fromRegionView: aView 
+	| image |
+	image := self 
+				width: aView width
+				height: aView height
+				format: PixelFormat32bppARGB.
+	(image graphics)
+		clear: (ARGB 
+					a: 0
+					r: 0
+					g: 0
+					b: 0);
+		clipRegion: (GdiplusRegion fromRegion: aView region) combineMode: nil;
+		drawImage: (GdiplusBitmap fromBitmap: (aView printWindow )).
+	^image!
+
+width: widthInteger height: heightInteger stride: strideInteger format: aPixelFormat scan: anExternalAddress 
+	^self fromInitializer: (GdiplusBitmapFromRawInitializer 
+				width: widthInteger
+				height: heightInteger
+				stride: strideInteger
+				format: aPixelFormat
+				scan: anExternalAddress)! !
+!GdiplusBitmap class categoriesFor: #fromIconEx:!instance creation!public! !
+!GdiplusBitmap class categoriesFor: #fromRegionView:!public! !
+!GdiplusBitmap class categoriesFor: #width:height:stride:format:scan:!instance creation!public! !
+
+!GdiplusImage methodsFor!
+
+pixelFormatSize
+"Return the bit depth of the bitmap"
+	^(self pixelFormat bitShift: -8) bitAnd: 16rFF! !
+!GdiplusImage categoriesFor: #pixelFormatSize!accessing!public! !
+
+!GdiplusRegion class methodsFor!
+
+fromRegion: aRegion
+	^self fromInitializer: (GdiplusRegionFromRegionInitializer fromRegion: aRegion )! !
+!GdiplusRegion class categoriesFor: #fromRegion:!instance creation!public! !
+
+"End of package definition"!
+
