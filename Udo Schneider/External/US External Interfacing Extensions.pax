@@ -1,0 +1,57 @@
+﻿| package |
+package := Package name: 'US External Interfacing Extensions'.
+package paxVersion: 1;
+	basicComment: ''.
+
+package basicPackageVersion: '0.004'.
+
+
+package classNames
+	add: #VariableArrayField;
+	yourself.
+
+package methodNames
+	add: #PositionableStream -> #nextStructure:;
+	add: 'StructureArray class' -> #fromBytes:length:elementClass:;
+	yourself.
+
+package binaryGlobalNames: (Set new
+	yourself).
+
+package globalAliases: (Set new
+	yourself).
+
+package setPrerequisites: (IdentitySet new
+	add: '..\..\..\Core\Object Arts\Dolphin\Base\Dolphin';
+	yourself).
+
+package!
+
+"Class Definitions"!
+
+ArrayField subclass: #VariableArrayField
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+
+"Global Aliases"!
+
+
+"Loose Methods"!
+
+!PositionableStream methodsFor!
+
+nextStructure: anExternalStructureClass
+^(anExternalStructureClass fromBytes: (self next: anExternalStructureClass byteSize))! !
+!PositionableStream categoriesFor: #nextStructure:!public! !
+
+!StructureArray class methodsFor!
+
+fromBytes: aByteArray length: anInteger elementClass: elementClass 
+	
+	^self fromAddress: aByteArray yourAddress length: anInteger elementClass: elementClass! !
+!StructureArray class categoriesFor: #fromBytes:length:elementClass:!instance creation!public! !
+
+"End of package definition"!
+
