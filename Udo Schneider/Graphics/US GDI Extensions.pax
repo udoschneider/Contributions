@@ -1,4 +1,4 @@
-| package |
+﻿| package |
 package := Package name: 'US GDI Extensions'.
 package paxVersion: 1;
 	basicComment: '$id: US GDI Extensions 0.027$
@@ -27,7 +27,6 @@ Win32Constants
 	at: #STRETCH_HALFTONE put: 4.'.
 
 package methodNames
-	add: #Bitmap -> #asBitmap;
 	add: #Canvas -> #abortPath;
 	add: #Canvas -> #angleArc:radius:startAngle:sweepAngle:;
 	add: #Canvas -> #arc:start:end:;
@@ -58,7 +57,6 @@ package methodNames
 	add: #GDILibrary -> #equalRgn:hSrcRgn2:;
 	add: #GDILibrary -> #fillPath:;
 	add: #GDILibrary -> #flattenPath:;
-	add: #GDILibrary -> #getClipRgn:hrgn:;
 	add: #GDILibrary -> #getMiterLimit:limit:;
 	add: #GDILibrary -> #pathToRegion:;
 	add: #GDILibrary -> #polyBezier:lpPoints:nCount:;
@@ -82,8 +80,9 @@ package globalAliases: (Set new
 	yourself).
 
 package setPrerequisites: (IdentitySet new
-	add: '..\..\..\Object Arts\Dolphin\Base\Dolphin';
-	add: '..\..\..\Object Arts\Dolphin\MVP\Base\Dolphin MVP Base';
+	add: '..\..\..\Core\Object Arts\Dolphin\Base\Dolphin';
+	add: '..\..\..\Core\Object Arts\Dolphin\MVP\Base\Dolphin Basic Geometry';
+	add: '..\..\..\Core\Object Arts\Dolphin\MVP\Base\Dolphin MVP Base';
 	yourself).
 
 package!
@@ -95,12 +94,6 @@ package!
 
 
 "Loose Methods"!
-
-!Bitmap methodsFor!
-
-asBitmap
-	^self! !
-!Bitmap categoriesFor: #asBitmap!public! !
 
 !Canvas methodsFor!
 
@@ -383,17 +376,6 @@ flattenPath: hdc
 	<stdcall: bool FlattenPath handle>
 	^self invalidCall!
 
-getClipRgn: hdc hrgn: hrgn 
-	"The GetClipRgn function retrieves a handle identifying the current application-defined clipping region for the specified device context.
-
-	int GetClipRgn(
-		__in  HDC hdc,
-		__in  HRGN hrgn
-	);"
-
-	<stdcall: sdword GetClipRgn handle handle>
-	^self invalidCall!
-
 getMiterLimit: hdc limit: peLimit 
 	"The GetMiterLimit function retrieves the miter limit for the specified device context.
 
@@ -497,7 +479,6 @@ widenPath: hdc
 !GDILibrary categoriesFor: #equalRgn:hSrcRgn2:!public! !
 !GDILibrary categoriesFor: #fillPath:!public! !
 !GDILibrary categoriesFor: #flattenPath:!public! !
-!GDILibrary categoriesFor: #getClipRgn:hrgn:!public! !
 !GDILibrary categoriesFor: #getMiterLimit:limit:!public! !
 !GDILibrary categoriesFor: #pathToRegion:!public! !
 !GDILibrary categoriesFor: #polyBezier:lpPoints:nCount:!public!win32 functions-filled shape! !
@@ -543,10 +524,4 @@ xor: aRegion
 !Region categoriesFor: #xor:!public! !
 
 "End of package definition"!
-
-"Source Globals"!
-
-"Classes"!
-
-"Binary Globals"!
 
