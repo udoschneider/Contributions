@@ -1,0 +1,45 @@
+﻿| package |
+package := Package name: 'US Authentication'.
+package paxVersion: 1;
+	basicComment: ''.
+
+package basicPackageVersion: '0.002'.
+
+
+package classNames
+	add: #Authenticator;
+	add: #OneTimePassword;
+	yourself.
+
+package binaryGlobalNames: (Set new
+	yourself).
+
+package globalAliases: (Set new
+	yourself).
+
+package setPrerequisites: (IdentitySet new
+	add: '..\..\..\Core\Object Arts\Dolphin\Base\Dolphin';
+	yourself).
+
+package!
+
+"Class Definitions"!
+
+Object subclass: #Authenticator
+	instanceVariableNames: 'failedLogins isLocked'
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+Authenticator subclass: #OneTimePassword
+	instanceVariableNames: 'usedOtps'
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+
+"Global Aliases"!
+
+
+"Loose Methods"!
+
+"End of package definition"!
+
