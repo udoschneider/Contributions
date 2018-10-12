@@ -1,0 +1,45 @@
+﻿| package |
+package := Package name: 'US Mobile OTP'.
+package paxVersion: 1;
+	basicComment: 'See http://motp.sourceforge.net for details.'.
+
+package basicPackageVersion: '0.009'.
+
+
+package classNames
+	add: #MobileOneTimePassword;
+	yourself.
+
+package binaryGlobalNames: (Set new
+	yourself).
+
+package globalAliases: (Set new
+	yourself).
+
+package setPrerequisites: (IdentitySet new
+	add: '..\..\..\Core\Object Arts\Dolphin\Base\Dolphin';
+	add: '..\..\..\Core\Contributions\ITC Gorisek\MD5';
+	add: 'US Authentication';
+	add: '..\Time\US Time Extensions';
+	yourself).
+
+package setManualPrerequisites: #(
+	'US Time Extensions').
+
+package!
+
+"Class Definitions"!
+
+OneTimePassword subclass: #MobileOneTimePassword
+	instanceVariableNames: 'secret pin tokenTimeDeviation'
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+
+"Global Aliases"!
+
+
+"Loose Methods"!
+
+"End of package definition"!
+
