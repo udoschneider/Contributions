@@ -51,7 +51,7 @@ asDATE
 !Locale methodsFor!
 
 bias
-	^(self timeZoneInformation at: 2) bias! !
+	^(self timeZoneInformation ) bias! !
 !Locale categoriesFor: #bias!public! !
 
 !Time methodsFor!
