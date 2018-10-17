@@ -1,0 +1,66 @@
+﻿| package |
+package := Package name: 'US Runtime Patches'.
+package paxVersion: 1;
+	basicComment: 'Patches glitches (mainly UI) in Dolphin Applications'.
+
+package basicPackageVersion: '0.026'.
+
+
+package methodNames
+	add: #CheckBox -> #onColorRequired:;
+	yourself.
+
+package binaryGlobalNames: (Set new
+	yourself).
+
+package globalAliases: (Set new
+	yourself).
+
+package setPrerequisites: (IdentitySet new
+	add: '..\..\Core\Object Arts\Dolphin\MVP\Base\Dolphin MVP Base';
+	add: 'Graphics\US GDI Extensions';
+	yourself).
+
+package setManualPrerequisites: #(
+	'US GDI Extensions').
+
+package!
+
+"Class Definitions"!
+
+
+"Global Aliases"!
+
+
+"Loose Methods"!
+
+!CheckBox methodsFor!
+
+onColorRequired: aColorEvent 
+	"Private - Workaround XP bug whereby themed checkboxes are drawn against a
+	solid black background when using a null brush."
+
+	| canvas back brush |
+	
+	#USAdded.
+	back := self basicActualBackcolor.
+	canvas := aColorEvent canvas.
+	self forecolor ifNotNil: [:fore | canvas forecolor: fore].
+	back isDefault ifTrue: [^nil].
+	brush := back brush.
+	back isNone 
+		ifTrue: 
+			[self isThemed 
+				ifTrue: 
+					[ThemeLibrary default 
+						drawThemeParentBackground: self asParameter
+						hdc: canvas asParameter
+						prc: nil].
+			canvas backgroundMode: TRANSPARENT]
+		ifFalse: [canvas backcolor: back].
+	canvas brush: brush.
+	^brush asParameter! !
+!CheckBox categoriesFor: #onColorRequired:!*-not in class package!private! !
+
+"End of package definition"!
+
