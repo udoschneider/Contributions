@@ -1,16 +1,7 @@
-| package |
+﻿| package |
 package := Package name: 'US View Extensions'.
 package paxVersion: 1;
-	basicComment: '$id: US View Extensions 0.039$
-$for: Dolphin Smalltalk X6.1 Beta 2$
-
-(c) $date: 21.08.2009$, $developer: udos@udos-laptop$ <Udo.Schneider@homeaddress.de>
-Public Domain, Freeware
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
- * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.'.
+	basicComment: ''.
 
 package basicPackageVersion: '0.039'.
 
@@ -50,10 +41,9 @@ package methodNames
 	add: #DesktopView -> #freezeDuring:;
 	add: #Dialog -> #showModalTo:;
 	add: #Presenter -> #beFullscreen;
-	add: #PushButton -> #image:;
 	add: #Shell -> #fixApplicationIconInMenu:with:;
 	add: #Shell -> #fixApplicationIcons:;
-	add: #Shell -> #fixApplicationIconsInMenuBar:With:;
+	add: #Shell -> #fixApplicationIconsInMenuBar:with:;
 	add: #Shell -> #fixApplicationIconsInMenuBarWith:;
 	add: #Shell -> #fixApplicationIconsInShellWith:;
 	add: #Shell -> #onSysColorChange;
@@ -65,8 +55,8 @@ package methodNames
 	add: #SystemMetrics -> #fontSmoothingType;
 	add: #SystemMetrics -> #hasCleartype;
 	add: #SystemMetrics -> #hasCleartype:;
-	add: #SystemMetrics -> #setSysParamBool:value:;
-	add: #SystemMetrics -> #setSysParamInteger:value:;
+	add: #SystemMetrics -> #setSysPvParamInteger:value:;
+	add: #SystemMetrics -> #setSysUiParamBool:value:;
 	add: #UserLibrary -> #enumDisplayMonitors:lprcClip:lpfnEnum:dwData:;
 	add: #UserLibrary -> #getMenu:;
 	add: #UserLibrary -> #getWindowRgn:hRgn:;
@@ -109,11 +99,12 @@ package globalAliases: (Set new
 	yourself).
 
 package setPrerequisites: (IdentitySet new
-	add: '..\..\..\Object Arts\Dolphin\Base\Dolphin';
-	add: '..\..\..\Object Arts\Dolphin\Base\Dolphin Additional Sort Algorithms';
-	add: '..\..\..\Object Arts\Dolphin\MVP\Presenters\Choice\Dolphin Choice Presenter';
-	add: '..\..\..\Object Arts\Dolphin\MVP\Presenters\Image\Dolphin Image Presenter';
-	add: '..\..\..\Object Arts\Dolphin\MVP\Base\Dolphin MVP Base';
+	add: '..\..\..\Core\Object Arts\Dolphin\Base\Dolphin';
+	add: '..\..\..\Core\Object Arts\Dolphin\Base\Dolphin Additional Sort Algorithms';
+	add: '..\..\..\Core\Object Arts\Dolphin\MVP\Base\Dolphin Basic Geometry';
+	add: '..\..\..\Core\Object Arts\Dolphin\MVP\Presenters\Choice\Dolphin Choice Presenter';
+	add: '..\..\..\Core\Object Arts\Dolphin\MVP\Presenters\Image\Dolphin Image Presenter';
+	add: '..\..\..\Core\Object Arts\Dolphin\MVP\Base\Dolphin MVP Base';
 	yourself).
 
 package!
@@ -296,25 +287,6 @@ beFullscreen
 	^self view beFullscreen! !
 !Presenter categoriesFor: #beFullscreen!public! !
 
-!PushButton methodsFor!
-
-image: anImageOrNil 
-	"Sets the image displayed by the receiver to anImageOrNil"
-
-	(image := anImageOrNil) isNil 
-		ifTrue: 
-			[self baseStyle: 0 maskedBy: ##(BS_BITMAP | BS_ICON).
-			^self].
-	self baseStyle: (self text isNilOrEmpty 
-				ifTrue: [anImageOrNil imageType = IMAGE_ICON ifTrue: [BS_ICON] ifFalse: [BS_BITMAP]]
-				ifFalse: [0])
-		maskedBy: ##(BS_BITMAP | BS_ICON).
-	self 
-		sendMessage: BM_SETIMAGE
-		wParam: anImageOrNil imageType
-		lParam: anImageOrNil asParameter! !
-!PushButton categoriesFor: #image:!accessing!public! !
-
 !Shell methodsFor!
 
 fixApplicationIconInMenu: aMenu with: anIcon 
@@ -336,13 +308,11 @@ fixApplicationIcons: anIcon
 		fixApplicationIconsInMenuBarWith: anIcon;
 		fixApplicationIconsInShellWith: anIcon!
 
-fixApplicationIconsInMenuBar: aMenuBar With: anIcon 
+fixApplicationIconsInMenuBar: aMenuBar with: anIcon
 	aMenuBar items do: [:eachMenu | self fixApplicationIconInMenu: eachMenu with: anIcon]!
 
-fixApplicationIconsInMenuBarWith: anIcon 
-self view menuBar ifNotNil: [:menuBar| self fixApplicationIconsInMenuBar: menuBar With: anIcon]
-
-	!
+fixApplicationIconsInMenuBarWith: anIcon
+	self view menuBar ifNotNil: [:menuBar | self fixApplicationIconsInMenuBar: menuBar with: anIcon]!
 
 fixApplicationIconsInShellWith: anIcon
 
@@ -358,7 +328,7 @@ onSysColorChange
 	^self view onSysColorChange! !
 !Shell categoriesFor: #fixApplicationIconInMenu:with:!*-in class package!private! !
 !Shell categoriesFor: #fixApplicationIcons:!*-in class package!public! !
-!Shell categoriesFor: #fixApplicationIconsInMenuBar:With:!*-in class package!event handling!private! !
+!Shell categoriesFor: #fixApplicationIconsInMenuBar:with:!*-in class package!event handling!private! !
 !Shell categoriesFor: #fixApplicationIconsInMenuBarWith:!*-in class package!event handling!private! !
 !Shell categoriesFor: #fixApplicationIconsInShellWith:!*-in class package!event handling!private! !
 !Shell categoriesFor: #onSysColorChange!event handling!public! !
@@ -397,10 +367,11 @@ fontSmoothing
 		type: BOOL
 		ifError: [^true]) value!
 
-fontSmoothing: aBoolean 
+fontSmoothing: aBoolean
 	| result |
-	result := self setSysParamBool: SPI_SETFONTSMOOTHING value: aBoolean.
-	UserLibrary default 
+result := self setSysUiParamBool: SPI_SETFONTSMOOTHING value: aBoolean.
+
+	UserLibrary default
 		invalidate: 0
 		lpRect: 0
 		bErase: true asParameter.
@@ -416,37 +387,37 @@ fontSmoothingType
 hasCleartype
 ^self fontSmoothingType = FE_FONTSMOOTHINGCLEARTYPE!
 
-hasCleartype: aBoolean 
+hasCleartype: aBoolean
 	| result |
-	result := self setSysParamInteger: SPI_SETFONTSMOOTHINGTYPE
-		value: (aBoolean ifTrue: [FE_FONTSMOOTHINGCLEARTYPE] ifFalse: [FE_FONTSMOOTHINGSTANDARD]).
-			UserLibrary default 
+	result := self setSysPvParamInteger: SPI_SETFONTSMOOTHINGTYPE
+				value: (aBoolean ifTrue: [FE_FONTSMOOTHINGCLEARTYPE] ifFalse: [FE_FONTSMOOTHINGSTANDARD]).
+	UserLibrary default
 		invalidate: 0
 		lpRect: 0
 		bErase: true asParameter.
 	SessionManager current inputState pumpMessages.
 	^result!
 
-setSysParamBool: anInteger value: aBoolean 
-	^UserLibrary default 
-		systemParametersInfo: anInteger
-		uiParam: aBoolean asParameter
-		pvParam: 0
-		fWinIni: 0!
-
-setSysParamInteger: anInteger value: value 
-	^UserLibrary default 
+setSysPvParamInteger: anInteger value: value
+	^UserLibrary default
 		systemParametersInfo: anInteger
 		uiParam: 0
 		pvParam: value
+		fWinIni: 0!
+
+setSysUiParamBool: anInteger value: aBoolean
+	^UserLibrary default
+		systemParametersInfo: anInteger
+		uiParam:  aBoolean asParameter
+		pvParam:0
 		fWinIni: 0! !
 !SystemMetrics categoriesFor: #fontSmoothing!constants!public! !
 !SystemMetrics categoriesFor: #fontSmoothing:!constants!public! !
 !SystemMetrics categoriesFor: #fontSmoothingType!constants!public! !
 !SystemMetrics categoriesFor: #hasCleartype!constants!public! !
 !SystemMetrics categoriesFor: #hasCleartype:!constants!public! !
-!SystemMetrics categoriesFor: #setSysParamBool:value:!helpers!private! !
-!SystemMetrics categoriesFor: #setSysParamInteger:value:!helpers!private! !
+!SystemMetrics categoriesFor: #setSysPvParamInteger:value:!helpers!private! !
+!SystemMetrics categoriesFor: #setSysUiParamBool:value:!helpers!private! !
 
 !UserLibrary methodsFor!
 
@@ -769,10 +740,4 @@ addBitmap: aBitmap bitmapMask: aMask
 !WinImageList categoriesFor: #addBitmap:bitmapMask:!adding!public! !
 
 "End of package definition"!
-
-"Source Globals"!
-
-"Classes"!
-
-"Binary Globals"!
 
