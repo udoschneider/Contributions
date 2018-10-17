@@ -1,0 +1,53 @@
+﻿| package |
+package := Package name: 'US PropertyList Tests'.
+package paxVersion: 1;
+	basicComment: ''.
+
+package basicPackageVersion: '1.005'.
+
+
+package classNames
+	add: #BinaryPropertyListTest;
+	add: #PropertyListTest;
+	add: #XMLPropertyListTest;
+	yourself.
+
+package binaryGlobalNames: (Set new
+	yourself).
+
+package globalAliases: (Set new
+	yourself).
+
+package setPrerequisites: (IdentitySet new
+	add: '..\..\..\Core\Object Arts\Dolphin\Base\Dolphin';
+	add: '..\..\..\Core\Contributions\Camp Smalltalk\SUnit\SUnit';
+	add: 'US PropertyLists';
+	yourself).
+
+package!
+
+"Class Definitions"!
+
+TestCase subclass: #PropertyListTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: 'PropertyListConstants'
+	classInstanceVariableNames: ''!
+PropertyListTest subclass: #BinaryPropertyListTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+PropertyListTest subclass: #XMLPropertyListTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+
+"Global Aliases"!
+
+
+"Loose Methods"!
+
+"End of package definition"!
+

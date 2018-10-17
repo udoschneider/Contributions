@@ -1,0 +1,119 @@
+﻿| package |
+package := Package name: 'US PropertyLists'.
+package paxVersion: 1;
+	basicComment: 'Read Apple Mac OS X XML and Binary Property Lists
+'.
+
+package basicPackageVersion: '1.005'.
+
+
+package classNames
+	add: #CFBinaryPlistHeader;
+	add: #CFBinaryPlistTrailer;
+	add: #NSBinaryPropertyListSerialization;
+	add: #NSPropertyListSerialization;
+	add: #NSXMLPropertyListSerialization;
+	yourself.
+
+package methodNames
+	add: #ByteArray -> #arraySized:atOffset:length:;
+	add: #SequenceableCollection -> #copyFromOffset:;
+	add: #SequenceableCollection -> #copyFromOffset:length:;
+	add: 'TimeStamp class' -> #coreFoundationReferenceTimeStamp;
+	add: 'TimeStamp class' -> #fromCoreFoundationDouble:;
+	yourself.
+
+package globalNames
+	add: #PropertyListConstants;
+	yourself.
+
+package binaryGlobalNames: (Set new
+	yourself).
+
+package globalAliases: (Set new
+	yourself).
+
+package setPrerequisites: (IdentitySet new
+	add: '..\..\..\Core\Object Arts\Dolphin\Base\Dolphin';
+	add: '..\..\..\Core\Object Arts\Dolphin\System\Base64\Dolphin Base64';
+	add: '..\Big Endian Conversion\US BigEndian';
+	add: '..\RFC3339\US RFC3339';
+	add: '..\..\..\Core\Object Arts\Dolphin\ActiveX\Components\XML DOM\XML DOM';
+	yourself).
+
+package setManualPrerequisites: #(
+	'US RFC3339').
+
+package!
+
+"Class Definitions"!
+
+Object subclass: #NSPropertyListSerialization
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: 'PropertyListConstants'
+	classInstanceVariableNames: ''!
+ExternalStructure subclass: #CFBinaryPlistHeader
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+ExternalStructure subclass: #CFBinaryPlistTrailer
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+NSPropertyListSerialization subclass: #NSBinaryPropertyListSerialization
+	instanceVariableNames: 'data header trailer offsetTable'
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+NSPropertyListSerialization subclass: #NSXMLPropertyListSerialization
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+
+"Global Aliases"!
+
+
+"Loose Methods"!
+
+!ByteArray methodsFor!
+
+arraySized: aByteSize atOffset: anOffset length: length	
+|array|
+aByteSize  = 1 
+		ifTrue: [array := self copyFromOffset: anOffset  length: length]
+		ifFalse: 
+			[aByteSize  = 2 ifTrue: [array := WORDArray new: length].
+			aByteSize  = 4 ifTrue: [array := DWORDArray new: length].
+			array copyBytes: (self copyFromOffset: anOffset )].
+^array
+! !
+!ByteArray categoriesFor: #arraySized:atOffset:length:!public! !
+
+!SequenceableCollection methodsFor!
+
+copyFromOffset: start 
+
+
+	^self copyFrom: start+1 !
+
+copyFromOffset: start length: length 
+	^self copyFrom: start + 1 to: start + length! !
+!SequenceableCollection categoriesFor: #copyFromOffset:!public! !
+!SequenceableCollection categoriesFor: #copyFromOffset:length:!public! !
+
+!TimeStamp class methodsFor!
+
+coreFoundationReferenceTimeStamp
+^self date: (Date newDay: 1 monthIndex: 1 year: 2001) time: (Time fromUtcHours: 0 minutes: 0 seconds: 0 milliseconds: 0 ).!
+
+fromCoreFoundationDouble: aDouble 
+	^TimeStamp fromSeconds: (aDouble + self coreFoundationReferenceTimeStamp asSeconds) asInteger! !
+!TimeStamp class categoriesFor: #coreFoundationReferenceTimeStamp!public! !
+!TimeStamp class categoriesFor: #fromCoreFoundationDouble:!public! !
+
+"End of package definition"!
+
