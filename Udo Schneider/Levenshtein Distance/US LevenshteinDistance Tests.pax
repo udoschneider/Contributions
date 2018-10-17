@@ -1,0 +1,43 @@
+﻿| package |
+package := Package name: 'US LevenshteinDistance Tests'.
+package paxVersion: 1;
+	basicComment: 'Test Cases for Levenshtein Distance'.
+
+package basicPackageVersion: '1.005'.
+
+
+package classNames
+	add: #LevenshteinDistanceTestCase;
+	yourself.
+
+package binaryGlobalNames: (Set new
+	yourself).
+
+package globalAliases: (Set new
+	yourself).
+
+package setPrerequisites: (IdentitySet new
+	add: '..\..\..\Core\Contributions\Camp Smalltalk\SUnit\SUnit';
+	add: 'US LevenshteinDistance';
+	yourself).
+
+package setManualPrerequisites: #(
+	'US LevenshteinDistance').
+
+package!
+
+"Class Definitions"!
+
+TestCase subclass: #LevenshteinDistanceTestCase
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+
+"Global Aliases"!
+
+
+"Loose Methods"!
+
+"End of package definition"!
+
