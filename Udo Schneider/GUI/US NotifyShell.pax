@@ -1,0 +1,48 @@
+﻿| package |
+package := Package name: 'US NotifyShell'.
+package paxVersion: 1;
+	basicComment: 'This package contains an example shell that shows how to use the "US NotifyView" package.
+
+"Minimizes to Traybar"
+NotifyShellExample show.
+'.
+
+package basicPackageVersion: '1.108'.
+
+
+package classNames
+	add: #NotifyShellExample;
+	yourself.
+
+package binaryGlobalNames: (Set new
+	yourself).
+
+package globalAliases: (Set new
+	yourself).
+
+package setPrerequisites: (IdentitySet new
+	add: '..\..\..\Core\Object Arts\Dolphin\Base\Dolphin';
+	add: '..\..\..\Core\Object Arts\Dolphin\MVP\Base\Dolphin Basic Geometry';
+	add: '..\..\..\Core\Object Arts\Dolphin\MVP\Base\Dolphin MVP Base';
+	add: '..\..\..\Core\Object Arts\Dolphin\MVP\Presenters\Text\Dolphin Text Presenter';
+	add: '..\..\..\Core\Object Arts\Dolphin\MVP\Type Converters\Dolphin Type Converters';
+	add: 'US NotifyView';
+	yourself).
+
+package!
+
+"Class Definitions"!
+
+Shell subclass: #NotifyShellExample
+	instanceVariableNames: 'notifyIcon'
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+
+"Global Aliases"!
+
+
+"Loose Methods"!
+
+"End of package definition"!
+
