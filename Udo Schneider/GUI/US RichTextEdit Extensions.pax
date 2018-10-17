@@ -1,13 +1,7 @@
-| package |
+﻿| package |
 package := Package name: 'US RichTextEdit Extensions'.
 package paxVersion: 1;
-	basicComment: '$id: US RichTextEdit Extensions 0.010$
-$for: Dolphin Smalltalk X6.1 Beta 2$
-
-(c) $date: 24.07.2009$, $developer: udos@udos-laptop$ <Udo.Schneider@homeaddress.de>
-Public Domain, Freeware
-
-Example:
+	basicComment: 'Example:
 
 presenter := RichTextPresenter 
 			showOn: ''This is my E-Mail Address: mailto:Udo.Schneider@homeaddress.de . 
@@ -20,23 +14,16 @@ Just drop me a mail or visit me here: http://readthesourceluke.blogspot.com/''
 presenter 
 	when: #linkClicked:
 	send: #value:
-	to: [:link | MessageBox notify: link caption: ''Link clicked'']
-	
-	
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
- * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.'.
+	to: [:link | MessageBox notify: link caption: ''Link clicked'']a RichTextPresenter
+	'.
 
 package basicPackageVersion: '0.010'.
 
 
 package methodNames
 	add: #Character -> #isValidInEmail;
-	add: #CHARFORMAT -> #beLink;
-	add: #CHARFORMAT -> #beNotLink;
-	add: #CHARFORMAT -> #isLink;
-	add: #CHARFORMAT -> #isLink:;
+	add: #CHARFORMAT2W -> #isLink;
+	add: #CHARFORMAT2W -> #isLink:;
 	add: #RichTextEdit -> #autoUrlDetect:;
 	add: #RichTextEdit -> #beLink;
 	add: #RichTextEdit -> #enableMailtoLinks;
@@ -54,9 +41,9 @@ package globalAliases: (Set new
 	yourself).
 
 package setPrerequisites: (IdentitySet new
-	add: '..\..\..\Object Arts\Dolphin\Base\Dolphin';
-	add: '..\..\..\Object Arts\Dolphin\MVP\Presenters\Text\Dolphin Rich Text Presenter';
-	add: '..\..\..\Object Arts\Dolphin\MVP\Presenters\Text\Dolphin Text Presenter';
+	add: '..\..\..\Core\Object Arts\Dolphin\Base\Dolphin';
+	add: '..\..\..\Core\Object Arts\Dolphin\MVP\Presenters\Text\Dolphin Rich Text Presenter';
+	add: '..\..\..\Core\Object Arts\Dolphin\MVP\Presenters\Text\Dolphin Text Presenter';
 	yourself).
 
 package!
@@ -80,32 +67,22 @@ isValidInEmail
 				with: $_) includes: self]! !
 !Character categoriesFor: #isValidInEmail!*-not in class package!public!testing! !
 
-!CHARFORMAT methodsFor!
-
-beLink
-
-
-	self isLink: true!
-
-beNotLink
-	self isLink: false!
+!CHARFORMAT2W methodsFor!
 
 isLink
-	
+	"Answer the character link effect."
 
-	^(self maskAny: CFM_LINK ) and: [self effectsAny: CFE_LINK ]!
+	^(self maskAny: CFM_LINK) and: [self effectsAny: CFM_LINK]!
 
-isLink: aBoolean 
+isLink: aBoolean
+	"Set the link character effect."
 
-
-	self 
-		setEffect: CFE_LINK
+	self
+		setEffect: CFM_LINK
 		mask: CFM_LINK
 		set: aBoolean! !
-!CHARFORMAT categoriesFor: #beLink!*-not in class package!public! !
-!CHARFORMAT categoriesFor: #beNotLink!*-not in class package!public! !
-!CHARFORMAT categoriesFor: #isLink!*-in class package!accessing!public! !
-!CHARFORMAT categoriesFor: #isLink:!*-in class package!accessing!public! !
+!CHARFORMAT2W categoriesFor: #isLink!accessing!public! !
+!CHARFORMAT2W categoriesFor: #isLink:!accessing!public! !
 
 !RichTextEdit methodsFor!
 
@@ -113,10 +90,8 @@ autoUrlDetect: aBoolean
 self sendMessage: EM_AUTOURLDETECT wParam: aBoolean asParameter!
 
 beLink
-	
-
-	self selectionCharFormat: ((CHARFORMAT new)
-				beLink ;
+	self selectionCharFormat: (CHARFORMAT2W new
+				isLink: true;
 				yourself)!
 
 enableMailtoLinks
@@ -190,10 +165,4 @@ onLinkClicked: aLinkEvent
 !TextPresenter categoriesFor: #onLinkClicked:!*-not in class package!public! !
 
 "End of package definition"!
-
-"Source Globals"!
-
-"Classes"!
-
-"Binary Globals"!
 
