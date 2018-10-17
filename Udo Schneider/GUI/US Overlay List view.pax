@@ -1,0 +1,176 @@
+﻿| package |
+package := Package name: 'US Overlay List view'.
+package paxVersion: 1;
+	basicComment: 'Usage
+	See OverlayListView class>>example1
+'.
+
+package basicPackageVersion: '0.012'.
+
+package basicScriptAt: #preinstall put: 'ListViewConstants
+	at: ''LVTVIF_AUTOSIZE'' put: 16r00000000;
+	at: ''LVTVIF_FIXEDWIDTH'' put: 16r00000001;
+	at: ''LVTVIF_FIXEDHEIGHT'' put: 16r00000002;
+	at: ''LVTVIF_FIXEDSIZE'' put: 16r00000003;
+	at: ''LVTVIF_EXTENDED'' put: 16r00000004;
+	at: ''LVTVIM_TILESIZE'' put: 16r00000001;
+	at: ''LVTVIM_COLUMNS'' put: 16r00000002;
+	at: ''LVTVIM_LABELMARGIN'' put: 16r00000004;
+	at: ''LVM_SETTILEVIEWINFO'' put: 16r1000 + 162;
+	at: ''LVM_SETVIEW'' put: 16r1000 + 142;
+	at: ''LV_VIEW_TILE'' put: 4'.
+
+package classNames
+	add: #LVTILEVIEWINFO;
+	add: #OverlayImageManager;
+	add: #OverlayListView;
+	add: #OverlayListViewColumn;
+	yourself.
+
+package methodNames
+	add: #CommCtrlLibrary -> #imageListSetOverlayImage:iImage:iOverlay:;
+	add: #LVITEMW -> #overlayImageIndex;
+	add: #LVITEMW -> #overlayImageIndex:;
+	add: #LVITEMW -> #row:text:imageIndex:overlayIndex:indent:;
+	add: #WinImageList -> #printOn:;
+	add: #WinImageList -> #use:asOverlay:;
+	add: 'ListPresenter class' -> #resource_Overlay_list_view;
+	yourself.
+
+package binaryGlobalNames: (Set new
+	yourself).
+
+package globalAliases: (Set new
+	yourself).
+
+package setPrerequisites: (IdentitySet new
+	add: '..\..\..\Core\Object Arts\Dolphin\IDE\Base\Development System';
+	add: '..\..\..\Core\Object Arts\Dolphin\Base\Dolphin';
+	add: '..\..\..\Core\Object Arts\Dolphin\MVP\Base\Dolphin Basic Geometry';
+	add: '..\..\..\Core\Object Arts\Dolphin\MVP\Views\Common Controls\Dolphin Common Controls';
+	add: '..\..\..\Core\Object Arts\Dolphin\MVP\Models\List\Dolphin List Models';
+	add: '..\..\..\Core\Object Arts\Dolphin\MVP\Presenters\List\Dolphin List Presenter';
+	add: '..\..\..\Core\Object Arts\Dolphin\MVP\Base\Dolphin MVP Base';
+	yourself).
+
+package!
+
+"Class Definitions"!
+
+Win32Structure subclass: #LVTILEVIEWINFO
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+ImageManager subclass: #OverlayImageManager
+	instanceVariableNames: 'overlayImages'
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+ListViewColumn subclass: #OverlayListViewColumn
+	instanceVariableNames: 'getOverlayImageBlock'
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+ListView subclass: #OverlayListView
+	instanceVariableNames: 'getOverlayBlock overlayImageMapping'
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+
+"Global Aliases"!
+
+
+"Loose Methods"!
+
+!CommCtrlLibrary methodsFor!
+
+imageListSetOverlayImage: hImageList iImage: iImage iOverlay: iOverlay 
+	"Adds a specified image to the list of images to be used as overlay masks.
+	An image list can have up to four overlay masks in version 4.70 and earlier
+	and up to 15 in version 4.71. The function assigns an overlay mask index
+	to the specified image.
+	
+	Syntax
+	
+	BOOL ImageList_SetOverlayImage(
+		HIMAGELIST himl,
+		int iImage,
+		int iOverlay
+	);"
+
+	<stdcall: bool ImageList_SetOverlayImage handle sdword sdword>
+	^self invalidCall! !
+!CommCtrlLibrary categoriesFor: #imageListSetOverlayImage:iImage:iOverlay:!primitives!public!win32 functions-image list! !
+
+!ListPresenter class methodsFor!
+
+resource_Overlay_list_view
+	"Answer the literal data from which the 'Overlay list view' resource can be reconstituted.
+	DO NOT EDIT OR RECATEGORIZE THIS METHOD.
+
+	If you wish to modify this resource evaluate:
+	ViewComposer openOn: (ResourceIdentifier class: self selector: #resource_Overlay_list_view)
+	"
+
+	^#(#'!!STL' 3 788558 10 ##(Smalltalk.STBViewProxy)  8 ##(Smalltalk.OverlayListView)  98 32 0 0 98 2 8 1140920397 1025 416 590662 2 ##(Smalltalk.ListModel)  202 208 98 0 0 1114638 ##(Smalltalk.STBSingletonProxy)  8 ##(Smalltalk.SearchPolicy)  8 #identity 524550 ##(Smalltalk.ColorRef)  8 4278190080 0 5 0 0 0 416 0 8 4294902339 787814 3 ##(Smalltalk.BlockClosure)  0 0 918822 ##(Smalltalk.CompiledMethod)  2 3 8 ##(Smalltalk.ListControlView)  8 #defaultGetTextBlock 382320355 8 #[30 105 226 0 106] 8 #displayString 704 7 257 0 0 1246534 1 ##(Smalltalk.OverlayImageManager)  234 240 544 234 240 544 0 0 202 208 544 0 0 0 0 0 0 202 208 98 1 1379654 5 ##(Smalltalk.OverlayListViewColumn)  8 'Column 1' 201 8 #left 459270 ##(Smalltalk.Message)  800 544 994 8 #<= 544 0 0 416 0 3 0 0 0 8 #report 544 0 2145 0 0 0 0 983302 ##(Smalltalk.MessageSequence)  202 208 98 1 721670 ##(Smalltalk.MessageSend)  8 #createAt:extent: 98 2 328198 ##(Smalltalk.Point)  1 1 1202 401 701 416 983302 ##(Smalltalk.WINDOWPLACEMENT)  8 #[44 0 0 0 0 0 0 0 1 0 0 0 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 0 0 0 0 0 0 0 0 200 0 0 0 94 1 0 0] 98 0 1202 193 193 0 27 )! !
+!ListPresenter class categoriesFor: #resource_Overlay_list_view!public!resources-views! !
+
+!LVITEMW methodsFor!
+
+overlayImageIndex
+	"Answer contents' overlay image index."
+
+	self dwState bitShift: -8!
+
+overlayImageIndex: anInteger
+	"Set contents' overlay image index to anInteger."
+
+	self
+		dwState: ((anInteger bitShift: 8) bitOr: self dwState);
+		maskIn: self stateValidMask;
+		stateMask: (LVIS_OVERLAYMASK bitOr: self stateMask)!
+
+row: rowInteger text: aString imageIndex: imageInteger overlayIndex: overlayInteger indent: indentInteger 
+	| mask iImage |
+	self
+		iItem: rowInteger - 1;
+		pszText: (text := aString).
+	mask := LVIF_TEXT.
+	imageInteger notNil ifTrue: [iImage := imageInteger - 1].
+	indentInteger notNil 
+		ifTrue: 
+			[self iIndent: indentInteger.
+			mask := mask bitOr: LVIF_INDENT.
+			indentInteger < 0 ifTrue: [iImage := -1]].
+	iImage notNil 
+		ifTrue: 
+			[self iImage: iImage.
+			mask := mask bitOr: LVIF_IMAGE].
+	overlayInteger notNil 
+		ifTrue: 
+			[self
+				stateMask: (self stateMask bitOr: LVIS_OVERLAYMASK);
+				dwState: overlayInteger << 8.
+			mask := mask bitOr: LVIF_STATE].
+	self mask: mask! !
+!LVITEMW categoriesFor: #overlayImageIndex!accessing!public! !
+!LVITEMW categoriesFor: #overlayImageIndex:!accessing!public! !
+!LVITEMW categoriesFor: #row:text:imageIndex:overlayIndex:indent:!accessing!public! !
+
+!WinImageList methodsFor!
+
+printOn: target
+super printOn: target.
+target nextPutAll: ' (' , self extent displayString , ')'!
+
+use: imageIndex asOverlay: overlayIndex 
+	^CommCtrlLibrary default 
+		imageListSetOverlayImage: self asParameter
+		iImage: imageIndex - 1
+		iOverlay: overlayIndex! !
+!WinImageList categoriesFor: #printOn:!public! !
+!WinImageList categoriesFor: #use:asOverlay:!adding!public! !
+
+"End of package definition"!
+
