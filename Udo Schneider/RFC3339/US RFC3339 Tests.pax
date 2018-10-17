@@ -1,0 +1,56 @@
+﻿| package |
+package := Package name: 'US RFC3339 Tests'.
+package paxVersion: 1;
+	basicComment: 'Test Cases for converting from and to RFC 3339 Times and Dates'.
+
+package basicPackageVersion: '1.305'.
+
+
+package classNames
+	add: #RFC3339DateTestCase;
+	add: #RFC3339TimeStampTestCase;
+	add: #RFC3339TimeTestCase;
+	yourself.
+
+package binaryGlobalNames: (Set new
+	yourself).
+
+package globalAliases: (Set new
+	yourself).
+
+package setPrerequisites: (IdentitySet new
+	add: '..\..\..\Core\Object Arts\Dolphin\Base\Dolphin';
+	add: '..\..\..\Core\Contributions\Camp Smalltalk\SUnit\SUnit';
+	add: 'US RFC3339';
+	yourself).
+
+package setManualPrerequisites: #(
+	'US RFC3339').
+
+package!
+
+"Class Definitions"!
+
+TestCase subclass: #RFC3339DateTestCase
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+TestCase subclass: #RFC3339TimeStampTestCase
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+TestCase subclass: #RFC3339TimeTestCase
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+
+"Global Aliases"!
+
+
+"Loose Methods"!
+
+"End of package definition"!
+
