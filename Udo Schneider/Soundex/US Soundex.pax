@@ -1,0 +1,66 @@
+﻿| package |
+package := Package name: 'US Soundex'.
+package paxVersion: 1;
+	basicComment: 'Calculate the Soundex of a String
+
+Usage
+	See Testcases
+	See here for more information:
+	http://www.geocities.com/Heartland/Hills/3916/soundex.html
+	http://en.wikipedia.org/wiki/Soundex'.
+
+package basicPackageVersion: '1.103'.
+
+
+package methodNames
+	add: #String -> #soundex;
+	yourself.
+
+package binaryGlobalNames: (Set new
+	yourself).
+
+package globalAliases: (Set new
+	yourself).
+
+package setPrerequisites: (IdentitySet new
+	add: '..\..\..\Core\Object Arts\Dolphin\Base\Dolphin';
+	yourself).
+
+package!
+
+"Class Definitions"!
+
+
+"Global Aliases"!
+
+
+"Loose Methods"!
+
+!String methodsFor!
+
+soundex
+	| input output soundexCodes lastChar |
+	input := ReadStream on: (self select: [:each | each isAlphaNumeric]) asUppercase.
+	input size < 1 ifTrue: [^''].
+	output := ReadWriteStream on: String new.
+	lastChar := input next.
+	output nextPut: lastChar.
+	soundexCodes := #('BFPV' 'CGJKQSXZ' 'DT' 'L' 'MN' 'R').
+
+	[input atEnd] whileFalse: 
+			[| char |
+			char := input next.
+			char ~= lastChar 
+				ifTrue: 
+					[1 to: 6
+						do: 
+							[:index | 
+							((soundexCodes at: index) includes: char) 
+								ifTrue: [output nextPut: (Character digitValue: index)]]].
+			lastChar := char].
+	output nextPutAll: '0000'.
+	^output contents copyFrom: 1 to: 4! !
+!String categoriesFor: #soundex!public! !
+
+"End of package definition"!
+

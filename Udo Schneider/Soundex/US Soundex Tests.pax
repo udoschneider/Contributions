@@ -1,0 +1,50 @@
+﻿| package |
+package := Package name: 'US Soundex Tests'.
+package paxVersion: 1;
+	basicComment: 'Test Cases for Soundex
+
+Usage
+	See Testcases
+	See here for more information:
+	http://www.geocities.com/Heartland/Hills/3916/soundex.html
+	http://en.wikipedia.org/wiki/Soundex
+'.
+
+package basicPackageVersion: '1.204'.
+
+
+package classNames
+	add: #SoundexTest;
+	yourself.
+
+package binaryGlobalNames: (Set new
+	yourself).
+
+package globalAliases: (Set new
+	yourself).
+
+package setPrerequisites: (IdentitySet new
+	add: '..\..\..\Core\Contributions\Camp Smalltalk\SUnit\SUnit';
+	add: 'US Soundex';
+	yourself).
+
+package setManualPrerequisites: #(
+	'US Soundex').
+
+package!
+
+"Class Definitions"!
+
+TestCase subclass: #SoundexTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+
+"Global Aliases"!
+
+
+"Loose Methods"!
+
+"End of package definition"!
+
