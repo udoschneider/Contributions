@@ -1,0 +1,154 @@
+﻿| package |
+package := Package name: 'US NotifyView'.
+package paxVersion: 1;
+	basicComment: 'This package allows you to use the Windows Notification Area ("Tray Bar") from your Dolphin Applications.
+
+Please note that the use of NotifyView is deprecated. Use NotifyAreaIcon instead.
+
+"Create your instance. No need to hassle with Views. Simply create an instance"
+| notifyIcon notifyIcons |
+notifyIcon := NotifyAreaIcon icon: (Icon fromId: ''!!APPLICATION'') message: ''My Application''.
+"If you want your icon to be displayed, simply send #show"
+notifyIcon show.
+"You can change the tip message and the icon any time by using #icon: and #message: . If the icon is currently visible it''s automatically updated."
+notifyIcon icon: Icon defaultApplication.
+notifyIcon message: ''Changed message''.
+"You can use this i.e. to display animations"
+Icon allInstances asSet do: 
+		[:each | 
+		notifyIcon
+			icon: each;
+			message: each identifier displayString].
+"The icon triggers several messages which you can intercept using the regular #when:send:to: mechanism"
+notifyIcon 
+	when: #leftButtonPressed
+	send: #value
+	to: [Sound beep].
+notifyIcon 
+	when: #leftButtonDoubleClicked
+	send: #value
+	to: 
+		[Sound beep.
+		(Delay forMilliseconds: 500) wait.
+		Sound beep].
+notifyIcon 
+	when: #rightButtonPressed
+	send: #value
+	to: [Sound bell].
+notifyIcon 
+	when: #rightButtonDoubleClicked
+	send: #value
+	to: 
+		[Sound bell.
+		(Delay forMilliseconds: 500) wait.
+		Sound bell].
+"If you don''t need the icon anymore (e.g. during #onViewClosed) you can simply hide it or nil the variable and let GC take care of it"
+notifyIcon hide.
+notifyIcon := nil.
+
+""
+"You can even generate a whole bunch of instances"
+notifyIcons := Icon allInstances asSet 
+			collect: [:each | NotifyAreaIcon icon: each message: each identifier displayString].
+"If you want to stress test your system, show /all/ icons"
+notifyIcons do: [:each | each show].
+"Please note, that we don''t hide icons here. We simply nil the instance and let GC take care of it"
+notifyIcons := nil.
+"You can also force a GC"
+MemoryManager current collectGarbage.'.
+
+package basicPackageVersion: '1.128'.
+
+package basicScriptAt: #preinstall put: '| wmu |
+wmu := Win32Constants at: ''WM_USER''.
+Win32Constants
+	at: ''NIF_INFO'' put: 16r00000010;
+	at: ''NIIF_NONE'' put: 16r00000000;
+	at: ''NIIF_INFO'' put: 16r00000001;
+	at: ''NIIF_WARNING'' put: 16r00000002;
+	at: ''NIIF_ERROR'' put: 16r00000003;
+	at: ''NIIF_USER'' put: 16r00000004;
+	at: ''NIIF_NOSOUND'' put: 16r00000010;
+	at: ''NOTIFYICON_VERSION'' put: 3;
+	at: ''NOTIFYICON_VERSION4'' put: 4;
+	at: ''NIM_SETVERSION'' put: 16r04;
+	at: ''NIN_BALLOONSHOW'' put: wmu + 2;
+	at: ''NIN_BALLOONHIDE'' put: wmu + 3;
+	at: ''NIN_BALLOONTIMEOUT'' put: wmu + 4;
+	at: ''NIN_BALLOONUSERCLICK'' put: wmu + 5;
+	at: ''NIN_SELECT'' put: wmu + 0;
+	at: ''NINF_KEY'' put: 1;
+	at: ''NIN_KEYSELECT'' put: wmu + 1	"NIN_SELECT | NINF_KEY"'.
+
+package classNames
+	add: #NotifyAreaBalloon;
+	add: #NotifyAreaIcon;
+	add: #NotifyAreaView;
+	add: #NOTIFYICONDATA2;
+	yourself.
+
+package methodNames
+	add: #ShellLibrary -> #shell_NotifyIcon:pnid:;
+	yourself.
+
+package binaryGlobalNames: (Set new
+	yourself).
+
+package globalAliases: (Set new
+	yourself).
+
+package setPrerequisites: (IdentitySet new
+	add: '..\..\..\Core\Object Arts\Dolphin\Base\Dolphin';
+	add: '..\..\..\Core\Object Arts\Dolphin\MVP\Base\Dolphin MVP Base';
+	add: '..\..\..\Core\Object Arts\Dolphin\MVP\Views\Tooltips\Dolphin Tooltips';
+	add: '..\US Runtime Patches';
+	add: '..\..\..\Core\Object Arts\Dolphin\ActiveX\Shell\Windows Shell';
+	yourself).
+
+package setManualPrerequisites: #(
+	'US Runtime Patches').
+
+package!
+
+"Class Definitions"!
+
+Object subclass: #NotifyAreaIcon
+	instanceVariableNames: 'identifier message icon isVisible'
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+Win32Structure subclass: #NOTIFYICONDATA2
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+MessageBoxAbstract subclass: #NotifyAreaBalloon
+	instanceVariableNames: 'iconId icon timeout'
+	classVariableNames: 'IconIds'
+	poolDictionaries: 'Win32Constants'
+	classInstanceVariableNames: ''!
+View subclass: #NotifyAreaView
+	instanceVariableNames: 'icons version'
+	classVariableNames: 'DefaultInstance NotifyMessageMap WM_NOTIFYAREACALLBACK WM_TASKBARCREATED'
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+
+"Global Aliases"!
+
+
+"Loose Methods"!
+
+!ShellLibrary methodsFor!
+
+shell_NotifyIcon: dwMessage pnid: pnid 
+	"WINSHELLAPI BOOL WINAPI Shell_NotifyIcon(
+		DWORD dwMessage, 
+		PNOTIFYICONDATA pnid 
+	);"
+
+	<stdcall: bool Shell_NotifyIcon dword NOTIFYICONDATA2*>
+	^self invalidCall! !
+!ShellLibrary categoriesFor: #shell_NotifyIcon:pnid:!public! !
+
+"End of package definition"!
+
