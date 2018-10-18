@@ -127,8 +127,8 @@ parseRealAt: objectOffset
 
 parseStringAt: objectOffset 	^(self parseDataAt: objectOffset ) asString!
 
-parseUnicodeStringAt: objectOffset 
-	^(self parseStringAt: objectOffset )asUnicodeString!
+parseUnicodeStringAt: objectOffset
+	^(self parseStringAt: objectOffset) asUtf16String!
 
 setData: aByteArray header: aCFBinaryPlistHeader trailer: aCFBinaryPlistTrailer 
 	| array |
