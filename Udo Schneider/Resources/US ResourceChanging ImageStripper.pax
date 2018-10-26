@@ -1,0 +1,93 @@
+﻿| package |
+package := Package name: 'US ResourceChanging ImageStripper'.
+package paxVersion: 1;
+	basicComment: 'What''s in it?
+
+#applicationIcon
+	Set the application Icon
+
+#resourceIcons
+	Adds all icons in the dictionary to the deployed application. The key will be the resource name. The value the icon.
+	
+#resourceCursors
+	Adds all icons in the dictionary to the deployed application. The key will be the resource name. The value the icon.
+	
+#resoureImages
+	Adds all images in the dictionary to the deployed application. Images of (sub-)class Bitmap will be stored as RT_BITMAP standard type resource. Images of (sub-)cass OLEPicture will be stored as user defined OLEPICTURE type resource. The key will be the resource name. The value the Image.
+
+#resourceObjects
+	Adds all objects in the dictionay to the deployed application. Objects are stored in STB streams as user defined STB type resource. The key will be the resource name. The value the STBed Object.
+	You can implement your own serialization/unserialization scheme by providing the following methods:
+	
+	class>>#defaultResourceType (or #resoureType for instance specific resource types)
+	#fromResourceBytes:id:locale:in:usingLocator:type:
+	 class>>#defaultResourceClass (If you want to provide your own resource format. In this case you might need to change #asWindowsResource as well. Default uses RT_DATA like scheme)
+	#resourceBytes
+	
+#resourceStrings
+	Adds all strings in the Dictionary to the string tables of the deployed application. The key is the string index (not the stringtable resource ID!!). The value the string.
+	
+What''s missing
+	Explorer Compatible icon order
+	Reading/Writing Animated Cursors
+	Reading/Writing Sounds
+'.
+
+package basicPackageVersion: '0.030'.
+
+
+package classNames
+	add: #ResourceChangingImageStripper;
+	yourself.
+
+package methodNames
+	add: #ImageStripper -> #applicationIcon;
+	add: #ImageStripper -> #defaultApplicationIcon;
+	yourself.
+
+package binaryGlobalNames: (Set new
+	yourself).
+
+package globalAliases: (Set new
+	yourself).
+
+package setPrerequisites: (IdentitySet new
+	add: '..\..\..\Core\Object Arts\Dolphin\IDE\Base\Development System';
+	add: '..\..\..\Core\Object Arts\Dolphin\Base\Dolphin';
+	add: '..\..\..\Core\Object Arts\Dolphin\MVP\Base\Dolphin MVP Base';
+	add: '..\..\..\Core\Object Arts\Dolphin\Lagoon\Lagoon Image Stripper';
+	add: '..\..\..\Core\Object Arts\Dolphin\ActiveX\Components\Picture\OLE Picture';
+	add: '..\US Application Information';
+	add: 'US Resource Update';
+	yourself).
+
+package setManualPrerequisites: #(
+	'US Application Information').
+
+package!
+
+"Class Definitions"!
+
+ImageStripper subclass: #ResourceChangingImageStripper
+	instanceVariableNames: 'applicationIcon resourceIcons resourceCursors resourceImages resourceObjects resourceStrings resourceIconsPath resourceCursorsPath resourceImagesPath'
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+
+"Global Aliases"!
+
+
+"Loose Methods"!
+
+!ImageStripper methodsFor!
+
+applicationIcon
+	^self defaultApplicationIcon!
+
+defaultApplicationIcon
+	^Icon fromId: SessionManager applicationIconId! !
+!ImageStripper categoriesFor: #applicationIcon!operations!public! !
+!ImageStripper categoriesFor: #defaultApplicationIcon!*-in class package!accessing!private! !
+
+"End of package definition"!
+

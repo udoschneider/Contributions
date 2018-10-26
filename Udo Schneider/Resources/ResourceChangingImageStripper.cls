@@ -1,112 +1,11 @@
-| package |
-package := Package name: 'US ResourceChanging ImageStripper'.
-package paxVersion: 1;
-	basicComment: '$id: US ResourceChanging ImageStripper 0.030$
-$for: Dolphin Smalltalk X6.1 Beta 2$
-
-(c) $date: 01.08.2009$, $developer: udos@udos-laptop$ <Udo.Schneider@homeaddress.de>
-Public Domain, Freeware
-
-What''s in it?
-
-#applicationIcon
-	Set the application Icon
-
-#resourceIcons
-	Adds all icons in the dictionary to the deployed application. The key will be the resource name. The value the icon.
-	
-#resourceCursors
-	Adds all icons in the dictionary to the deployed application. The key will be the resource name. The value the icon.
-	
-#resoureImages
-	Adds all images in the dictionary to the deployed application. Images of (sub-)class Bitmap will be stored as RT_BITMAP standard type resource. Images of (sub-)cass OLEPicture will be stored as user defined OLEPICTURE type resource. The key will be the resource name. The value the Image.
-
-#resourceObjects
-	Adds all objects in the dictionay to the deployed application. Objects are stored in STB streams as user defined STB type resource. The key will be the resource name. The value the STBed Object.
-	You can implement your own serialization/unserialization scheme by providing the following methods:
-	
-	class>>#defaultResourceType (or #resoureType for instance specific resource types)
-	#fromResourceBytes:id:locale:in:usingLocator:type:
-	 class>>#defaultResourceClass (If you want to provide your own resource format. In this case you might need to change #asWindowsResource as well. Default uses RT_DATA like scheme)
-	#resourceBytes
-	
-#resourceStrings
-	Adds all strings in the Dictionary to the string tables of the deployed application. The key is the string index (not the stringtable resource ID!!). The value the string.
-	
-What''s missing
-	Explorer Compatible icon order
-	Reading/Writing Animated Cursors
-	Reading/Writing Sounds
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
- * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-'.
-
-package basicPackageVersion: '0.030'.
-
-
-package classNames
-	add: #ResourceChangingImageStripper;
-	yourself.
-
-package methodNames
-	add: #ImageStripper -> #applicationIcon;
-	add: #ImageStripper -> #defaultApplicationIcon;
-	yourself.
-
-package binaryGlobalNames: (Set new
-	yourself).
-
-package globalAliases: (Set new
-	yourself).
-
-package setPrerequisites: (IdentitySet new
-	add: '..\..\..\Object Arts\Dolphin\IDE\Base\Development System';
-	add: '..\..\..\Object Arts\Dolphin\Base\Dolphin';
-	add: '..\..\..\Object Arts\Dolphin\MVP\Base\Dolphin MVP Base';
-	add: '..\..\..\Object Arts\Dolphin\Lagoon\Lagoon Image Stripper';
-	add: '..\..\..\Object Arts\Dolphin\ActiveX\Components\Picture\OLE Picture';
-	add: '..\US Application Information';
-	add: 'US Resource Update';
-	yourself).
-
-package setManualPrerequisites: #(
-	'US Application Information').
-
-package!
-
-"Class Definitions"!
+﻿"Filed out from Dolphin Smalltalk 7"!
 
 ImageStripper subclass: #ResourceChangingImageStripper
 	instanceVariableNames: 'applicationIcon resourceIcons resourceCursors resourceImages resourceObjects resourceStrings resourceIconsPath resourceCursorsPath resourceImagesPath'
 	classVariableNames: ''
 	poolDictionaries: ''
 	classInstanceVariableNames: ''!
-
-"Global Aliases"!
-
-
-"Loose Methods"!
-
-!ImageStripper methodsFor!
-
-applicationIcon
-	^self defaultApplicationIcon!
-
-defaultApplicationIcon
-	^Icon fromId: SessionManager applicationIconId! !
-!ImageStripper categoriesFor: #applicationIcon!operations!public! !
-!ImageStripper categoriesFor: #defaultApplicationIcon!*-in class package!accessing!private! !
-
-"End of package definition"!
-
-"Source Globals"!
-
-"Classes"!
-
-ResourceChangingImageStripper guid: (GUID fromString: '{246E53EC-354C-4447-9718-723B29341F25}')!
+ResourceChangingImageStripper guid: (GUID fromString: '{246e53ec-354c-4447-9718-723b29341f25}')!
 ResourceChangingImageStripper comment: ''!
 !ResourceChangingImageStripper categoriesForClass!Unclassified! !
 !ResourceChangingImageStripper methodsFor!
@@ -166,7 +65,7 @@ applicationIcon
 applicationIcon: anIcon 
 	applicationIcon := anIcon!
 
-copyAndUpdateStub: stubFile to: exeFile 
+copyAndUpdateStub: stubFile to: exeFile
 	"Private - Copy over the stub and update it if required. Answer the name of the
 	new stub file."
 
@@ -174,10 +73,10 @@ copyAndUpdateStub: stubFile to: exeFile
 	File createDirectoryPath: (File splitPathFrom: exeFile).
 	File copy: stubFile to: exeFile.
 	File isWriteable: exeFile set: true.
-	self isResourceUpdatingRequired 
+	self isResourceUpdatingRequired
 		ifTrue: 
 			[#USToDo.
-			self removeResources: exeFile.	"Can be removed if the stubfile uses no icons"
+			self removeResources: exeFile	"Can be removed if the stubfile uses no icons".
 			KernelLibrary default updateResourcesOf: exeFile do: [:hUpdate | self updateStubResources: hUpdate]].
 	^exeFile!
 
@@ -222,8 +121,11 @@ defaultStringResources
 
 	!
 
-removeResources: exeFile 
-	(WindowsResourceUpdater onFile: exeFile) removeResources!
+removeResources: exeFile
+
+
+(WindowsResourceUpdater onFile: exeFile) removeResources
+!
 
 resourceCursors
 	resourceCursors ifNil: [resourceCursors := self defaultCursorResources ].
@@ -311,15 +213,15 @@ updateGroupResources: resources in: anExternalHandle
 				updateResource: anExternalHandle.
 			offset := groupIconResource offset]!
 
-updateIconResource: anExternalHandle 
+updateIconResource: anExternalHandle
 	| groupResources |
 	groupResources := OrderedCollection new.
-	groupResources add: ((self applicationIcon asWindowsResource)
+	groupResources add: (self applicationIcon asWindowsResource
 				identifier: SessionManager applicationIconId;
 				yourself).
 	self allResourceIcons keysAndValuesDo: 
-			[:name :icon | 
-			groupResources add: ((icon asWindowsResource)
+			[:name :icon |
+			groupResources add: (icon asWindowsResource
 						identifier: name;
 						yourself)].
 	self updateGroupResources: groupResources in: anExternalHandle!
@@ -448,6 +350,4 @@ stbVersion
 !ResourceChangingImageStripper class categoriesFor: #publishedAspectsOfInstances!*-in class package!must strip!public! !
 !ResourceChangingImageStripper class categoriesFor: #stbConvertFrom:!binary filing!development!public! !
 !ResourceChangingImageStripper class categoriesFor: #stbVersion!public! !
-
-"Binary Globals"!
 

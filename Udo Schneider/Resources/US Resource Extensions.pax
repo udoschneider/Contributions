@@ -1,16 +1,7 @@
-| package |
+﻿| package |
 package := Package name: 'US Resource Extensions'.
 package paxVersion: 1;
-	basicComment: '$id: US Resource Extensions 0.042$
-$for: Dolphin Smalltalk X6.1 Beta 2$
-
-(c) $date: 24.07.2009$, $developer: udos@udos-laptop$ <Udo.Schneider@homeaddress.de>
-Public Domain, Freeware
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
- * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.'.
+	basicComment: ''.
 
 package basicPackageVersion: '0.042'.
 
@@ -51,8 +42,8 @@ package methodNames
 	add: #KernelLibrary -> #enumResourceNames:lpszType:lpEnumFunc:lParam:;
 	add: #KernelLibrary -> #enumResourceTypes:lpEnumFunc:lParam:;
 	add: #KernelLibrary -> #findResourceEx:lpName:lpType:wLanguage:;
+	add: #Object -> #asResourceType;
 	add: #Object -> #resourceType;
-	add: #OLEPicture -> #loadFromFile:extent:;
 	add: #OLEPicture -> #loadFromInstance:;
 	add: #UserLibrary -> #createIconFromResource:dwResSize:fIcon:dwVer:;
 	add: #UserLibrary -> #lookupIconIdFromDirectory:ficon:;
@@ -108,11 +99,11 @@ package globalAliases: (Set new
 	yourself).
 
 package setPrerequisites: (IdentitySet new
-	add: '..\..\..\Object Arts\Dolphin\Base\Dolphin';
-	add: '..\..\..\Object Arts\Dolphin\MVP\Base\Dolphin MVP Base';
-	add: '..\..\..\Object Arts\Dolphin\MVP\Gdiplus\Gdiplus';
-	add: '..\..\..\Object Arts\Dolphin\ActiveX\Components\Picture\OLE Picture';
-	add: '..\..\..\Object Arts\Dolphin\ActiveX\Structured Storage\OLE Structured Storage';
+	add: '..\..\..\Core\Object Arts\Dolphin\Base\Dolphin';
+	add: '..\..\..\Core\Object Arts\Dolphin\MVP\Base\Dolphin MVP Base';
+	add: '..\..\..\Core\Object Arts\Dolphin\MVP\Gdiplus\Gdiplus';
+	add: '..\..\..\Core\Object Arts\Dolphin\ActiveX\Components\Picture\OLE Picture';
+	add: '..\..\..\Core\Object Arts\Dolphin\ActiveX\Structured Storage\OLE Structured Storage';
 	yourself).
 
 package!
@@ -231,7 +222,7 @@ infoHeader := self getBITMAPINFOHEADER negateBiHeight asByteArray.
 !ExternalAddress methodsFor!
 
 asDecodedResourceId
-	^self isInternalResource ifTrue: [String fromAddress: self] ifFalse: [self asInteger]!
+	^self isInternalResource ifTrue: [AnsiString  fromAddress: self] ifFalse: [self asInteger]!
 
 isInternalResource
 	^self yourAddress >> 16 > 0! !
@@ -547,8 +538,12 @@ dolphinResourceDefault
 
 !Object methodsFor!
 
+asResourceType
+^self asResourceId!
+
 resourceType
 	^self class defaultResourceType! !
+!Object categoriesFor: #asResourceType!public! !
 !Object categoriesFor: #resourceType!public! !
 
 !Object class methodsFor!
@@ -716,27 +711,27 @@ loadFromFile: aFilename id: anIntegerOrStringResourceId locale: aLocale in: anIn
 				type: aResourceType ]
 		ifFalse: [nil]!
 
-loadFromInstanceId: anIntegerOrStringResourceId locale: aLocale in: anExternalLibraryOrHandle usingLocator: aFileLocator type: anIntegerOrStringIResourceType 
+loadFromInstanceId: anIntegerOrStringResourceId locale: aLocale in: anExternalLibraryOrHandle usingLocator: aFileLocator type: anIntegerOrStringIResourceType
 	| hFind |
-	hFind := aLocale isNil 
+	hFind := aLocale isNil
 				ifTrue: 
-					[KernelLibrary default 
+					[KernelLibrary default
 						findResource: anExternalLibraryOrHandle asParameter
-						lpName: anIntegerOrStringResourceId
-						lpType: anIntegerOrStringIResourceType]
+						lpName: anIntegerOrStringResourceId asResourceId
+						lpType: anIntegerOrStringIResourceType asResourceType]
 				ifFalse: 
-					[KernelLibrary default 
+					[KernelLibrary default
 						findResourceEx: anExternalLibraryOrHandle asParameter
-						lpName: anIntegerOrStringResourceId
-						lpType: anIntegerOrStringIResourceType
+						lpName: anIntegerOrStringResourceId asResourceId
+						lpType: anIntegerOrStringIResourceType asResourceType
 						wLanguage: aLocale asParameter].
 	hFind isNull ifTrue: [^nil].
-	^self 
+	^self
 		basicFromResourceFindHandle: hFind
 		id: anIntegerOrStringResourceId
 		locale: aLocale
 		in: anExternalLibraryOrHandle
-		usingLocator:aFileLocator
+		usingLocator: aFileLocator
 		type: anIntegerOrStringIResourceType! !
 !Object class categoriesFor: #basicFromId:locale:in:fileLocator:type:!*-not in class package!private! !
 !Object class categoriesFor: #basicFromResourceFindHandle:id:locale:in:usingLocator:type:!*-not in class package!instance creation!private! !
@@ -761,25 +756,6 @@ loadFromInstanceId: anIntegerOrStringResourceId locale: aLocale in: anExternalLi
 
 !OLEPicture methodsFor!
 
-loadFromFile: pathString extent: anObject 
-	"Private - Attempts to load the receiver from a disk file/url. If the image
-	could not be loaded (e.g. the file was not found) then a picture 
-	wrapping the standard question mark icon is created. Answers the GDI
-	handle of the picture."
-
-	identifier isNil 
-		ifFalse: 
-			[[self picture: (IPicture fromFile: pathString asParameter)] on: HRESULTError
-				do: 
-					[:ex | 
-					Notification 
-						signal: ('Failed to load OLE Picture from file <1p>: <2s>' expandMacrosWith: pathString
-								with: ex messageText)]].
-	^picture isNull 
-		ifTrue: 
-			[nil] ifFalse: [
-	picture handle]!
-
 loadFromInstance: hModule 
 	"Private - Attempts to load the receiver as a resource from an instance.
 	Answers nil if the load failed, or the image handle if successful."
@@ -796,7 +772,6 @@ loadFromInstance: hModule
 			pic := IPicture readFromIStream: ((ReadStream on: value) queryInterface: IStream).
 			self picture: pic.
 			picture handle]! !
-!OLEPicture categoriesFor: #loadFromFile:extent:!must not strip!private!realizing/unrealizing! !
 !OLEPicture categoriesFor: #loadFromInstance:!*-not in class package!must not strip!private!realizing/unrealizing! !
 
 !OLEPicture class methodsFor!
@@ -864,58 +839,4 @@ lookupIconIdFromDirectory: presbits ficon: fIcon
 !UserLibrary categoriesFor: #lookupIconIdFromDirectory:ficon:!*-not in class package!public!win32 functions-resource! !
 
 "End of package definition"!
-
-"Source Globals"!
-
-"Classes"!
-
-WindowsResourceIdentifier guid: (GUID fromString: '{D77A89E0-57EF-4C1B-B9B7-104FE015A8DA}')!
-WindowsResourceIdentifier comment: ''!
-!WindowsResourceIdentifier categoriesForClass!Unclassified! !
-!WindowsResourceIdentifier methodsFor!
-
-id
-	^id!
-
-id: anObject
-	id := anObject!
-
-locale
-	^locale!
-
-locale: anObject
-	locale := anObject!
-
-setType: aResourceType
-		id: aResourceId
-		locale: aLocale
-		type := aResourceType.
-		id := aResourceId.
-		locale := aLocale!
-
-type
-	^type!
-
-type: anObject
-	type := anObject! !
-!WindowsResourceIdentifier categoriesFor: #id!accessing!public! !
-!WindowsResourceIdentifier categoriesFor: #id:!accessing!private! !
-!WindowsResourceIdentifier categoriesFor: #locale!accessing!public! !
-!WindowsResourceIdentifier categoriesFor: #locale:!accessing!private! !
-!WindowsResourceIdentifier categoriesFor: #setType:id:locale:!public! !
-!WindowsResourceIdentifier categoriesFor: #type!accessing!public! !
-!WindowsResourceIdentifier categoriesFor: #type:!accessing!private! !
-
-!WindowsResourceIdentifier class methodsFor!
-
-new
-"Use #type:id:locale: instead"
-	self shouldNotImplement!
-
-type: aResourceType id: aResourceId locale: aLocale 
-	^super new setType: aResourceType id: aResourceId locale: aLocale ! !
-!WindowsResourceIdentifier class categoriesFor: #new!public! !
-!WindowsResourceIdentifier class categoriesFor: #type:id:locale:!public! !
-
-"Binary Globals"!
 

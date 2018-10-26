@@ -1,0 +1,332 @@
+﻿| package |
+package := Package name: 'US Resource Update'.
+package paxVersion: 1;
+	basicComment: ''.
+
+package basicPackageVersion: '0.038'.
+
+
+package classNames
+	add: #AbstractWindowsResource;
+	add: #BinaryResource;
+	add: #BINRESDIR;
+	add: #BitmapResource;
+	add: #CURSORDIR;
+	add: #CURSORIMAGE;
+	add: #CursorResource;
+	add: #FILERESDIR;
+	add: #FlatResource;
+	add: #GroupCursorResource;
+	add: #GroupIconResource;
+	add: #ICONIMAGE;
+	add: #ICONRESDIR;
+	add: #IconResource;
+	add: #NEWHEADER;
+	add: #RESDIR;
+	add: #StringTableResource;
+	add: #UserResource;
+	add: #WindowsResourceUpdater;
+	yourself.
+
+package methodNames
+	add: #Bitmap -> #asDIBSection;
+	add: #Bitmap -> #resourceBytes;
+	add: #ByteArray -> #asUtf16String;
+	add: #DIBSection -> #asByteArray;
+	add: #DIBSection -> #asDIBSection;
+	add: #DIBSection -> #getBITMAPINFOHEADER;
+	add: #DIBSection -> #resourceBytes;
+	add: #Image -> #asWindowsResource;
+	add: #Image -> #resourceBytes;
+	add: #KernelLibrary -> #deleteResource:lpType:lpName:wLanguage:;
+	add: #Number -> #baseOffsetFromResourceId;
+	add: #Number -> #offsetInStringTable;
+	add: #Number -> #resourceIdFromOffset;
+	add: #Object -> #asWindowsResource;
+	add: #Object -> #defaultResourceClass;
+	add: #Object -> #resourceBytes;
+	add: #OLEPicture -> #asByteArray;
+	add: #OLEPicture -> #asWindowsResource;
+	add: #OLEPicture -> #resourceBytes;
+	add: 'Bitmap class' -> #defaultResourceClass;
+	add: 'Cursor class' -> #defaultResourceClass;
+	add: 'Icon class' -> #defaultResourceClass;
+	add: 'Object class' -> #defaultResourceClass;
+	yourself.
+
+package binaryGlobalNames: (Set new
+	yourself).
+
+package globalAliases: (Set new
+	yourself).
+
+package setPrerequisites: (IdentitySet new
+	add: '..\..\..\Core\Object Arts\Dolphin\Base\Dolphin';
+	add: '..\..\..\Core\Object Arts\Dolphin\Base\Deprecated\Dolphin Base (Deprecated)';
+	add: '..\..\..\Core\Object Arts\Dolphin\MVP\Base\Dolphin MVP Base';
+	add: '..\..\..\Core\Object Arts\Dolphin\ActiveX\Components\Picture\OLE Picture';
+	add: '..\..\..\Core\Object Arts\Dolphin\ActiveX\Structured Storage\OLE Structured Storage';
+	add: 'US Resource Extensions';
+	yourself).
+
+package setManualPrerequisites: #(
+	'US Resource Extensions').
+
+package!
+
+"Class Definitions"!
+
+Object subclass: #AbstractWindowsResource
+	instanceVariableNames: 'identifier locale'
+	classVariableNames: ''
+	poolDictionaries: 'Win32Constants'
+	classInstanceVariableNames: ''!
+Object subclass: #WindowsResourceUpdater
+	instanceVariableNames: 'filename'
+	classVariableNames: ''
+	poolDictionaries: 'Win32Constants'
+	classInstanceVariableNames: ''!
+AbstractWindowsResource subclass: #FlatResource
+	instanceVariableNames: 'bytes'
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+AbstractWindowsResource subclass: #GroupIconResource
+	instanceVariableNames: 'entries offset'
+	classVariableNames: ''
+	poolDictionaries: 'Win32Constants'
+	classInstanceVariableNames: ''!
+AbstractWindowsResource variableSubclass: #StringTableResource
+	instanceVariableNames: 'entries'
+	classVariableNames: ''
+	poolDictionaries: 'Win32Constants'
+	classInstanceVariableNames: ''!
+FlatResource subclass: #BinaryResource
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+FlatResource subclass: #BitmapResource
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+FlatResource subclass: #IconResource
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+BinaryResource subclass: #UserResource
+	instanceVariableNames: 'type'
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+IconResource subclass: #CursorResource
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+GroupIconResource subclass: #GroupCursorResource
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+ExternalStructure subclass: #CURSORDIR
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+ExternalStructure subclass: #CURSORIMAGE
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: 'Win32Constants'
+	classInstanceVariableNames: ''!
+ExternalStructure subclass: #ICONIMAGE
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: 'Win32Constants'
+	classInstanceVariableNames: ''!
+ExternalStructure subclass: #ICONRESDIR
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+ExternalStructure subclass: #NEWHEADER
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+ExternalStructure subclass: #RESDIR
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+RESDIR subclass: #BINRESDIR
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+RESDIR subclass: #FILERESDIR
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+
+"Global Aliases"!
+
+
+"Loose Methods"!
+
+!Bitmap methodsFor!
+
+asDIBSection
+		| bitmap |
+	bitmap := DIBSection  width: self extent x height: self extent y depth: self depth .
+	self drawOn: bitmap canvas.
+	^bitmap!
+
+resourceBytes
+ ^self asDIBSection resourceBytes! !
+!Bitmap categoriesFor: #asDIBSection!public! !
+!Bitmap categoriesFor: #resourceBytes!public! !
+
+!Bitmap class methodsFor!
+
+defaultResourceClass
+	^BitmapResource! !
+!Bitmap class categoriesFor: #defaultResourceClass!public! !
+
+!ByteArray methodsFor!
+
+asUtf16String
+	"Answer a Utf16String composed of the characters of the receiver, or
+	the empty string if the receiver is a null pointer"
+
+	^Utf16String fromAddress: self yourAddress length: self size // 2! !
+!ByteArray categoriesFor: #asUtf16String!comparing!public! !
+
+!Cursor class methodsFor!
+
+defaultResourceClass
+	^GroupCursorResource ! !
+!Cursor class categoriesFor: #defaultResourceClass!public! !
+
+!DIBSection methodsFor!
+
+asByteArray
+	| stream |
+	stream := ReadWriteStream on: ByteArray new.
+	self saveToStream: stream.
+	^stream contents.!
+
+asDIBSection
+^self!
+
+getBITMAPINFOHEADER
+^ self getDIBSECTION dsBmih !
+
+resourceBytes
+	| bitmapInfo infoHeader colors stream |
+	self cacheInfo.
+	infoHeader := self getBITMAPINFOHEADER asByteArray.
+	colors := self getColorTable ifNil: [#[]] ifNotNil: [:value | value asByteArray].
+	bitmapInfo := self getInfo.
+	imageBits := ByteArray fromAddress: self imageBits
+				length: bitmapInfo bmHeight * bitmapInfo bmWidthBytes.
+	stream := ReadWriteStream on: ByteArray new.
+	stream
+		nextPutAll: infoHeader;
+		nextPutAll: colors;
+		nextPutAll: imageBits.
+	^stream contents! !
+!DIBSection categoriesFor: #asByteArray!public! !
+!DIBSection categoriesFor: #asDIBSection!public! !
+!DIBSection categoriesFor: #getBITMAPINFOHEADER!public! !
+!DIBSection categoriesFor: #resourceBytes!public! !
+
+!Icon class methodsFor!
+
+defaultResourceClass
+	^GroupIconResource! !
+!Icon class categoriesFor: #defaultResourceClass!public! !
+
+!Image methodsFor!
+
+asWindowsResource
+
+	^self defaultResourceClass fromImage: self!
+
+resourceBytes
+	self shouldNotImplement! !
+!Image categoriesFor: #asWindowsResource!public! !
+!Image categoriesFor: #resourceBytes!public! !
+
+!KernelLibrary methodsFor!
+
+deleteResource: hUpdate lpType: resTypeString lpName: resName wLanguage: langId 
+^self updateResource: hUpdate lpType: resTypeString lpName: resName wLanguage: langId lpData: nil cbData: nil ! !
+!KernelLibrary categoriesFor: #deleteResource:lpType:lpName:wLanguage:!public! !
+
+!Number methodsFor!
+
+baseOffsetFromResourceId
+	^(self - 1) * 16!
+
+offsetInStringTable
+^self \\ 16!
+
+resourceIdFromOffset
+	^self // 16 + 1! !
+!Number categoriesFor: #baseOffsetFromResourceId!public! !
+!Number categoriesFor: #offsetInStringTable!public! !
+!Number categoriesFor: #resourceIdFromOffset!public! !
+
+!Object methodsFor!
+
+asWindowsResource
+	
+	^(self defaultResourceClass 
+		fromResourceBytes: self resourceBytes
+		id: nil
+		locale: nil
+		in: nil)
+		type: self resourceType;
+		yourself!
+
+defaultResourceClass
+	^self class defaultResourceClass!
+
+resourceBytes
+^self binaryStoreBytes! !
+!Object categoriesFor: #asWindowsResource!public! !
+!Object categoriesFor: #defaultResourceClass!public! !
+!Object categoriesFor: #resourceBytes!public! !
+
+!Object class methodsFor!
+
+defaultResourceClass
+	^UserResource! !
+!Object class categoriesFor: #defaultResourceClass!public! !
+
+!OLEPicture methodsFor!
+
+asByteArray
+^self resourceBytes!
+
+asWindowsResource
+
+	^super asWindowsResource type: self resourceType; yourself!
+
+resourceBytes
+	| stream iStream |
+	stream := ReadWriteStream on: ByteArray new.
+	iStream := stream queryInterface: IStream.
+	self picture saveAsFile: iStream fSaveMemCopy: true.
+	iStream free.
+	^stream contents! !
+!OLEPicture categoriesFor: #asByteArray!public! !
+!OLEPicture categoriesFor: #asWindowsResource!*-not in class package!public! !
+!OLEPicture categoriesFor: #resourceBytes!public! !
+
+"End of package definition"!
+
