@@ -1,0 +1,68 @@
+﻿| package |
+package := Package name: 'US About Dialog'.
+package paxVersion: 1;
+	basicComment: 'An about dialog I''m using in my application which needs no setup at all (as long as you use my other environment classes as well :-).
+If your SessionManager is configured correctly a simple #showAboutDialog in your Shell is enough to bring up an Application About Dialog.'.
+
+package basicPackageVersion: '0.020'.
+
+
+package classNames
+	add: #USAboutDialog;
+	yourself.
+
+package methodNames
+	add: #Shell -> #showAboutDialog;
+	yourself.
+
+package binaryGlobalNames: (Set new
+	yourself).
+
+package globalAliases: (Set new
+	yourself).
+
+package setPrerequisites: (IdentitySet new
+	add: '..\..\Core\Object Arts\Dolphin\Base\Dolphin';
+	add: '..\..\Core\Object Arts\Dolphin\MVP\Base\Dolphin Basic Geometry';
+	add: '..\..\Core\Object Arts\Dolphin\MVP\Presenters\Image\Dolphin Image Presenter';
+	add: '..\..\Core\Object Arts\Dolphin\MVP\Base\Dolphin MVP Base';
+	add: '..\..\Core\Object Arts\Dolphin\MVP\Presenters\Text\Dolphin Rich Text Presenter';
+	add: '..\..\Core\Object Arts\Dolphin\MVP\Presenters\Text\Dolphin Text Presenter';
+	add: '..\..\Core\Object Arts\Dolphin\MVP\Type Converters\Dolphin Type Converters';
+	add: '..\..\Core\Object Arts\Dolphin\MVP\Models\Value\Dolphin Value Models';
+	add: 'US Application Information';
+	add: 'GUI\US RichTextEdit Extensions';
+	add: 'US Runtime Patches';
+	add: 'US SessionManager Extensions';
+	add: '..\..\Core\Object Arts\Dolphin\ActiveX\Shell\Windows Shell';
+	yourself).
+
+package setManualPrerequisites: #(
+	'US Application Information'
+	'US RichTextEdit Extensions'
+	'US Runtime Patches'
+	'US SessionManager Extensions').
+
+package!
+
+"Class Definitions"!
+
+Dialog subclass: #USAboutDialog
+	instanceVariableNames: 'imagePresenter productPresenter versionPresenter copyrightPresenter'
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+
+"Global Aliases"!
+
+
+"Loose Methods"!
+
+!Shell methodsFor!
+
+showAboutDialog
+	USAboutDialog showModalOn: self sessionManager! !
+!Shell categoriesFor: #showAboutDialog!*-in class package!must not strip!public! !
+
+"End of package definition"!
+

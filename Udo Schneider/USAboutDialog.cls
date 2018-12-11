@@ -1,86 +1,11 @@
-| package |
-package := Package name: 'US About Dialog'.
-package paxVersion: 1;
-	basicComment: '$id: US About Dialog 0.020$
-$for: Dolphin Smalltalk X6.1 Beta 2$
-
-(c) $date: 31.08.2009$, $developer: udos@udos-laptop$ <Udo.Schneider@homeaddress.de>
-Public Domain, Freeware
-
-An about dialog I''m using in my application which needs no setup at all (as long as you use my other environment classes as well :-).
-If your SessionManager is configured correctly a simple #showAboutDialog in your Shell is enough to bring up an Application About Dialog.
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
- * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.'.
-
-package basicPackageVersion: '0.020'.
-
-
-package classNames
-	add: #USAboutDialog;
-	yourself.
-
-package methodNames
-	add: #Shell -> #showAboutDialog;
-	yourself.
-
-package binaryGlobalNames: (Set new
-	yourself).
-
-package globalAliases: (Set new
-	yourself).
-
-package setPrerequisites: (IdentitySet new
-	add: '..\..\Object Arts\Dolphin\Base\Dolphin';
-	add: '..\..\Object Arts\Dolphin\MVP\Presenters\Image\Dolphin Image Presenter';
-	add: '..\..\Object Arts\Dolphin\MVP\Base\Dolphin MVP Base';
-	add: '..\..\Object Arts\Dolphin\MVP\Presenters\Text\Dolphin Rich Text Presenter';
-	add: '..\..\Object Arts\Dolphin\MVP\Presenters\Text\Dolphin Text Presenter';
-	add: '..\..\Object Arts\Dolphin\MVP\Type Converters\Dolphin Type Converters';
-	add: '..\..\Object Arts\Dolphin\MVP\Models\Value\Dolphin Value Models';
-	add: 'US Application Information';
-	add: 'GUI\US RichTextEdit Extensions';
-	add: 'US Runtime Patches';
-	add: 'US SessionManager Extensions';
-	add: '..\..\Object Arts\Dolphin\ActiveX\Shell\Windows Shell';
-	yourself).
-
-package setManualPrerequisites: #(
-	'US Application Information'
-	'US RichTextEdit Extensions'
-	'US Runtime Patches'
-	'US SessionManager Extensions').
-
-package!
-
-"Class Definitions"!
+﻿"Filed out from Dolphin Smalltalk 7"!
 
 Dialog subclass: #USAboutDialog
 	instanceVariableNames: 'imagePresenter productPresenter versionPresenter copyrightPresenter'
 	classVariableNames: ''
 	poolDictionaries: ''
 	classInstanceVariableNames: ''!
-
-"Global Aliases"!
-
-
-"Loose Methods"!
-
-!Shell methodsFor!
-
-showAboutDialog
-	USAboutDialog showModalOn: self sessionManager! !
-!Shell categoriesFor: #showAboutDialog!*-in class package!must not strip!public! !
-
-"End of package definition"!
-
-"Source Globals"!
-
-"Classes"!
-
-USAboutDialog guid: (GUID fromString: '{C9CD4759-E5CC-4977-995C-08C29ED6C29E}')!
+USAboutDialog guid: (GUID fromString: '{c9cd4759-e5cc-4977-995c-08c29ed6c29e}')!
 USAboutDialog comment: ''!
 !USAboutDialog categoriesForClass!Unclassified! !
 !USAboutDialog methodsFor!
@@ -188,6 +113,4 @@ resource_Default_view
 \par }
 ' 1712 962 8 #selectionRange: 98 1 525062 ##(Smalltalk.Interval)  3 1 3 1712 962 8 #isTextModified: 98 1 16 1712 962 8 #resetCharFormat 98 0 1712 1074 8 #[44 0 0 0 0 0 0 0 1 0 0 0 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 0 0 0 0 103 0 0 0 122 1 0 0 102 1 0 0] 98 0 1136 0 27 1154 1200 1 1232 1 1680 11 1186 8 #fixedParentBottom 1 410 1344 98 16 0 416 98 2 8 1140850945 1 2512 0 0 0 7 0 1874 0 16 1906 8 #[235 255 255 255 0 0 0 0 0 0 0 0 0 0 0 0 188 2 0 0 0 0 0 0 3 2 1 34 65 114 105 97 108 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0] 1952 0 2512 0 8 4294906275 866 0 0 0 898 202 208 98 2 962 992 98 2 1026 1 117 1026 757 51 2512 962 1568 98 1 8 'Product' 2512 1074 8 #[44 0 0 0 0 0 0 0 1 0 0 0 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 0 0 0 0 58 0 0 0 122 1 0 0 83 0 0 0] 98 0 1136 0 27 1154 1200 1 1232 1 1680 11 1296 51 234 256 98 8 592 8 'image' 1328 8 'version' 1712 8 'copyright' 2512 8 'product' 0 0 0 0 0 3 0 0 0 0 1 0 0 590598 ##(Smalltalk.Semaphore)  0 0 1 0 8 1991583416 898 202 208 98 2 962 992 98 2 1026 3359 21 1026 769 769 416 962 8 #updateMenuBar 2400 416 1074 8 #[44 0 0 0 0 0 0 0 0 0 0 0 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 143 6 0 0 10 0 0 0 15 8 0 0 138 1 0 0] 98 4 592 2512 1328 1712 1136 0 27 )! !
 !USAboutDialog class categoriesFor: #resource_Default_view!*-in class package!public!resources-views! !
-
-"Binary Globals"!
 
