@@ -1,0 +1,51 @@
+﻿| package |
+package := Package name: 'US DragAndDrop Extensions'.
+package paxVersion: 1;
+	basicComment: 'Get filenames from an native Drag&Drop Session (requires the Dolphin Harbor "DH Shell Data Transfer" package):
+	filenames := aDragDropSession dragFilenames'.
+
+package basicPackageVersion: '0.005'.
+
+
+package methodNames
+	add: #DragDropSession -> #dragFilenames;
+	yourself.
+
+package binaryGlobalNames: (Set new
+	yourself).
+
+package globalAliases: (Set new
+	yourself).
+
+package setPrerequisites: (IdentitySet new
+	add: '..\Dolphin Harbor\DH Shell Data Transfer';
+	add: '..\..\Core\Object Arts\Dolphin\Base\Dolphin';
+	add: '..\..\Core\Object Arts\Dolphin\MVP\Base\Dolphin MVP Base';
+	yourself).
+
+package setManualPrerequisites: #(
+	'DH Shell Data Transfer').
+
+package!
+
+"Class Definitions"!
+
+
+"Global Aliases"!
+
+
+"Loose Methods"!
+
+!DragDropSession methodsFor!
+
+dragFilenames
+	| filenames |
+
+	filenames := OrderedCollection new.
+	(self dragObjects select: [:each | each isFormatAvailable: #Filenames]) 
+		do: [:each | filenames addAll: (each format: #Filenames)].
+	^filenames! !
+!DragDropSession categoriesFor: #dragFilenames!*-in class package!public! !
+
+"End of package definition"!
+
