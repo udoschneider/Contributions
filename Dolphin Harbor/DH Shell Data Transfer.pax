@@ -1,0 +1,202 @@
+﻿| package |
+package := Package name: 'DH Shell Data Transfer'.
+package paxVersion: 1;
+	basicComment: 'Shell Data Transfer
+
+Copyright (c) Louis Sumberg and Steve Waring 2002.
+	<lsumberg@mindspring.com>, <http://www.mindspring.com/~lsumberg/dolphin>
+	<swaring@ozemail.com.au>, <http://www.dolphinharbor.org>
+Public Domain Freeware.
+
+This package adds the capability for data to be transferred via the OLE clipboard and through OLE drag and drop.  This also allows for data transfer between Dolphin and non-Dolphin applications.
+
+The key classes in this package are ShellDragDropSession and IDataObject.  In general, a View registers itself as a potential drop target with ShellDragDropSession, which creates an instance of itself and handles drag and drop events.  This instance also interacts with IDataObject to extract the data that is being transferred.  Other classes in the package, such as FORMATETC and STGMEDIUM, represent Windows structures and are used in Windows API calls.
+'.
+
+package basicPackageVersion: '5.1.2.5'.
+
+package imageStripperBytes: (ByteArray fromBase64String: 'IVNUQiAxIAAAAAA=').
+
+package classNames
+	add: #DROPFILES;
+	add: #FILEDESCRIPTOR;
+	add: #FILEGROUPDESCRIPTOR;
+	add: #FORMATETC;
+	add: #IDataObject;
+	add: #IDropTarget;
+	add: #IEnumFORMATETC;
+	add: #ShellDragDropSample;
+	add: #ShellDragDropSession;
+	add: #STGMEDIUM;
+	yourself.
+
+package methodNames
+	add: #OLELibrary -> #oleGetClipboard:;
+	add: #OLELibrary -> #registerDragDrop:pDropTarget:;
+	add: #OLELibrary -> #releaseStgMedium:;
+	add: #OLELibrary -> #revokeDragDrop:;
+	add: #ShellLibrary -> #dragQueryFile:;
+	yourself.
+
+package globalNames
+	add: #OLEShellDataTransferConstants;
+	yourself.
+
+package binaryGlobalNames: (Set new
+	yourself).
+
+package globalAliases: (Set new
+	yourself).
+
+package setPrerequisites: (IdentitySet new
+	add: '..\..\Core\Object Arts\Dolphin\Base\Dolphin';
+	add: '..\..\Core\Object Arts\Dolphin\Base\Deprecated\Dolphin Base (Deprecated)';
+	add: '..\..\Core\Object Arts\Dolphin\MVP\Base\Dolphin Basic Geometry';
+	add: '..\..\Core\Object Arts\Dolphin\MVP\Views\Common Controls\Dolphin Common Controls';
+	add: '..\..\Core\Object Arts\Dolphin\MVP\Models\List\Dolphin List Models';
+	add: '..\..\Core\Object Arts\Dolphin\MVP\Presenters\List\Dolphin List Presenter';
+	add: '..\..\Core\Object Arts\Dolphin\MVP\Base\Dolphin MVP Base';
+	add: '..\..\Core\Object Arts\Dolphin\MVP\Presenters\Text\Dolphin Text Presenter';
+	add: '..\..\Core\Object Arts\Dolphin\MVP\Type Converters\Dolphin Type Converters';
+	add: '..\..\Core\Object Arts\Dolphin\ActiveX\COM\OLE COM';
+	add: '..\..\Core\Object Arts\Dolphin\ActiveX\Structured Storage\OLE Structured Storage';
+	add: '..\..\Core\Object Arts\Dolphin\ActiveX\Shell\Windows Shell';
+	yourself).
+
+package!
+
+"Class Definitions"!
+
+DragDropSession subclass: #ShellDragDropSession
+	instanceVariableNames: 'keyState dataObject operationDescriptions registeredView'
+	classVariableNames: 'Register'
+	poolDictionaries: 'OLEConstants OLEShellDataTransferConstants Win32Errors'
+	classInstanceVariableNames: ''!
+IUnknown subclass: #IDataObject
+	instanceVariableNames: ''
+	classVariableNames: 'RegisteredFormats'
+	poolDictionaries: 'OLEShellDataTransferConstants'
+	classInstanceVariableNames: ''!
+IUnknown subclass: #IDropTarget
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+IEnumXXXX subclass: #IEnumFORMATETC
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+OLEStructure subclass: #DROPFILES
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+OLEStructure subclass: #FILEDESCRIPTOR
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+OLEStructure subclass: #FILEGROUPDESCRIPTOR
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+OLEStructure subclass: #FORMATETC
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+OLEFinalizableStructure subclass: #STGMEDIUM
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: 'OLEShellDataTransferConstants'
+	classInstanceVariableNames: ''!
+Shell subclass: #ShellDragDropSample
+	instanceVariableNames: 'textPresenter fullTextPresenter listPresenter listBoxPresenter'
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+
+"Global Aliases"!
+
+
+"Loose Methods"!
+
+!OLELibrary methodsFor!
+
+oleGetClipboard: ppDataObj
+	"Retrieves a data object that you can use to access the contents of the clipboard.
+
+
+		WINOLEAPI OleGetClipboard(
+			  IDataObject ** ppDataObj  //Address of output variable that  receives the IDataObject interface 
+	);"
+
+	<stdcall: hresult OleGetClipboard lppvoid>
+	^self invalidCall!
+
+registerDragDrop: hwnd pDropTarget: anIDropTarget
+	"Retrieves a data object that you can use to access the contents of the clipboard.
+
+	WINOLEAPI RegisterDragDrop(
+		HWND hwnd, //Handle to a window that can accept drops
+		IDropTarget * pDropTarget	//Pointer to object that is to be target of drop
+	); "
+
+	<stdcall: hresult RegisterDragDrop handle IDropTarget*>
+	^self invalidCall!
+
+releaseStgMedium: aSTGMEDIUM
+	"Frees the specified storage medium..
+
+	void ReleaseStgMedium(
+  	  STGMEDIUM * pmedium  //Pointer to storage medium to be freed
+	);"
+
+	<stdcall: void ReleaseStgMedium STGMEDIUM*>
+	^self invalidCall!
+
+revokeDragDrop: hwnd
+	"Revokes the registration of the specified application window as a potential target for OLE drag-and-drop operations.
+
+	WINOLEAPI RevokeDragDrop(
+		HWND hwnd //Handle to a window that can accept drops
+	); "
+
+	<stdcall: hresult RevokeDragDrop handle>
+	^self invalidCall! !
+!OLELibrary categoriesFor: #oleGetClipboard:!OLE Functions-Structured Storage!primitives!public! !
+!OLELibrary categoriesFor: #registerDragDrop:pDropTarget:!OLE Functions-Structured Storage!primitives!public! !
+!OLELibrary categoriesFor: #releaseStgMedium:!OLE Functions-Structured Storage!primitives!public! !
+!OLELibrary categoriesFor: #revokeDragDrop:!OLE Functions-Structured Storage!primitives!public! !
+
+!ShellLibrary methodsFor!
+
+dragQueryFile: hDrop
+	"Answer a collection of <String>s"
+
+	| num answer buffer |
+	#shellAdded.
+	answer := OrderedCollection new.
+	(num := self 
+				dragQueryFile: hDrop
+				iFile: 4294967295
+				lpszFile: nil
+				cch: 0) = 4294967295 
+		ifTrue: [^answer].
+	0 to: num - 1
+		do: 
+			[:i | 
+			buffer := File pathBuffer.
+			self 
+				dragQueryFile: hDrop
+				iFile: i
+				lpszFile: buffer
+				cch: buffer size.
+			answer add: buffer trimNulls].
+	^answer! !
+!ShellLibrary categoriesFor: #dragQueryFile:!public!win32 functions-shell library! !
+
+"End of package definition"!
+
