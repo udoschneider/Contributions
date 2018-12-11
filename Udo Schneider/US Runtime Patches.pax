@@ -8,6 +8,11 @@ package basicPackageVersion: '0.026'.
 
 package methodNames
 	add: #CheckBox -> #onColorRequired:;
+	add: #Icon -> #copyExtent:;
+	add: #Icon -> #copyExtentLarge;
+	add: #Icon -> #copyExtentSmall;
+	add: #Icon -> #drawOn:at:extent:frame:background:flags:;
+	add: #Icon -> #loadFromInstance:extent:;
 	yourself.
 
 package binaryGlobalNames: (Set new
@@ -17,6 +22,7 @@ package globalAliases: (Set new
 	yourself).
 
 package setPrerequisites: (IdentitySet new
+	add: '..\..\Core\Object Arts\Dolphin\Base\Dolphin';
 	add: '..\..\Core\Object Arts\Dolphin\MVP\Base\Dolphin MVP Base';
 	add: 'Graphics\US GDI Extensions';
 	yourself).
@@ -61,6 +67,65 @@ onColorRequired: aColorEvent
 	canvas brush: brush.
 	^brush asParameter! !
 !CheckBox categoriesFor: #onColorRequired:!*-not in class package!private! !
+
+!Icon methodsFor!
+
+copyExtent: aPoint
+	"Returns a copy of the icon with an preferred extent"
+
+	| newIcon |
+	Notification deprecated. "Use #withExtent:"
+	self extent = aPoint ifTrue: [^self].
+	newIcon := (self class fromOwnedHandle: (self createHandleWithExtent: aPoint))
+				fileLocator: self fileLocator;
+				identifier: self identifier;
+				instanceHandle: self instanceHandle;
+				yourself.
+	newIcon extent = aPoint ifFalse: [^self].
+	^newIcon!
+
+copyExtentLarge
+	"Returns a copy of the icon with an large Icon  extent"
+
+	Notification deprecated.
+	^self copyExtent: Icon largeExtent!
+
+copyExtentSmall
+	"Returns a copy of the icon with an small Icon extent"
+
+	Notification deprecated.
+	^self copyExtent: Icon smallExtent!
+
+drawOn: aCanvas at: aPoint extent: sizePoint frame: anInteger background: aBrush flags: flagsInteger 
+	"Copies the receiver to aCanvas at position aPoint with size sizePoint
+	with frame anInteger and background aBrush. Answer whether the frame
+	could be drawn. Note that the frame number is ignored if the receiver is not
+	an animated icon/cursor."
+
+	^UserLibrary default 
+		drawIconEx: aCanvas asParameter
+		xLeft: aPoint x
+		yTop: aPoint y
+		hIcon: ((self copyExtent: sizePoint) ) asParameter
+		cxWidth: sizePoint x
+		cyHeight: sizePoint y
+		istepIfAniCur: anInteger
+		hbrFlickerFreeDraw: aBrush asParameter
+		diFlags: flagsInteger!
+
+loadFromInstance: hModule extent: aPoint 
+	^UserLibrary default 
+		loadImage: hModule asParameter
+		lpszName: identifier asParameter
+		uType: self imageType
+		cxDesired: aPoint x
+		cyDesired: aPoint y
+		fuLoad: LR_DEFAULTCOLOR! !
+!Icon categoriesFor: #copyExtent:!public! !
+!Icon categoriesFor: #copyExtentLarge!private! !
+!Icon categoriesFor: #copyExtentSmall!private! !
+!Icon categoriesFor: #drawOn:at:extent:frame:background:flags:!drawing-bitmaps!public! !
+!Icon categoriesFor: #loadFromInstance:extent:!drawing-bitmaps!public! !
 
 "End of package definition"!
 
