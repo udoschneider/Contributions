@@ -1,0 +1,95 @@
+﻿| package |
+package := Package name: 'US Clipboard Extensions'.
+package paxVersion: 1;
+	basicComment: 'Get filenames from Clipboard:
+	filenames := Clipboard current getFilenamesIfNone: [#()]
+	filenames := Clipboard current getFilenames
+
+'.
+
+package basicPackageVersion: '0.010'.
+
+package basicScriptAt: #postuninstall put: 'Win32Constants removeKey: ''CF_HDROP'' '.
+package basicScriptAt: #preinstall put: 'Win32Constants at: ''CF_HDROP'' put: 16rF'.
+
+package methodNames
+	add: #Clipboard -> #getFilenames;
+	add: #Clipboard -> #getFilenamesIfNone:;
+	add: #Clipboard -> #getUnicodeText;
+	add: #Clipboard -> #getUnicodeTextFormat:ifNone:;
+	add: #Clipboard -> #getUnicodeTextIfNone:;
+	yourself.
+
+package binaryGlobalNames: (Set new
+	yourself).
+
+package globalAliases: (Set new
+	yourself).
+
+package setPrerequisites: (IdentitySet new
+	add: '..\Dolphin Harbor\DH Shell Data Transfer';
+	add: '..\..\Core\Object Arts\Dolphin\Base\Dolphin';
+	add: '..\..\Core\Object Arts\Dolphin\Base\Deprecated\Dolphin Base (Deprecated)';
+	add: '..\..\Core\Object Arts\Dolphin\MVP\Base\Dolphin MVP Base';
+	add: '..\..\Core\Object Arts\Dolphin\ActiveX\Shell\Windows Shell';
+	yourself).
+
+package setManualPrerequisites: #(
+	'DH Shell Data Transfer').
+
+package!
+
+"Class Definitions"!
+
+
+"Global Aliases"!
+
+
+"Loose Methods"!
+
+!Clipboard methodsFor!
+
+getFilenames
+	^self getFilenamesIfNone: [#()]!
+
+getFilenamesIfNone: exceptionHandler
+	"Answer a list of filenames copied from the clipboard, or if none the result
+	of evaluating the <niladicValuable> exceptionHandler."
+
+	^self apply: 
+			[| hDrop |
+			hDrop := UserLibrary default getClipboardData: CF_HDROP.
+			hDrop isNull ifTrue: [^exceptionHandler value].
+			ShellLibrary default dragQueryFile: hDrop]!
+
+getUnicodeText
+Notification deprecated.
+	self getText.!
+
+getUnicodeTextFormat: formatId ifNone: exceptionHandler
+	"Private - Answer a <readableString> containing the text contents
+	of the clipboard of the specified format. If the format is not currently 
+	available, the answers the result of evaluating the <niladicValuable> 
+	exceptionHandler.
+	N.B. It is not checked that formatId is actually a text format."
+Notification deprecated.
+	^self apply: 
+			[| hText pText text |
+			hText := UserLibrary default getClipboardData: formatId.
+			hText isNull ifTrue: [^exceptionHandler value].
+			pText := KernelLibrary default globalLock: hText.
+			text := UnicodeString fromAddress: pText.
+			KernelLibrary default globalUnlock: hText.
+			text]!
+
+getUnicodeTextIfNone: exceptionHandler
+Notification deprecated.
+	self getTextIfNone: exceptionHandler! !
+!Clipboard categoriesFor: #getFilenames!accessing!public! !
+!Clipboard categoriesFor: #getFilenamesIfNone:!accessing!public! !
+!Clipboard categoriesFor: #getUnicodeText!accessing!public! !
+!Clipboard categoriesFor: #getUnicodeTextFormat:ifNone:!accessing!private! !
+!Clipboard categoriesFor: #getUnicodeTextIfNone:!accessing!public! !
+
+"End of package definition"!
+
