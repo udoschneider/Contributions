@@ -2,10 +2,11 @@
 
 RESDIR subclass: #BINRESDIR
 	instanceVariableNames: ''
-	classVariableNames: ''
+	classVariableNames: '_OffsetOf_IconCursorId'
 	poolDictionaries: ''
 	classInstanceVariableNames: ''!
 BINRESDIR guid: (GUID fromString: '{216201b6-b087-43c6-9286-44fa9c25fd1c}')!
+BINRESDIR addClassConstant: '_OffsetOf_IconCursorId' value: 16rC!
 BINRESDIR comment: ''!
 !BINRESDIR categoriesForClass!Unclassified! !
 !BINRESDIR methodsFor!

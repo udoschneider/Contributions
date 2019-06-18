@@ -2,10 +2,13 @@
 
 ExternalStructure subclass: #NEWHEADER
 	instanceVariableNames: ''
-	classVariableNames: ''
+	classVariableNames: '_OffsetOf_ResCount _OffsetOf_Reserved _OffsetOf_ResType'
 	poolDictionaries: ''
 	classInstanceVariableNames: ''!
 NEWHEADER guid: (GUID fromString: '{7f441582-bec8-4358-bccb-3626975e75be}')!
+NEWHEADER addClassConstant: '_OffsetOf_ResCount' value: 16r4!
+NEWHEADER addClassConstant: '_OffsetOf_Reserved' value: 16r0!
+NEWHEADER addClassConstant: '_OffsetOf_ResType' value: 16r2!
 NEWHEADER comment: ''!
 !NEWHEADER categoriesForClass!Unclassified! !
 !NEWHEADER methodsFor!

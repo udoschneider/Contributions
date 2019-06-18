@@ -2,10 +2,14 @@
 
 ExternalStructure subclass: #ICONRESDIR
 	instanceVariableNames: ''
-	classVariableNames: ''
+	classVariableNames: '_OffsetOf_ColorCount _OffsetOf_Height _OffsetOf_reserved _OffsetOf_Width'
 	poolDictionaries: ''
 	classInstanceVariableNames: ''!
 ICONRESDIR guid: (GUID fromString: '{f3f3ae91-4e08-4535-b553-06b5bf11be53}')!
+ICONRESDIR addClassConstant: '_OffsetOf_ColorCount' value: 16r2!
+ICONRESDIR addClassConstant: '_OffsetOf_Height' value: 16r1!
+ICONRESDIR addClassConstant: '_OffsetOf_reserved' value: 16r3!
+ICONRESDIR addClassConstant: '_OffsetOf_Width' value: 16r0!
 ICONRESDIR comment: ''!
 !ICONRESDIR categoriesForClass!Unclassified! !
 !ICONRESDIR methodsFor!

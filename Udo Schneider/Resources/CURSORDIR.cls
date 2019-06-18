@@ -2,10 +2,12 @@
 
 ExternalStructure subclass: #CURSORDIR
 	instanceVariableNames: ''
-	classVariableNames: ''
+	classVariableNames: '_OffsetOf_Height _OffsetOf_Width'
 	poolDictionaries: ''
 	classInstanceVariableNames: ''!
 CURSORDIR guid: (GUID fromString: '{7940710a-59d7-48d0-a46c-6b8e09836c90}')!
+CURSORDIR addClassConstant: '_OffsetOf_Height' value: 16r2!
+CURSORDIR addClassConstant: '_OffsetOf_Width' value: 16r0!
 CURSORDIR comment: ''!
 !CURSORDIR categoriesForClass!Unclassified! !
 !CURSORDIR methodsFor!

@@ -175,7 +175,7 @@ defineFields
 		defineField: #xHotSpot type: WORDField new;
 		defineField: #yHotSpot type: WORDField new;
 		defineField: #icHeader type: (StructureField type: BITMAPINFOHEADER);
-		defineField: #icColors type: (VariableStructureArrayField type: RGBQUAD length: #numColors);
+		defineField: #icColors type: (StructureArrayField type: RGBQUAD arrayLength: #numColors);
 		defineField: #icXOR type: (FillerField byteSize: 4);
 		defineField: #icAND type: (FillerField byteSize: 4)!
 

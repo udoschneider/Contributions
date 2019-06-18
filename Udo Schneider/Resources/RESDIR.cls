@@ -2,10 +2,17 @@
 
 ExternalStructure subclass: #RESDIR
 	instanceVariableNames: ''
-	classVariableNames: ''
+	classVariableNames: '_OffsetOf_BitCount _OffsetOf_BytesInRes _OffsetOf_Cursor _OffsetOf_Icon _OffsetOf_Planes _OffsetOf_xHotSpot _OffsetOf_yHotSpot'
 	poolDictionaries: ''
 	classInstanceVariableNames: ''!
 RESDIR guid: (GUID fromString: '{e41f6b74-0391-4600-b8a1-6895390ba0fe}')!
+RESDIR addClassConstant: '_OffsetOf_BitCount' value: 16r6!
+RESDIR addClassConstant: '_OffsetOf_BytesInRes' value: 16r8!
+RESDIR addClassConstant: '_OffsetOf_Cursor' value: 16r0!
+RESDIR addClassConstant: '_OffsetOf_Icon' value: 16r0!
+RESDIR addClassConstant: '_OffsetOf_Planes' value: 16r4!
+RESDIR addClassConstant: '_OffsetOf_xHotSpot' value: 16r4!
+RESDIR addClassConstant: '_OffsetOf_yHotSpot' value: 16r6!
 RESDIR comment: ''!
 !RESDIR categoriesForClass!Unclassified! !
 !RESDIR methodsFor!

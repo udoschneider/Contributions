@@ -151,10 +151,9 @@ defineFields
 
 	self
 		defineField: #icHeader type: (StructureField type: BITMAPINFOHEADER);
-		defineField: #icColors type: (VariableStructureArrayField type: RGBQUAD length: #numColors);
-		
-			defineField: #icXOR type: (FillerField byteSize: 4);
-			defineField: #icAND type: (FillerField byteSize: 4)!
+		defineField: #icColors type: (StructureArrayField type: RGBQUAD arrayLength: #numColors);
+		defineField: #icXOR type: (FillerField byteSize: 4);
+		defineField: #icAND type: (FillerField byteSize: 4)!
 
 xor: xorDIB and: andDIB 
 	| header xorBytes andBytes iconBytes colorBytes |

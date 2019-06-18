@@ -60,14 +60,13 @@ package binaryGlobalNames: (Set new
 package globalAliases: (Set new
 	yourself).
 
-package setPrerequisites: (IdentitySet new
-	add: '..\..\..\Core\Object Arts\Dolphin\Base\Dolphin';
-	add: '..\..\..\Core\Object Arts\Dolphin\Base\Deprecated\Dolphin Base (Deprecated)';
-	add: '..\..\..\Core\Object Arts\Dolphin\MVP\Base\Dolphin MVP Base';
-	add: '..\..\..\Core\Object Arts\Dolphin\ActiveX\Components\Picture\OLE Picture';
-	add: '..\..\..\Core\Object Arts\Dolphin\ActiveX\Structured Storage\OLE Structured Storage';
-	add: 'US Resource Extensions';
-	yourself).
+package setPrerequisites: #(
+	'..\..\..\Core\Object Arts\Dolphin\Base\Dolphin'
+	'..\..\..\Core\Object Arts\Dolphin\Base\Deprecated\Dolphin Base (Deprecated)'
+	'..\..\..\Core\Object Arts\Dolphin\MVP\Base\Dolphin MVP Base'
+	'..\..\..\Core\Object Arts\Dolphin\ActiveX\Components\Picture\OLE Picture'
+	'..\..\..\Core\Object Arts\Dolphin\ActiveX\Structured Storage\OLE Structured Storage'
+	'US Resource Extensions').
 
 package setManualPrerequisites: #(
 	'US Resource Extensions').
@@ -133,7 +132,7 @@ GroupIconResource subclass: #GroupCursorResource
 	classInstanceVariableNames: ''!
 ExternalStructure subclass: #CURSORDIR
 	instanceVariableNames: ''
-	classVariableNames: ''
+	classVariableNames: '_OffsetOf_Height _OffsetOf_Width'
 	poolDictionaries: ''
 	classInstanceVariableNames: ''!
 ExternalStructure subclass: #CURSORIMAGE
@@ -148,27 +147,27 @@ ExternalStructure subclass: #ICONIMAGE
 	classInstanceVariableNames: ''!
 ExternalStructure subclass: #ICONRESDIR
 	instanceVariableNames: ''
-	classVariableNames: ''
+	classVariableNames: '_OffsetOf_ColorCount _OffsetOf_Height _OffsetOf_reserved _OffsetOf_Width'
 	poolDictionaries: ''
 	classInstanceVariableNames: ''!
 ExternalStructure subclass: #NEWHEADER
 	instanceVariableNames: ''
-	classVariableNames: ''
+	classVariableNames: '_OffsetOf_ResCount _OffsetOf_Reserved _OffsetOf_ResType'
 	poolDictionaries: ''
 	classInstanceVariableNames: ''!
 ExternalStructure subclass: #RESDIR
 	instanceVariableNames: ''
-	classVariableNames: ''
+	classVariableNames: '_OffsetOf_BitCount _OffsetOf_BytesInRes _OffsetOf_Cursor _OffsetOf_Icon _OffsetOf_Planes _OffsetOf_xHotSpot _OffsetOf_yHotSpot'
 	poolDictionaries: ''
 	classInstanceVariableNames: ''!
 RESDIR subclass: #BINRESDIR
 	instanceVariableNames: ''
-	classVariableNames: ''
+	classVariableNames: '_OffsetOf_IconCursorId'
 	poolDictionaries: ''
 	classInstanceVariableNames: ''!
 RESDIR subclass: #FILERESDIR
 	instanceVariableNames: ''
-	classVariableNames: ''
+	classVariableNames: '_OffsetOf_IconCursorOffset'
 	poolDictionaries: ''
 	classInstanceVariableNames: ''!
 

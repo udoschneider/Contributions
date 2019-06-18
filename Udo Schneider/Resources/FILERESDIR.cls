@@ -2,10 +2,11 @@
 
 RESDIR subclass: #FILERESDIR
 	instanceVariableNames: ''
-	classVariableNames: ''
+	classVariableNames: '_OffsetOf_IconCursorOffset'
 	poolDictionaries: ''
 	classInstanceVariableNames: ''!
 FILERESDIR guid: (GUID fromString: '{191ff8b3-bf24-45b0-b789-38f672c7fb9b}')!
+FILERESDIR addClassConstant: '_OffsetOf_IconCursorOffset' value: 16rC!
 FILERESDIR comment: ''!
 !FILERESDIR categoriesForClass!Unclassified! !
 !FILERESDIR methodsFor!
