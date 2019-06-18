@@ -1,0 +1,45 @@
+﻿| package |
+package := Package name: 'US Last Recently Used'.
+package paxVersion: 1;
+	basicComment: ''.
+
+package basicPackageVersion: '0.006'.
+
+
+package classNames
+	add: #LRUCache;
+	add: #LRURegistryCache;
+	yourself.
+
+package binaryGlobalNames: (Set new
+	yourself).
+
+package globalAliases: (Set new
+	yourself).
+
+package setPrerequisites: #(
+	'..\..\Core\Object Arts\Dolphin\Base\Dolphin'
+	'..\..\Core\Object Arts\Dolphin\MVP\Base\Dolphin MVP Base').
+
+package!
+
+"Class Definitions"!
+
+Object subclass: #LRUCache
+	instanceVariableNames: 'maxSize entries'
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+LRUCache subclass: #LRURegistryCache
+	instanceVariableNames: 'regKey'
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+
+"Global Aliases"!
+
+
+"Loose Methods"!
+
+"End of package definition"!
+
