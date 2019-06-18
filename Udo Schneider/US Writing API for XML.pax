@@ -1,0 +1,73 @@
+﻿| package |
+package := Package name: 'US Writing API for XML'.
+package paxVersion: 1;
+	basicComment: 'Based on "WAX-RMV.7.mcz" (2008-10-22 03:23:01) from the "Writing API for XML" Project on Squeak Source:
+http://www.squeaksource.com/@WKdv9M7Ta-2KxKvg/ds0z_a21'.
+
+package basicPackageVersion: '0.008'.
+
+
+package classNames
+	add: #CDDemo;
+	add: #IllegalArgumentException;
+	add: #IllegalStateException;
+	add: #State;
+	add: #WAX;
+	add: #XMLUtil;
+	yourself.
+
+package binaryGlobalNames: (Set new
+	yourself).
+
+package globalAliases: (Set new
+	yourself).
+
+package setPrerequisites: #(
+	'..\..\Core\Object Arts\Dolphin\Base\Dolphin'
+	'US Collection Extensions').
+
+package setManualPrerequisites: #(
+	'US Collection Extensions').
+
+package!
+
+"Class Definitions"!
+
+Object subclass: #CDDemo
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+Object subclass: #State
+	instanceVariableNames: ''
+	classVariableNames: 'AfterRoot InElement InProlog InStartTag'
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+Object subclass: #WAX
+	instanceVariableNames: 'attrOnNewLine checkMe closeStream defaultNSOnCurrentElement doctypePublicId doctypeSystemId dtdSpecified encoding entityDefs escape hasContent hasIndentedContent inCommentedStart indent lineSeparator namespaceURIToSchemaPathMap outputStarted parentStack pendingPrefixes prefixesStack spaceInEmptyElements state stream xsltSpecified'
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+Object subclass: #XMLUtil
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+Error subclass: #IllegalArgumentException
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+Error subclass: #IllegalStateException
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+
+"Global Aliases"!
+
+
+"Loose Methods"!
+
+"End of package definition"!
+

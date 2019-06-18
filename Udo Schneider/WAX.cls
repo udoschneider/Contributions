@@ -1,121 +1,11 @@
-| package |
-package := Package name: 'US Writing API for XML'.
-package paxVersion: 1;
-	basicComment: '$id: US Writing API for XML 0.008$
-$for: Dolphin Smalltalk X6.1 Beta 2$
+﻿"Filed out from Dolphin Smalltalk 7"!
 
-(c) $date: 24.07.2009$, $developer: udos@udos-laptop$ <Udo.Schneider@homeaddress.de>
-Public Domain, Freeware
-
-Based on "WAX-RMV.7.mcz" (2008-10-22 03:23:01) from the "Writing API for XML" Project on Squeak Source:
-http://www.squeaksource.com/@WKdv9M7Ta-2KxKvg/ds0z_a21
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
- * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.'.
-
-package basicPackageVersion: '0.008'.
-
-
-package classNames
-	add: #CDDemo;
-	add: #IllegalArgumentException;
-	add: #IllegalStateException;
-	add: #State;
-	add: #WAX;
-	add: #XMLUtil;
-	yourself.
-
-package binaryGlobalNames: (Set new
-	yourself).
-
-package globalAliases: (Set new
-	yourself).
-
-package setPrerequisites: (IdentitySet new
-	add: '..\..\Object Arts\Dolphin\Base\Dolphin';
-	add: 'US Collection Extensions';
-	yourself).
-
-package setManualPrerequisites: #(
-	'US Collection Extensions').
-
-package!
-
-"Class Definitions"!
-
-Object subclass: #CDDemo
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	classInstanceVariableNames: ''!
-Object subclass: #State
-	instanceVariableNames: ''
-	classVariableNames: 'AfterRoot InElement InProlog InStartTag'
-	poolDictionaries: ''
-	classInstanceVariableNames: ''!
 Object subclass: #WAX
 	instanceVariableNames: 'attrOnNewLine checkMe closeStream defaultNSOnCurrentElement doctypePublicId doctypeSystemId dtdSpecified encoding entityDefs escape hasContent hasIndentedContent inCommentedStart indent lineSeparator namespaceURIToSchemaPathMap outputStarted parentStack pendingPrefixes prefixesStack spaceInEmptyElements state stream xsltSpecified'
 	classVariableNames: ''
 	poolDictionaries: ''
 	classInstanceVariableNames: ''!
-Object subclass: #XMLUtil
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	classInstanceVariableNames: ''!
-Error subclass: #IllegalArgumentException
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	classInstanceVariableNames: ''!
-Error subclass: #IllegalStateException
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	classInstanceVariableNames: ''!
-
-"Global Aliases"!
-
-
-"Loose Methods"!
-
-"End of package definition"!
-
-"Source Globals"!
-
-"Classes"!
-
-CDDemo guid: (GUID fromString: '{44BDD8E4-9BC6-41AA-B7F3-22822483FE98}')!
-CDDemo comment: 'This class demonstrates use of the WAX library.'!
-!CDDemo categoriesForClass!Unclassified! !
-!CDDemo class methodsFor!
-
-main	"demonstrates using the WAX API"	"Run this with CDDemo main"	| wax |	wax := WAX new.	wax start: 'foo';		 text: 'bar';		 end;		 close! !
-!CDDemo class categoriesFor: #main!public! !
-
-State guid: (GUID fromString: '{8B94676B-FCFE-406F-AB22-E19366F3934A}')!
-State comment: 'This represents the state of a WAX object.Consider using an array of symbols instead of this class.Instance Variables'!
-!State categoriesForClass!Unclassified! !
-!State class methodsFor!
-
-afterRoot	^AfterRoot!
-
-inElement	^InElement!
-
-initialize	"initializes class variables"	super initialize.	InProlog := State new.	InStartTag := State new.	InElement := State new.	AfterRoot := State new.!
-
-inProlog	^InProlog!
-
-inStartTag	^InStartTag! !
-!State class categoriesFor: #afterRoot!accessing!public! !
-!State class categoriesFor: #inElement!accessing!public! !
-!State class categoriesFor: #initialize!initialize/release!public! !
-!State class categoriesFor: #inProlog!accessing!public! !
-!State class categoriesFor: #inStartTag!accessing!public! !
-
-WAX guid: (GUID fromString: '{430E050E-DF44-4E24-B953-6E8EB22D14D8}')!
+WAX guid: (GUID fromString: '{430e050e-df44-4e24-b953-6e8eb22d14d8}')!
 WAX comment: 'This is the main class of the Writing API for XML (WAX) implementation.'!
 !WAX categoriesForClass!Unclassified! !
 !WAX methodsFor!
@@ -382,74 +272,4 @@ windowsLineSeparator
 !WAX class categoriesFor: #stream:version:!instance creation!public! !
 !WAX class categoriesFor: #unixLineSeparator!accessing!public! !
 !WAX class categoriesFor: #windowsLineSeparator!accessing!public! !
-
-XMLUtil guid: (GUID fromString: '{C234F5E7-C472-42BA-B139-1FA529CCAFB6}')!
-XMLUtil comment: 'This class provides utility methods for working with XML.'!
-!XMLUtil categoriesForClass!Unclassified! !
-!XMLUtil class methodsFor!
-
-defaultEncoding	"answer the default character encoding"		^ 'UTF-8'!
-
-escape: aString 	"answer a version of aString where special characters in XML text are escaped"		| result |	result := aString.		"The next line was suggested by Bert Freudenberg.	It is essential that ampersands are processed first	so other entity references don't have their & escaped."	#($& '&amp;' $< '&lt;' $> '&gt;' $' '&apos;' $" '&quot;' )		pairsDo: [:char :entity | result := result copyReplaceAll: (char asString) with: entity].			^result!
-
-flag: aSymbol 
-	!
-
-isComment: aString 	"answer whether aString is a valid XML comment"		(aString = nil) ifTrue: [ IllegalArgumentException signal: '"nil" is an invalid comment' ].	^(aString includesSubString: '--') not!
-
-isName: aString 	"answer whether aString is a valid XML name"		aString ifNil: [^ false].	(aString asLowercase beginsWith: 'xml') ifTrue: [^ false].	^aString matchesRegex: self latinNameRegex!
-
-isURI: aString 
-	"answer whether aString is a URI"
-
-	| alpha authority digit fragment hierPart pathAbempty query scheme uri |
-	self flag: #todo.	"This isn't working yet."
-	"^URI fromString: aString"
-
-	"See http://gbiv.com/protocols/uri/rfc/rfc3986.html#generic-syntax."
-	alpha := ''.
-	authority := ''.
-	digit := ''.
-	fragment := ''.
-	pathAbempty := ''.
-	hierPart := '//' , authority , pathAbempty.
-	query := ''.
-	scheme := alpha , '(' , alpha , '|' , digit , '|\+|-|\.)*'.
-	uri := scheme , ':' , hierPart , '(' , query , ')?(#' , fragment , ')?'.
-	^true!
-
-isVersion: aSymbol	"answer whether aString is a valid XML version"	^#(#'1.0' #'1.1' #'1.2') includes: aSymbol!
-
-latinNameRegex	"answer the regular expression for latin XML names"	"Why can't '\.' be used in place of '.' in the regex below!!"		^'^[A-Za-z:=][A-Za-z0-9\-:=.]*$'!
-
-verifyComment: aString	"verify that aString is a valid XML comment and signals if not"	(XMLUtil isComment: aString) ifFalse: [		IllegalArgumentException signal: '"', aString, ' is an invalid XML comment'	]!
-
-verifyName: aString	"verify that aString is a valid XML comment and signals if not"	(XMLUtil isName: aString) ifFalse: [		IllegalArgumentException signal: '"', aString, '" is an invalid XML name'	]!
-
-verifyURI: aString	"verify that aString is a valid URI and signals if not"	(XMLUtil isURI: aString) ifFalse: [		IllegalArgumentException signal: '"', aString, ' is an invalid URI'	]!
-
-verifyVersion: aSymbol	"verify that aSymbol is a valid XML version and signals if not"	(XMLUtil isVersion: aSymbol) ifFalse: [		IllegalArgumentException signal: '"', aSymbol asString, ' is an invalid XML version'	]!
-
-xmlSchemaInstanceNS	"answer the namespace URI for XML Schema instances"	^'http://www.w3.org/1999/XMLSchema-instance'! !
-!XMLUtil class categoriesFor: #defaultEncoding!constants!public! !
-!XMLUtil class categoriesFor: #escape:!public!transforming! !
-!XMLUtil class categoriesFor: #flag:!public! !
-!XMLUtil class categoriesFor: #isComment:!public!testing! !
-!XMLUtil class categoriesFor: #isName:!public!testing! !
-!XMLUtil class categoriesFor: #isURI:!public!testing! !
-!XMLUtil class categoriesFor: #isVersion:!public!testing! !
-!XMLUtil class categoriesFor: #latinNameRegex!private! !
-!XMLUtil class categoriesFor: #verifyComment:!public!testing! !
-!XMLUtil class categoriesFor: #verifyName:!public!testing! !
-!XMLUtil class categoriesFor: #verifyURI:!public!testing! !
-!XMLUtil class categoriesFor: #verifyVersion:!public!testing! !
-!XMLUtil class categoriesFor: #xmlSchemaInstanceNS!constants!public! !
-
-IllegalArgumentException guid: (GUID fromString: '{CDB9D3D8-978A-412B-A35E-CD2ABE742F53}')!
-IllegalArgumentException comment: ''!
-!IllegalArgumentException categoriesForClass!Unclassified! !
-IllegalStateException guid: (GUID fromString: '{114B33CF-2B87-46C8-BAF2-432058B1A47E}')!
-IllegalStateException comment: ''!
-!IllegalStateException categoriesForClass!Unclassified! !
-"Binary Globals"!
 
