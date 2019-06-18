@@ -1,0 +1,335 @@
+﻿| package |
+package := Package name: 'US OpenFlashChart-Core'.
+package paxVersion: 1;
+	basicComment: ''.
+
+package basicPackageVersion: '42_us0.011'.
+
+
+package classNames
+	add: #OFC3dBarChart;
+	add: #OFCAreaChart;
+	add: #OFCAxis;
+	add: #OFCAxisLabels;
+	add: #OFCBackground;
+	add: #OFCBarChart;
+	add: #OFCBarValue;
+	add: #OFCBrush;
+	add: #OFCCanvas;
+	add: #OFCChart;
+	add: #OFCChartDecoration;
+	add: #OFCChartElement;
+	add: #OFCChartValue;
+	add: #OFCCylinderChart;
+	add: #OFCDottedLineChart;
+	add: #OFCEuclidianAxis;
+	add: #OFCGlassBarChart;
+	add: #OFCHollowAreaChart;
+	add: #OFCHollowLineChart;
+	add: #OFCHorizontalBarChart;
+	add: #OFCLegendLabel;
+	add: #OFCLineAreaChart;
+	add: #OFCLineChart;
+	add: #OFCLineScatterChart;
+	add: #OFCLineValue;
+	add: #OFCNamedChart;
+	add: #OFCObject;
+	add: #OFCOutlinedBarChart;
+	add: #OFCPieChart;
+	add: #OFCPieValue;
+	add: #OFCRadarAxis;
+	add: #OFCRadarValue;
+	add: #OFCRoundGlassBarChart;
+	add: #OFCScatterChart;
+	add: #OFCShape;
+	add: #OFCSketchBarChart;
+	add: #OFCSpokeLabels;
+	add: #OFCStackedBarChart;
+	add: #OFCStackedBarDataset;
+	add: #OFCStackedBarValue;
+	add: #OFCStyledText;
+	add: #OFCTitle;
+	add: #OFCTooltip;
+	add: #OFCTooltipStyle;
+	add: #OFCXAxis;
+	add: #OFCXLegend;
+	add: #OFCYAxis;
+	add: #OFCYAxisRight;
+	add: #OFCYLegend;
+	yourself.
+
+package binaryGlobalNames: (Set new
+	yourself).
+
+package globalAliases: (Set new
+	yourself).
+
+package setPrerequisites: #(
+	'..\..\Core\Object Arts\Dolphin\Base\Dolphin'
+	'..\..\Core\Object Arts\Dolphin\MVP\Base\Dolphin MVP Base'
+	'..\..\Core\Object Arts\Dolphin\MVP\Views\Tooltips\Dolphin Tooltips'
+	'..\..\Core\Object Arts\Dolphin\MVP\Models\Value\Dolphin Value Models'
+	'US Collection Extensions'
+	'JSON\US JSON').
+
+package setManualPrerequisites: #(
+	'US Collection Extensions'
+	'US JSON').
+
+package!
+
+"Class Definitions"!
+
+Object subclass: #OFCCanvas
+	instanceVariableNames: 'data'
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+Object subclass: #OFCObject
+	instanceVariableNames: 'properties'
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+OFCObject subclass: #OFCBrush
+	instanceVariableNames: 'ofcCanvas'
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+OFCObject subclass: #OFCChartValue
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+OFCObject subclass: #OFCLegendLabel
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+OFCObject subclass: #OFCStackedBarDataset
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+OFCObject subclass: #OFCTooltip
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+OFCBrush subclass: #OFCAxisLabels
+	instanceVariableNames: 'axis'
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+OFCBrush subclass: #OFCChartDecoration
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+OFCBrush subclass: #OFCChartElement
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+OFCAxisLabels subclass: #OFCSpokeLabels
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+OFCChartDecoration subclass: #OFCAxis
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+OFCChartDecoration subclass: #OFCBackground
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+OFCChartDecoration subclass: #OFCStyledText
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+OFCChartDecoration subclass: #OFCTooltipStyle
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+OFCAxis subclass: #OFCEuclidianAxis
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+OFCAxis subclass: #OFCRadarAxis
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+OFCEuclidianAxis subclass: #OFCXAxis
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+OFCEuclidianAxis subclass: #OFCYAxis
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+OFCYAxis subclass: #OFCYAxisRight
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+OFCStyledText subclass: #OFCTitle
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+OFCStyledText subclass: #OFCXLegend
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+OFCStyledText subclass: #OFCYLegend
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+OFCChartElement subclass: #OFCChart
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+OFCChartElement subclass: #OFCShape
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+OFCChart subclass: #OFCNamedChart
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+OFCChart subclass: #OFCPieChart
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+OFCNamedChart subclass: #OFCAreaChart
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+OFCNamedChart subclass: #OFCBarChart
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+OFCNamedChart subclass: #OFCLineChart
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+OFCNamedChart subclass: #OFCScatterChart
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+OFCNamedChart subclass: #OFCStackedBarChart
+	instanceVariableNames: 'datasets'
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+OFCAreaChart subclass: #OFCHollowAreaChart
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+OFCAreaChart subclass: #OFCLineAreaChart
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+OFCBarChart subclass: #OFC3dBarChart
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+OFCBarChart subclass: #OFCCylinderChart
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+OFCBarChart subclass: #OFCGlassBarChart
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+OFCBarChart subclass: #OFCHorizontalBarChart
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+OFCBarChart subclass: #OFCOutlinedBarChart
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+OFCGlassBarChart subclass: #OFCRoundGlassBarChart
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+OFCOutlinedBarChart subclass: #OFCSketchBarChart
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+OFCLineChart subclass: #OFCDottedLineChart
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+OFCDottedLineChart subclass: #OFCHollowLineChart
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+OFCScatterChart subclass: #OFCLineScatterChart
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+OFCChartValue subclass: #OFCBarValue
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+OFCChartValue subclass: #OFCLineValue
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+OFCChartValue subclass: #OFCPieValue
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+OFCChartValue subclass: #OFCRadarValue
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+OFCChartValue subclass: #OFCStackedBarValue
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+
+"Global Aliases"!
+
+
+"Loose Methods"!
+
+"End of package definition"!
+
