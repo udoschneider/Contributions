@@ -12,7 +12,6 @@ softPrerequisites
 
 package methodNames
 	add: #SessionManager -> #applicationIcon;
-	add: #SessionManager -> #applicationName;
 	add: 'SessionManager class' -> #applicationIcon;
 	add: 'SessionManager class' -> #applicationIconId;
 	add: 'SessionManager class' -> #author;
@@ -34,10 +33,9 @@ package binaryGlobalNames: (Set new
 package globalAliases: (Set new
 	yourself).
 
-package setPrerequisites: (IdentitySet new
-	add: '..\..\Core\Object Arts\Dolphin\Base\Dolphin';
-	add: '..\..\Core\Object Arts\Dolphin\MVP\Base\Dolphin MVP Base';
-	yourself).
+package setPrerequisites: #(
+	'..\..\Core\Object Arts\Dolphin\Base\Dolphin'
+	'..\..\Core\Object Arts\Dolphin\MVP\Base\Dolphin MVP Base').
 
 package!
 
@@ -52,14 +50,8 @@ package!
 !SessionManager methodsFor!
 
 applicationIcon
-^self class applicationIcon!
-
-applicationName
-	"Answer the application name. Use the applications executable name."
-
-	^self class productName! !
+^self class applicationIcon! !
 !SessionManager categoriesFor: #applicationIcon!*-not in class package!public! !
-!SessionManager categoriesFor: #applicationName!constants!public! !
 
 !SessionManager class methodsFor!
 
