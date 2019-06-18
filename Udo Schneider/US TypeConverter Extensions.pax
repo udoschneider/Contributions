@@ -1,0 +1,71 @@
+﻿| package |
+package := Package name: 'US TypeConverter Extensions'.
+package paxVersion: 1;
+	basicComment: ''.
+
+package basicPackageVersion: '0.006'.
+
+
+package classNames
+	add: #CollectionToText;
+	add: #DurationToTextConverter;
+	add: #FloatToText;
+	add: #GenericToText;
+	add: #PercentToText;
+	add: #WrappedConverter;
+	yourself.
+
+package binaryGlobalNames: (Set new
+	yourself).
+
+package globalAliases: (Set new
+	yourself).
+
+package setPrerequisites: #(
+	'..\..\Core\Object Arts\Dolphin\IDE\Base\Development System'
+	'..\..\Core\Object Arts\Dolphin\Base\Dolphin'
+	'..\..\Core\Object Arts\Dolphin\MVP\Presenters\Number\Dolphin Number Presenter'
+	'..\..\Core\Object Arts\Dolphin\MVP\Type Converters\Dolphin Type Converters').
+
+package!
+
+"Class Definitions"!
+
+TypeConverter subclass: #WrappedConverter
+	instanceVariableNames: 'wrapper wrappee'
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+AbstractToTextConverter subclass: #CollectionToText
+	instanceVariableNames: 'elementTypeconverter printSeparator parseSeparator'
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+AbstractToTextConverter subclass: #DurationToTextConverter
+	instanceVariableNames: 'terms'
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+AbstractToTextConverter subclass: #GenericToText
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+NumberToText subclass: #FloatToText
+	instanceVariableNames: 'decimalPlaces'
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+NumberToText subclass: #PercentToText
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+
+"Global Aliases"!
+
+
+"Loose Methods"!
+
+"End of package definition"!
+
