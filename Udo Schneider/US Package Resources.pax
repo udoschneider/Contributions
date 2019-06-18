@@ -1,0 +1,45 @@
+﻿| package |
+package := Package name: 'US Package Resources'.
+package paxVersion: 1;
+	basicComment: ''.
+
+package basicPackageVersion: '0.011'.
+
+
+package classNames
+	add: #PackageResources;
+	yourself.
+
+package binaryGlobalNames: (Set new
+	yourself).
+
+package globalAliases: (Set new
+	yourself).
+
+package setPrerequisites: #(
+	'..\..\Core\Object Arts\Dolphin\Base\Dolphin'
+	'..\..\Core\Object Arts\Dolphin\MVP\Base\Dolphin MVP Base'
+	'..\..\Core\Object Arts\Dolphin\ActiveX\Components\Picture\OLE Picture'
+	'US File Locators'
+	'Resources\US Resource Extensions').
+
+package setManualPrerequisites: #(
+	'US Resource Extensions').
+
+package!
+
+"Class Definitions"!
+
+Object subclass: #PackageResources
+	instanceVariableNames: 'package packageLocator'
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+
+"Global Aliases"!
+
+
+"Loose Methods"!
+
+"End of package definition"!
+
