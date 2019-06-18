@@ -2,10 +2,16 @@
 
 ExternalStructure subclass: #CURSORIMAGE
 	instanceVariableNames: ''
-	classVariableNames: ''
+	classVariableNames: '_OffsetOf_icAND _OffsetOf_icColors _OffsetOf_icHeader _OffsetOf_icXOR _OffsetOf_xHotSpot _OffsetOf_yHotSpot'
 	poolDictionaries: 'Win32Constants'
 	classInstanceVariableNames: ''!
 CURSORIMAGE guid: (GUID fromString: '{32d499b3-520d-4226-9dc9-ee5e11c5cf5c}')!
+CURSORIMAGE addClassConstant: '_OffsetOf_icAND' value: 16r34!
+CURSORIMAGE addClassConstant: '_OffsetOf_icColors' value: 16r2C!
+CURSORIMAGE addClassConstant: '_OffsetOf_icHeader' value: 16r4!
+CURSORIMAGE addClassConstant: '_OffsetOf_icXOR' value: 16r30!
+CURSORIMAGE addClassConstant: '_OffsetOf_xHotSpot' value: 16r0!
+CURSORIMAGE addClassConstant: '_OffsetOf_yHotSpot' value: 16r2!
 CURSORIMAGE comment: ''!
 !CURSORIMAGE categoriesForClass!Unclassified! !
 !CURSORIMAGE methodsFor!
@@ -46,26 +52,37 @@ icANDDIB
 	^DIBSection fromOwnedHandle: hBitmap!
 
 icColors
-	"Answer the receiver's icColors field as a Smalltalk object."
+	"Answer the <StructureArray> value of the receiver's 'icColors' field."
 
-	^StructureArray fromAddress: (bytes yourAddress + 44) length: self numColors elementClass: RGBQUAD!
+	^StructureArray
+		fromAddress: bytes yourAddress + _OffsetOf_icColors
+		length: self numColors
+		elementClass: RGBQUAD!
 
-icColors: anObject
-	"Set the receiver's icColors field to the value of anObject."
+icColors: aStructureArrayOfRGBQUAD
+	"Set the receiver's 'icColors' field to the value of the argument, aStructureArrayOfRGBQUAD"
 
 	| size |
-	size := anObject byteSize min: (self numColors * 4).
-	anObject replaceBytesOf: bytes from: 45 to: 44 + size startingAt: 1!
+	size := aStructureArrayOfRGBQUAD byteSize.
+	aStructureArrayOfRGBQUAD
+		replaceBytesOf: bytes
+		from: ##(_OffsetOf_icColors + 1)
+		to: _OffsetOf_icColors + size
+		startingAt: 1!
 
 icHeader
-	"Answer the receiver's icHeader field as a Smalltalk object."
+	"Answer the <BITMAPINFOHEADER> value of the receiver's 'icHeader' field."
 
-	^BITMAPINFOHEADER fromAddress: (bytes yourAddress + 4)!
+	^BITMAPINFOHEADER fromAddress: bytes yourAddress + _OffsetOf_icHeader!
 
-icHeader: anObject
-	"Set the receiver's icHeader field to the value of anObject."
+icHeader: aBITMAPINFOHEADER
+	"Set the receiver's 'icHeader' field to the value of the argument, aBITMAPINFOHEADER"
 
-	anObject replaceBytesOf: bytes from: 5 to: 44 startingAt: 1!
+	aBITMAPINFOHEADER
+		replaceBytesOf: bytes
+		from: ##(_OffsetOf_icHeader + 1)
+		to: ##(_OffsetOf_icHeader + BITMAPINFOHEADER basicByteSize)
+		startingAt: 1!
 
 icXOR
 	| start size |
@@ -105,11 +122,7 @@ lengthXorMask
 	^ich biHeight * (self widthInBytes: ich biWidth * ich biPlanes * ich biBitCount)!
 
 numColors
-	^self icHeader biBitCount < 16 
-		ifTrue: [2 raisedTo: self icHeader biBitCount]
-		ifFalse: 
-			[
-			0]!
+	^self icHeader biBitCount < 16 ifTrue: [2 raisedTo: self icHeader biBitCount] ifFalse: [0]!
 
 widthInBytes: anInteger 
 	"How wide, in bytes, would this many bits be, DWORD aligned?
@@ -119,24 +132,24 @@ widthInBytes: anInteger
 	!
 
 xHotSpot
-	"Answer the receiver's xHotSpot field as a Smalltalk object."
+	"Answer the <Integer> value of the receiver's 'xHotSpot' field."
 
-	^(bytes wordAtOffset: 0)!
+	^bytes wordAtOffset: _OffsetOf_xHotSpot!
 
-xHotSpot: anObject
-	"Set the receiver's xHotSpot field to the value of anObject."
+xHotSpot: anInteger
+	"Set the receiver's 'xHotSpot' field to the value of the argument, anInteger"
 
-	bytes wordAtOffset: 0 put: anObject!
+	bytes wordAtOffset: _OffsetOf_xHotSpot put: anInteger!
 
 yHotSpot
-	"Answer the receiver's yHotSpot field as a Smalltalk object."
+	"Answer the <Integer> value of the receiver's 'yHotSpot' field."
 
-	^(bytes wordAtOffset: 2)!
+	^bytes wordAtOffset: _OffsetOf_yHotSpot!
 
-yHotSpot: anObject
-	"Set the receiver's yHotSpot field to the value of anObject."
+yHotSpot: anInteger
+	"Set the receiver's 'yHotSpot' field to the value of the argument, anInteger"
 
-	bytes wordAtOffset: 2 put: anObject! !
+	bytes wordAtOffset: _OffsetOf_yHotSpot put: anInteger! !
 !CURSORIMAGE categoriesFor: #asIcon!*-in class package!public! !
 !CURSORIMAGE categoriesFor: #icAND!*-in class package!public! !
 !CURSORIMAGE categoriesFor: #icANDDIB!*-in class package!public! !
@@ -175,9 +188,14 @@ defineFields
 		defineField: #xHotSpot type: WORDField new;
 		defineField: #yHotSpot type: WORDField new;
 		defineField: #icHeader type: (StructureField type: BITMAPINFOHEADER);
-		defineField: #icColors type: (StructureArrayField type: RGBQUAD arrayLength: #numColors);
+		defineField: #icColors
+			type: (StructureArrayField type: RGBQUAD
+					arrayLength: (ConformantArrayFieldLength lengthField: #numColors));
 		defineField: #icXOR type: (FillerField byteSize: 4);
 		defineField: #icAND type: (FillerField byteSize: 4)!
+
+getFieldNames
+	^#(#xHotSpot #yHotSpot #icHeader #icColors)!
 
 xor: xorDIB and: andDIB 
 	| header xorBytes andBytes iconBytes colorBytes |
@@ -193,5 +211,6 @@ xor: xorDIB and: andDIB
 	iconBytes := header bytes , colorBytes  , xorBytes , andBytes.
 	^(self new: iconBytes size) bytes: iconBytes! !
 !CURSORIMAGE class categoriesFor: #defineFields!*-in class package!constants!public! !
+!CURSORIMAGE class categoriesFor: #getFieldNames!**compiled accessors**!constants!private! !
 !CURSORIMAGE class categoriesFor: #xor:and:!*-in class package!public! !
 

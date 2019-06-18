@@ -63,6 +63,7 @@ package globalAliases: (Set new
 package setPrerequisites: #(
 	'..\..\..\Core\Object Arts\Dolphin\Base\Dolphin'
 	'..\..\..\Core\Object Arts\Dolphin\Base\Deprecated\Dolphin Base (Deprecated)'
+	'..\..\..\Core\Object Arts\Dolphin\Base\Dolphin Conformant Array Fields'
 	'..\..\..\Core\Object Arts\Dolphin\MVP\Base\Dolphin MVP Base'
 	'..\..\..\Core\Object Arts\Dolphin\ActiveX\Components\Picture\OLE Picture'
 	'..\..\..\Core\Object Arts\Dolphin\ActiveX\Structured Storage\OLE Structured Storage'
@@ -137,12 +138,12 @@ ExternalStructure subclass: #CURSORDIR
 	classInstanceVariableNames: ''!
 ExternalStructure subclass: #CURSORIMAGE
 	instanceVariableNames: ''
-	classVariableNames: ''
+	classVariableNames: '_OffsetOf_icAND _OffsetOf_icColors _OffsetOf_icHeader _OffsetOf_icXOR _OffsetOf_xHotSpot _OffsetOf_yHotSpot'
 	poolDictionaries: 'Win32Constants'
 	classInstanceVariableNames: ''!
 ExternalStructure subclass: #ICONIMAGE
 	instanceVariableNames: ''
-	classVariableNames: ''
+	classVariableNames: '_OffsetOf_icAND _OffsetOf_icColors _OffsetOf_icHeader _OffsetOf_icXOR'
 	poolDictionaries: 'Win32Constants'
 	classInstanceVariableNames: ''!
 ExternalStructure subclass: #ICONRESDIR

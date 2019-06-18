@@ -2,10 +2,14 @@
 
 ExternalStructure subclass: #ICONIMAGE
 	instanceVariableNames: ''
-	classVariableNames: ''
+	classVariableNames: '_OffsetOf_icAND _OffsetOf_icColors _OffsetOf_icHeader _OffsetOf_icXOR'
 	poolDictionaries: 'Win32Constants'
 	classInstanceVariableNames: ''!
 ICONIMAGE guid: (GUID fromString: '{52cf236c-7e03-42c9-bb03-85de74ccf8fd}')!
+ICONIMAGE addClassConstant: '_OffsetOf_icAND' value: 16r30!
+ICONIMAGE addClassConstant: '_OffsetOf_icColors' value: 16r28!
+ICONIMAGE addClassConstant: '_OffsetOf_icHeader' value: 16r0!
+ICONIMAGE addClassConstant: '_OffsetOf_icXOR' value: 16r2C!
 ICONIMAGE comment: ''!
 !ICONIMAGE categoriesForClass!Unclassified! !
 !ICONIMAGE methodsFor!
@@ -46,30 +50,37 @@ icANDDIB
 	^DIBSection fromOwnedHandle: hBitmap!
 
 icColors
-	"Answer the receiver's icColors field as a Smalltalk object."
+	"Answer the <StructureArray> value of the receiver's 'icColors' field."
 
-	
-	^StructureArray 
-		fromAddress: bytes yourAddress + 40
+	^StructureArray
+		fromAddress: bytes yourAddress + _OffsetOf_icColors
 		length: self numColors
 		elementClass: RGBQUAD!
 
-icColors: anObject
-	"Set the receiver's icColors field to the value of anObject."
+icColors: aStructureArrayOfRGBQUAD
+	"Set the receiver's 'icColors' field to the value of the argument, aStructureArrayOfRGBQUAD"
 
 	| size |
-	size := anObject byteSize min: (self numColors * 4).
-	anObject replaceBytesOf: bytes from: 41 to: 40 + size startingAt: 1!
+	size := aStructureArrayOfRGBQUAD byteSize.
+	aStructureArrayOfRGBQUAD
+		replaceBytesOf: bytes
+		from: ##(_OffsetOf_icColors + 1)
+		to: _OffsetOf_icColors + size
+		startingAt: 1!
 
 icHeader
-	"Answer the receiver's icHeader field as a Smalltalk object."
+	"Answer the <BITMAPINFOHEADER> value of the receiver's 'icHeader' field."
 
-	^BITMAPINFOHEADER fromAddress: (bytes yourAddress)!
+	^BITMAPINFOHEADER fromAddress: bytes yourAddress!
 
-icHeader: anObject
-	"Set the receiver's icHeader field to the value of anObject."
+icHeader: aBITMAPINFOHEADER
+	"Set the receiver's 'icHeader' field to the value of the argument, aBITMAPINFOHEADER"
 
-	anObject replaceBytesOf: bytes from: 1 to: 40 startingAt: 1!
+	aBITMAPINFOHEADER
+		replaceBytesOf: bytes
+		from: ##(_OffsetOf_icHeader + 1)
+		to: ##(_OffsetOf_icHeader + BITMAPINFOHEADER basicByteSize)
+		startingAt: 1!
 
 icXOR
 	| start size |
@@ -109,11 +120,7 @@ lengthXorMask
 	^ich biHeight * (self widthInBytes: ich biWidth * ich biPlanes * ich biBitCount)!
 
 numColors
-	^self icHeader biBitCount < 16 
-		ifTrue: [2 raisedTo: self icHeader biBitCount]
-		ifFalse: 
-			[
-			0]!
+	^self icHeader biBitCount < 16 ifTrue: [2 raisedTo: self icHeader biBitCount] ifFalse: [0]!
 
 widthInBytes: anInteger 
 	"How wide, in bytes, would this many bits be, DWORD aligned?
@@ -124,7 +131,7 @@ widthInBytes: anInteger
 !ICONIMAGE categoriesFor: #asIcon!*-in class package!public! !
 !ICONIMAGE categoriesFor: #icAND!*-in class package!public! !
 !ICONIMAGE categoriesFor: #icANDDIB!*-in class package!public! !
-!ICONIMAGE categoriesFor: #icColors!**compiled accessors**!*-in class package!public! !
+!ICONIMAGE categoriesFor: #icColors!**compiled accessors**!public! !
 !ICONIMAGE categoriesFor: #icColors:!**compiled accessors**!public! !
 !ICONIMAGE categoriesFor: #icHeader!**compiled accessors**!public! !
 !ICONIMAGE categoriesFor: #icHeader:!**compiled accessors**!public! !
@@ -151,9 +158,14 @@ defineFields
 
 	self
 		defineField: #icHeader type: (StructureField type: BITMAPINFOHEADER);
-		defineField: #icColors type: (StructureArrayField type: RGBQUAD arrayLength: #numColors);
+		defineField: #icColors
+			type: (StructureArrayField type: RGBQUAD
+					arrayLength: (ConformantArrayFieldLength lengthField: #numColors));
 		defineField: #icXOR type: (FillerField byteSize: 4);
 		defineField: #icAND type: (FillerField byteSize: 4)!
+
+getFieldNames
+	^#(#icHeader #icColors)!
 
 xor: xorDIB and: andDIB 
 	| header xorBytes andBytes iconBytes colorBytes |
@@ -169,5 +181,6 @@ xor: xorDIB and: andDIB
 	iconBytes := header bytes , colorBytes  , xorBytes , andBytes.
 	^(self new: iconBytes size) bytes: iconBytes! !
 !ICONIMAGE class categoriesFor: #defineFields!*-in class package!constants!public! !
+!ICONIMAGE class categoriesFor: #getFieldNames!**compiled accessors**!constants!private! !
 !ICONIMAGE class categoriesFor: #xor:and:!*-in class package!public! !
 
