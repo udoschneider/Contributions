@@ -32,7 +32,7 @@ imageStripper
 model: aModel 
 	
 	super model: aModel.
-	imagePresenter value: (self model applicationIcon copyExtent: 128 @ 128).
+	imagePresenter value: (self model applicationIcon withExtent: 128 @ 128).
 	productPresenter value: self model productName.
 	versionPresenter value: self model projectEditionVersionString!
 

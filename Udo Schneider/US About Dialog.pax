@@ -21,21 +21,20 @@ package binaryGlobalNames: (Set new
 package globalAliases: (Set new
 	yourself).
 
-package setPrerequisites: (IdentitySet new
-	add: '..\..\Core\Object Arts\Dolphin\Base\Dolphin';
-	add: '..\..\Core\Object Arts\Dolphin\MVP\Base\Dolphin Basic Geometry';
-	add: '..\..\Core\Object Arts\Dolphin\MVP\Presenters\Image\Dolphin Image Presenter';
-	add: '..\..\Core\Object Arts\Dolphin\MVP\Base\Dolphin MVP Base';
-	add: '..\..\Core\Object Arts\Dolphin\MVP\Presenters\Text\Dolphin Rich Text Presenter';
-	add: '..\..\Core\Object Arts\Dolphin\MVP\Presenters\Text\Dolphin Text Presenter';
-	add: '..\..\Core\Object Arts\Dolphin\MVP\Type Converters\Dolphin Type Converters';
-	add: '..\..\Core\Object Arts\Dolphin\MVP\Models\Value\Dolphin Value Models';
-	add: 'US Application Information';
-	add: 'GUI\US RichTextEdit Extensions';
-	add: 'US Runtime Patches';
-	add: 'US SessionManager Extensions';
-	add: '..\..\Core\Object Arts\Dolphin\ActiveX\Shell\Windows Shell';
-	yourself).
+package setPrerequisites: #(
+	'..\..\Core\Object Arts\Dolphin\Base\Dolphin'
+	'..\..\Core\Object Arts\Dolphin\MVP\Base\Dolphin Basic Geometry'
+	'..\..\Core\Object Arts\Dolphin\MVP\Presenters\Image\Dolphin Image Presenter'
+	'..\..\Core\Object Arts\Dolphin\MVP\Base\Dolphin MVP Base'
+	'..\..\Core\Object Arts\Dolphin\MVP\Presenters\Text\Dolphin Rich Text Presenter'
+	'..\..\Core\Object Arts\Dolphin\MVP\Presenters\Text\Dolphin Text Presenter'
+	'..\..\Core\Object Arts\Dolphin\MVP\Type Converters\Dolphin Type Converters'
+	'..\..\Core\Object Arts\Dolphin\MVP\Models\Value\Dolphin Value Models'
+	'US Application Information'
+	'GUI\US RichTextEdit Extensions'
+	'US Runtime Patches'
+	'US SessionManager Extensions'
+	'..\..\Core\Object Arts\Dolphin\ActiveX\Shell\Windows Shell').
 
 package setManualPrerequisites: #(
 	'US Application Information'
