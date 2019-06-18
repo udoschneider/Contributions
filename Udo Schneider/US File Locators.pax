@@ -1,0 +1,76 @@
+﻿| package |
+package := Package name: 'US File Locators'.
+package paxVersion: 1;
+	basicComment: ''.
+
+package basicPackageVersion: '0.015'.
+
+
+package classNames
+	add: #PackageFolderRelativeFileLocator;
+	add: #SpecialFolderRelativeFileLocator;
+	yourself.
+
+package methodNames
+	add: #SessionManager -> #desktopDirectory;
+	add: 'FileLocator class' -> #desktopRelative;
+	add: 'FileLocator class' -> #myDocumentsRelative;
+	yourself.
+
+package binaryGlobalNames: (Set new
+	yourself).
+
+package globalAliases: (Set new
+	yourself).
+
+package setPrerequisites: #(
+	'..\Dolphin Harbor\DH Shell Core'
+	'..\..\Core\Object Arts\Dolphin\Base\Dolphin'
+	'..\..\Core\Object Arts\Dolphin\ActiveX\Shell\Windows Shell').
+
+package!
+
+"Class Definitions"!
+
+RelativeFileLocator subclass: #PackageFolderRelativeFileLocator
+	instanceVariableNames: 'packageName folder'
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+RelativeFileLocator subclass: #SpecialFolderRelativeFileLocator
+	instanceVariableNames: 'csidl'
+	classVariableNames: 'Current'
+	poolDictionaries: 'ShellCSIDLConstants'
+	classInstanceVariableNames: ''!
+
+"Global Aliases"!
+
+
+"Loose Methods"!
+
+!FileLocator class methodsFor!
+
+desktopRelative
+	"Answers an instance of the receiver that can be used to locate external files
+	relative to Desktop directory."
+
+	^SpecialFolderRelativeFileLocator desktop!
+
+myDocumentsRelative
+	"Answers an instance of the receiver that can be used to locate external files
+	relative to Desktop directory."
+
+	^SpecialFolderRelativeFileLocator myDocuments! !
+!FileLocator class categoriesFor: #desktopRelative!accessing!public! !
+!FileLocator class categoriesFor: #myDocumentsRelative!accessing!public! !
+
+!SessionManager methodsFor!
+
+desktopDirectory
+	"Answer the path of the Windows 'Desktop' directory on the host computer for the current user."
+
+	^ShellLibrary default getSpecialFolderLocation: 0! !
+!SessionManager categoriesFor: #desktopDirectory!accessing!public! !
+
+"End of package definition"!
+
