@@ -8,10 +8,10 @@ package basicPackageVersion: '0.026'.
 
 package methodNames
 	add: #CheckBox -> #onColorRequired:;
+	add: #Icon -> #_drawOn:at:extent:frame:background:flags:;
 	add: #Icon -> #copyExtent:;
 	add: #Icon -> #copyExtentLarge;
 	add: #Icon -> #copyExtentSmall;
-	add: #Icon -> #drawOn:at:extent:frame:background:flags:;
 	add: #Icon -> #loadFromInstance:extent:;
 	yourself.
 
@@ -21,11 +21,10 @@ package binaryGlobalNames: (Set new
 package globalAliases: (Set new
 	yourself).
 
-package setPrerequisites: (IdentitySet new
-	add: '..\..\Core\Object Arts\Dolphin\Base\Dolphin';
-	add: '..\..\Core\Object Arts\Dolphin\MVP\Base\Dolphin MVP Base';
-	add: 'Graphics\US GDI Extensions';
-	yourself).
+package setPrerequisites: #(
+	'..\..\Core\Object Arts\Dolphin\Base\Dolphin'
+	'..\..\Core\Object Arts\Dolphin\MVP\Base\Dolphin MVP Base'
+	'Graphics\US GDI Extensions').
 
 package setManualPrerequisites: #(
 	'US GDI Extensions').
@@ -70,6 +69,23 @@ onColorRequired: aColorEvent
 
 !Icon methodsFor!
 
+_drawOn: aCanvas at: aPoint extent: sizePoint frame: anInteger background: aBrush flags: flagsInteger 
+	"Copies the receiver to aCanvas at position aPoint with size sizePoint
+	with frame anInteger and background aBrush. Answer whether the frame
+	could be drawn. Note that the frame number is ignored if the receiver is not
+	an animated icon/cursor."
+
+	^UserLibrary default 
+		drawIconEx: aCanvas asParameter
+		xLeft: aPoint x
+		yTop: aPoint y
+		hIcon: ((self copyExtent: sizePoint) ) asParameter
+		cxWidth: sizePoint x
+		cyHeight: sizePoint y
+		istepIfAniCur: anInteger
+		hbrFlickerFreeDraw: aBrush asParameter
+		diFlags: flagsInteger!
+
 copyExtent: aPoint
 	"Returns a copy of the icon with an preferred extent"
 
@@ -96,23 +112,6 @@ copyExtentSmall
 	Notification deprecated.
 	^self copyExtent: Icon smallExtent!
 
-drawOn: aCanvas at: aPoint extent: sizePoint frame: anInteger background: aBrush flags: flagsInteger 
-	"Copies the receiver to aCanvas at position aPoint with size sizePoint
-	with frame anInteger and background aBrush. Answer whether the frame
-	could be drawn. Note that the frame number is ignored if the receiver is not
-	an animated icon/cursor."
-
-	^UserLibrary default 
-		drawIconEx: aCanvas asParameter
-		xLeft: aPoint x
-		yTop: aPoint y
-		hIcon: ((self copyExtent: sizePoint) ) asParameter
-		cxWidth: sizePoint x
-		cyHeight: sizePoint y
-		istepIfAniCur: anInteger
-		hbrFlickerFreeDraw: aBrush asParameter
-		diFlags: flagsInteger!
-
 loadFromInstance: hModule extent: aPoint 
 	^UserLibrary default 
 		loadImage: hModule asParameter
@@ -121,10 +120,10 @@ loadFromInstance: hModule extent: aPoint
 		cxDesired: aPoint x
 		cyDesired: aPoint y
 		fuLoad: LR_DEFAULTCOLOR! !
+!Icon categoriesFor: #_drawOn:at:extent:frame:background:flags:!drawing-bitmaps!public! !
 !Icon categoriesFor: #copyExtent:!public! !
 !Icon categoriesFor: #copyExtentLarge!private! !
 !Icon categoriesFor: #copyExtentSmall!private! !
-!Icon categoriesFor: #drawOn:at:extent:frame:background:flags:!drawing-bitmaps!public! !
 !Icon categoriesFor: #loadFromInstance:extent:!drawing-bitmaps!public! !
 
 "End of package definition"!
