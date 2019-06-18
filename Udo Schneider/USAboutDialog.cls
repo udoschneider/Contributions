@@ -29,12 +29,11 @@ createSchematicWiring
 imageStripper
 ^self model owningPackage imageStripper!
 
-model: aModel 
-	
+model: aModel
 	super model: aModel.
 	imagePresenter value: (self model applicationIcon withExtent: 128 @ 128).
-	productPresenter value: self model productName.
-	versionPresenter value: self model projectEditionVersionString!
+	productPresenter value: self model applicationName.
+	versionPresenter value: self model productVersion!
 
 onLinkClicked: aUrl 
 	ShellLibrary default shellOpen: aUrl!
@@ -51,7 +50,7 @@ onViewOpened
 	^super onViewOpened!
 
 updateCaption
-	self caption: self model productName , ' ' , self model projectEditionVersionString!
+	self caption: self model applicationName , ' ' , self model productVersion!
 
 updateCopyright
 	| rtfStream |

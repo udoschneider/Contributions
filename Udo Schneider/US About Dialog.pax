@@ -30,6 +30,7 @@ package setPrerequisites: #(
 	'..\..\Core\Object Arts\Dolphin\MVP\Presenters\Text\Dolphin Text Presenter'
 	'..\..\Core\Object Arts\Dolphin\MVP\Type Converters\Dolphin Type Converters'
 	'..\..\Core\Object Arts\Dolphin\MVP\Models\Value\Dolphin Value Models'
+	'..\..\Core\Contributions\Solutions Software\SSW Widget Enhancements'
 	'US Application Information'
 	'GUI\US RichTextEdit Extensions'
 	'US Runtime Patches'
@@ -37,6 +38,7 @@ package setPrerequisites: #(
 	'..\..\Core\Object Arts\Dolphin\ActiveX\Shell\Windows Shell').
 
 package setManualPrerequisites: #(
+	'SSW Widget Enhancements'
 	'US Application Information'
 	'US RichTextEdit Extensions'
 	'US Runtime Patches'

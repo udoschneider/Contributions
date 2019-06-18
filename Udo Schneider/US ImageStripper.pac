@@ -1,4 +1,4 @@
-| package |
+﻿| package |
 package := Package name: 'US ImageStripper'.
 package paxVersion: 1;
 	basicComment: '$id: US ImageStripper 0.046$
@@ -31,14 +31,13 @@ package binaryGlobalNames: (Set new
 package globalAliases: (Set new
 	yourself).
 
-package setPrerequisites: (IdentitySet new
-	add: '..\..\Object Arts\Dolphin\Base\Dolphin';
-	add: '..\..\Object Arts\Dolphin\Lagoon\Lagoon Image Stripper';
-	add: 'US Application Information';
-	add: 'US Collection Extensions';
-	add: 'Windows Resources\US ResourceChanging ImageStripper';
-	add: 'US SessionManager Extensions';
-	yourself).
+package setPrerequisites: #(
+	'..\..\Core\Object Arts\Dolphin\Base\Dolphin'
+	'..\..\Core\Object Arts\Dolphin\Lagoon\Lagoon Image Stripper'
+	'US Application Information'
+	'US Collection Extensions'
+	'Resources\US ResourceChanging ImageStripper'
+	'US SessionManager Extensions').
 
 package setManualPrerequisites: #(
 	'US Application Information'
@@ -75,7 +74,7 @@ finishedWithAll: aCollectionOfSymbols
 
 "Classes"!
 
-USImageStripper guid: (GUID fromString: '{7E74CCCC-B81F-430A-B0E2-060F6C2A8E19}')!
+USImageStripper guid: (GUID fromString: '{7e74cccc-b81f-430a-b0e2-060f6c2a8e19}')!
 USImageStripper comment: ''!
 !USImageStripper categoriesForClass!Unclassified! !
 !USImageStripper methodsFor!
@@ -90,19 +89,19 @@ versionResource
 	| verString newVersionResource sessionManagerClass |
 	newVersionResource := super versionResource.
 	sessionManagerClass := self runtimeSessionManagerClass.
-	verString := sessionManagerClass projectEditionVersionString.
+	verString := sessionManagerClass productVersion.
 	newVersionResource
 		productVersion: verString;
 		fileVersion: verString.
 	newVersionResource stringTables do: 
-			[:eachTable | 
+			[:eachTable |
 			self
 				stringTable: eachTable
 					replaceAt: 'LegalCopyright'
 					with: sessionManagerClass legalCopyright;
 				stringTable: eachTable
 					replaceAt: 'ProductName'
-					with: sessionManagerClass productName;
+					with: sessionManagerClass applicationName;
 				stringTable: eachTable
 					replaceAt: 'FileDescription'
 					with: sessionManagerClass fileDescription;
@@ -110,8 +109,8 @@ versionResource
 					replaceAt: 'Comments'
 					with: sessionManagerClass comments;
 				stringTable: eachTable
-				at: 'ProjectEditionVersion'
-				with: verString].
+					at: 'ProjectEditionVersion'
+					with: verString].
 	^newVersionResource! !
 !USImageStripper categoriesFor: #stringTable:at:with:!*-in class package!accessing!private! !
 !USImageStripper categoriesFor: #stringTable:replaceAt:with:!*-in class package!accessing!private! !

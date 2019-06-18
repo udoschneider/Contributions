@@ -50,18 +50,18 @@ defaultResLibPath
 
 !GUISessionManager class methodsFor!
 
-logError: anException message: aString 
-	MessageBox errorMsg: aString caption: self productName.
-	SessionManager current isRuntime 
+logError: anException message: aString
+	MessageBox errorMsg: aString caption: self applicationName.
+	SessionManager current isRuntime
 		ifTrue: 
 			[SessionManager current logError: anException.
 			VMLibrary default crashDump: aString.
 			SessionManager current quit]
 		ifFalse: [anException signal]!
 
-logErrorMessage: aString 
-	MessageBox errorMsg: aString caption: self productName.
-	SessionManager current isRuntime 
+logErrorMessage: aString
+	MessageBox errorMsg: aString caption: self applicationName.
+	SessionManager current isRuntime
 		ifTrue: 
 			[VMLibrary default crashDump: aString.
 			SessionManager current quit]

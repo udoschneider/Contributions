@@ -11,9 +11,10 @@ softPrerequisites
 	do: [:eachPackageName | (StsManager current getPackageEditionsFor: eachPackageName) first load]'.
 
 package methodNames
-	add: #SessionManager -> #applicationIcon;
 	add: 'SessionManager class' -> #applicationIcon;
 	add: 'SessionManager class' -> #applicationIconId;
+	add: 'SessionManager class' -> #applicationName;
+	add: 'SessionManager class' -> #applicationShortName;
 	add: 'SessionManager class' -> #author;
 	add: 'SessionManager class' -> #comments;
 	add: 'SessionManager class' -> #email;
@@ -22,9 +23,7 @@ package methodNames
 	add: 'SessionManager class' -> #fullDescription;
 	add: 'SessionManager class' -> #homepage;
 	add: 'SessionManager class' -> #legalCopyright;
-	add: 'SessionManager class' -> #productName;
-	add: 'SessionManager class' -> #projectEditionVersionString;
-	add: 'SessionManager class' -> #projectEditonName;
+	add: 'SessionManager class' -> #productVersion;
 	yourself.
 
 package binaryGlobalNames: (Set new
@@ -47,12 +46,6 @@ package!
 
 "Loose Methods"!
 
-!SessionManager methodsFor!
-
-applicationIcon
-^self class applicationIcon! !
-!SessionManager categoriesFor: #applicationIcon!*-not in class package!public! !
-
 !SessionManager class methodsFor!
 
 applicationIcon
@@ -61,6 +54,12 @@ applicationIcon
 		ifFalse: [self owningPackage imageStripper applicationIcon]!
 
 applicationIconId ^ '!!APPLICATION'!
+
+applicationName
+	^SessionManager current applicationName!
+
+applicationShortName
+	^SessionManager current applicationShortName!
 
 author
 ^'Udo Schneider'!
@@ -71,7 +70,7 @@ email
 ^nil!
 
 fileDescription
-^self productName!
+	^self applicationName!
 
 fullCopyright
 ^self legalCopyright
@@ -87,16 +86,12 @@ homepage
 legalCopyright
 	^self author , ' ' ,Date today year displayString!
 
-productName  ^'A Dolphin X6 ToGo Application'!
-
-projectEditionVersionString
-^self owningPackage packageVersion!
-
-projectEditonName
-Notification deprecated.
-	^self subclassResponsibility! !
+productVersion
+	^SessionManager current productVersion! !
 !SessionManager class categoriesFor: #applicationIcon!*-not in class package!public! !
 !SessionManager class categoriesFor: #applicationIconId!*-not in class package!public! !
+!SessionManager class categoriesFor: #applicationName!public! !
+!SessionManager class categoriesFor: #applicationShortName!public! !
 !SessionManager class categoriesFor: #author!*-not in class package!public! !
 !SessionManager class categoriesFor: #comments!public! !
 !SessionManager class categoriesFor: #email!*-in class package!public! !
@@ -105,9 +100,7 @@ Notification deprecated.
 !SessionManager class categoriesFor: #fullDescription!*-not in class package!public! !
 !SessionManager class categoriesFor: #homepage!*-in class package!public! !
 !SessionManager class categoriesFor: #legalCopyright!*-not in class package!public! !
-!SessionManager class categoriesFor: #productName!public! !
-!SessionManager class categoriesFor: #projectEditionVersionString!*-not in class package!public! !
-!SessionManager class categoriesFor: #projectEditonName!public! !
+!SessionManager class categoriesFor: #productVersion!public! !
 
 "End of package definition"!
 
