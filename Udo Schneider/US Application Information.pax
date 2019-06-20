@@ -54,7 +54,8 @@ applicationIcon
 		ifTrue: [Icon fromId: SessionManager applicationIconId]
 		ifFalse: [self owningPackage imageStripper applicationIcon]!
 
-applicationIconId ^ '!!APPLICATION'!
+applicationIconId
+	^'!!APPLICATION'!
 
 applicationName
 	^SessionManager current applicationName!
