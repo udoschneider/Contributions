@@ -8,6 +8,7 @@ package basicPackageVersion: '0.011'.
 
 package classNames
 	add: #PackageResources;
+	add: #PackageResourcesLocator;
 	yourself.
 
 package binaryGlobalNames: (Set new
@@ -32,6 +33,11 @@ package!
 
 Object subclass: #PackageResources
 	instanceVariableNames: 'package packageLocator'
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+PackageResources subclass: #PackageResourcesLocator
+	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	classInstanceVariableNames: ''!
