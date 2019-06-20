@@ -64,13 +64,13 @@ initialize
 	attachSystemInformation := true!
 
 isAttachmentValid
-	self attachmentPath isNilOrEmpty ifTrue: [^true].
+	self attachmentPath isEmptyOrNil ifTrue: [^true].
 	self attachmentFileExists ifFalse: [^false].
 	^self attachmentTypeIsValid!
 
 isEmailValid
 	| parts |
-	email isNilOrEmpty ifTrue: [^false].
+	email isEmptyOrNil ifTrue: [^false].
 	parts := email subStrings: $@.
 	parts size = 2 ifFalse: [^false].
 	parts := parts second subStrings: $..
@@ -78,9 +78,9 @@ isEmailValid
 	^true!
 
 isReadyToSent
-	name isNilOrEmpty ifTrue: [^false].
-	subject isNilOrEmpty ifTrue: [^false].
-	message isNilOrEmpty ifTrue: [^false].
+	name isEmptyOrNil ifTrue: [^false].
+	subject isEmptyOrNil ifTrue: [^false].
+	message isEmptyOrNil ifTrue: [^false].
 	self isAttachmentValid ifFalse: [^false].
 	self isEmailValid ifFalse: [^false].
 	^true!
@@ -141,17 +141,17 @@ printEmailErrorOn: aStream
 		cr;
 		cr!
 
-printErrorOn: aStream 
+printErrorOn: aStream
 	aStream
 		nextPutAll: 'FEHLENDE ANGABEN!!';
 		cr;
-		nextPutAll: 'Ticket kann nicht eröffnet werden.';
+		nextPutAll: 'Ticket kann nicht erÃ¶ffnet werden.';
 		cr;
 		cr.
-	name isNilOrEmpty ifTrue: [self printNameErrorOn: aStream].
+	name isEmptyOrNil ifTrue: [self printNameErrorOn: aStream].
 	self isEmailValid ifFalse: [self printEmailErrorOn: aStream].
-	subject isNilOrEmpty ifTrue: [self printSubjectErrorOn: aStream].
-	message isNilOrEmpty ifTrue: [self printMessageErrorOn: aStream].
+	subject isEmptyOrNil ifTrue: [self printSubjectErrorOn: aStream].
+	message isEmptyOrNil ifTrue: [self printMessageErrorOn: aStream].
 	self isAttachmentValid ifFalse: [self printAttachmentErrorOn: aStream]!
 
 printMessageErrorOn: aStream 

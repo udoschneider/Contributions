@@ -17,7 +17,7 @@ elementTypeconverter: anObject
 	elementTypeconverter := anObject!
 
 isLeftNullValue: anObject
-	^anObject isNilOrEmpty!
+	^anObject isEmptyOrNil!
 
 leftToRight: anObject 
 	| stream |
@@ -26,16 +26,16 @@ leftToRight: anObject
 		separatedBy: [stream nextPutAll: printSeparator].
 	^stream contents!
 
-rightToLeft: aString 
+rightToLeft: aString
 	| elements lastFoundPosition nextFoundPosition |
-	aString isNilOrEmpty ifTrue: [^self leftNullValue ].
+	aString isEmptyOrNil ifTrue: [^self leftNullValue].
 	elements := OrderedCollection new.
 	lastFoundPosition := 0.
-	[(nextFoundPosition := aString findString: parseSeparator startingAt: lastFoundPosition + 1) > 0] 
+	[(nextFoundPosition := aString findString: parseSeparator startingAt: lastFoundPosition + 1) > 0]
 		whileTrue: 
 			[elements add: (aString copyFrom: lastFoundPosition + 1 to: nextFoundPosition - 1).
 			lastFoundPosition := nextFoundPosition + parseSeparator size - 1].
-	lastFoundPosition < aString size 
+	lastFoundPosition < aString size
 		ifTrue: [elements add: (aString copyFrom: lastFoundPosition + 1 to: aString size)].
 	^elements collect: [:each | elementTypeconverter rightToLeft: each trimBlanks]!
 
