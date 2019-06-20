@@ -24,6 +24,7 @@ package methodNames
 	add: 'SessionManager class' -> #homepage;
 	add: 'SessionManager class' -> #legalCopyright;
 	add: 'SessionManager class' -> #productVersion;
+	add: 'SessionManager class' -> #productVersionString;
 	yourself.
 
 package binaryGlobalNames: (Set new
@@ -87,7 +88,10 @@ legalCopyright
 	^self author , ' ' ,Date today year displayString!
 
 productVersion
-	^SessionManager current productVersion! !
+	^SessionManager current productVersion!
+
+productVersionString
+	^self productVersion printString! !
 !SessionManager class categoriesFor: #applicationIcon!*-not in class package!public! !
 !SessionManager class categoriesFor: #applicationIconId!*-not in class package!public! !
 !SessionManager class categoriesFor: #applicationName!public! !
@@ -101,6 +105,7 @@ productVersion
 !SessionManager class categoriesFor: #homepage!*-in class package!public! !
 !SessionManager class categoriesFor: #legalCopyright!*-not in class package!public! !
 !SessionManager class categoriesFor: #productVersion!public! !
+!SessionManager class categoriesFor: #productVersionString!public! !
 
 "End of package definition"!
 
