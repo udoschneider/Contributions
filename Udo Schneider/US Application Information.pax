@@ -88,7 +88,7 @@ legalCopyright
 	^self author , ' ' ,Date today year displayString!
 
 productVersion
-	^SessionManager current productVersion!
+	^##(SessionManager current productVersion)!
 
 productVersionString
 	^self productVersion printString! !
