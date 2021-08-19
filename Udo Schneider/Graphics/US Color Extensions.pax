@@ -21,8 +21,6 @@ package methodNames
 	add: #RGB -> #value;
 	add: 'Color class' -> #default16ColorPalette;
 	add: 'Color class' -> #fromPoint3D:;
-	add: 'Color class' -> #orange;
-	add: 'Color class' -> #purple;
 	yourself.
 
 package binaryGlobalNames: (Set new
@@ -31,10 +29,9 @@ package binaryGlobalNames: (Set new
 package globalAliases: (Set new
 	yourself).
 
-package setPrerequisites: (IdentitySet new
-	add: '..\..\..\Core\Object Arts\Dolphin\Base\Dolphin';
-	add: '..\..\..\Core\Object Arts\Dolphin\MVP\Base\Dolphin MVP Base';
-	yourself).
+package setPrerequisites: #(
+	'..\..\..\Core\Object Arts\Dolphin\Base\Dolphin'
+	'..\..\..\Core\Object Arts\Dolphin\MVP\Base\Dolphin MVP Base').
 
 package!
 
@@ -117,17 +114,19 @@ yellowCopy
 		red: self red
 		green: self green
 		blue: 0! !
-!Color categoriesFor: #asPoint3D!public! !
-!Color categoriesFor: #blueCopy!public! !
-!Color categoriesFor: #cyanCopy!public! !
-!Color categoriesFor: #greenCopy!public! !
-!Color categoriesFor: #magentaCopy!public! !
-!Color categoriesFor: #max:!public! !
-!Color categoriesFor: #min:!public! !
-!Color categoriesFor: #redCopy!public! !
-!Color categoriesFor: #value!public! !
-!Color categoriesFor: #wheel:!public! !
-!Color categoriesFor: #yellowCopy!public! !
+!Color categoriesForMethods!
+asPoint3D!public! !
+blueCopy!public! !
+cyanCopy!public! !
+greenCopy!public! !
+magentaCopy!public! !
+max:!public! !
+min:!public! !
+redCopy!public! !
+value!public! !
+wheel:!public! !
+yellowCopy!public! !
+!
 
 !Color class methodsFor!
 
@@ -136,23 +135,11 @@ default16ColorPalette
 		collect: [:each | (Color fromInteger: each) asRGB])!
 
 fromPoint3D: aPiont3D
-^self red: aPiont3D x green: aPiont3D y blue: aPiont3D z!
-
-orange
-	^Color 
-		red: 255
-		green: 192
-		blue: 0!
-
-purple
-	^Color 
-		red: 192
-		green: 0
-		blue: 255! !
-!Color class categoriesFor: #default16ColorPalette!constants!public! !
-!Color class categoriesFor: #fromPoint3D:!public! !
-!Color class categoriesFor: #orange!*-not in class package!instance creation!public! !
-!Color class categoriesFor: #purple!*-not in class package!instance creation!public! !
+^self red: aPiont3D x green: aPiont3D y blue: aPiont3D z! !
+!Color class categoriesForMethods!
+default16ColorPalette!constants!public! !
+fromPoint3D:!public! !
+!
 
 !RGB methodsFor!
 
@@ -161,7 +148,9 @@ value
 	min := (self red min: self green) min: self blue.
 	max := (self red max: self green) max: self blue.
 	^max / 255! !
-!RGB categoriesFor: #value!public! !
+!RGB categoriesForMethods!
+value!public! !
+!
 
 "End of package definition"!
 
